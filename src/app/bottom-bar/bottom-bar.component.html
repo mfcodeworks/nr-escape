@@ -1,0 +1,17 @@
+<mat-toolbar class="bottom-bar mat-elevation-z2">
+    <span class="bottom-bar-icon">
+        <i [routerLink]="['/']" class="ti-home"></i>
+    </span>
+    <span class="bottom-bar-icon">
+        <i [routerLink]="['/search']" class="ti-search"></i>
+    </span>
+    <span class="bottom-bar-icon">
+        <i [routerLink]="['/new-post']" class="ti-plus"></i>
+    </span>
+    <span class="bottom-bar-icon">
+        <i [routerLink]="['/notifications']" class="ti-heart"></i>
+    </span>
+    <span>
+        <i [routerLink]="['/profile', user.id]" class="ti-user"></i>
+    </span>
+</mat-toolbar>

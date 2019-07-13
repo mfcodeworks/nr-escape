@@ -1,0 +1,10 @@
+.bottom-bar-icon {
+    flex: 1 1 auto;
+}
+.bottom-bar {
+    position: sticky;
+    position: -webkit-sticky;
+    display: flex;
+    bottom: 0;
+    z-index: 1000;
+}

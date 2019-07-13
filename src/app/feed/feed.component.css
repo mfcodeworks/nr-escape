@@ -1,0 +1,18 @@
+.feed-image {
+    max-width: 100%;
+    margin: 0px;
+}
+.feed-icon-spacer {
+    margin-left: 10px;
+}
+.feed-icon-red {
+    color: red;
+}
+.feed-comment {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+.feed-comment-container {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
