@@ -2,7 +2,7 @@
 <mat-list-item>
     <span>
         <!-- TODO: implement repost popup -->
-        <mat-icon mat-list-icon class="ti-heart" [ngClass]="isLiked(post) ? 'interaction-bar-icon-red' : ''" (dblclick)="likePost(post)"></mat-icon>
+        <mat-icon mat-list-icon class="ti-heart" [class.interaction-bar-icon-red]="isLiked(post)" (dblclick)="likePost(post)"></mat-icon>
         <mat-icon mat-list-icon class="ti-comment interaction-bar-icon-spacer" [routerLink]="['/post', post.id]"></mat-icon>
         <mat-icon mat-list-icon class="ti-reload interaction-bar-icon-spacer" (click)="repost(post)"></mat-icon>
     </span>

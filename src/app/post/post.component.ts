@@ -17,12 +17,10 @@ export class PostComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log(this.post);
         this.route.paramMap.subscribe(params => {
             for (const post of posts) {
                 if (post.id.toString() === params.get('postId')) { this.post = post; }
             }
         });
-        console.log(this.post);
     }
 }
