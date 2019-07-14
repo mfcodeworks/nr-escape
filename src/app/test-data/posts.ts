@@ -26,7 +26,7 @@ export const posts = [
                 id: 2,
                 author: {
                     id: 2,
-                    username: 'textUser',
+                    username: 'testUserTheSecond',
                     profilePic: 'https://instagram.fsin1-1.fna.fbcdn.net/vp/771f0952ce7f6a46edf3ca45a22a22be/5DC180C6/t51.2885-19/s320x320/62494222_322600142006525_291767870130487296_n.jpg?_nc_ht=instagram.fsin1-1.fna.fbcdn.net',
                 },
                 text: 'Hot!!',
@@ -34,6 +34,11 @@ export const posts = [
                 media: null,
             }
         ],
+        likes: [
+            2,
+            3,
+            4,
+        ]
     },
     {
         id: 2,
@@ -59,6 +64,7 @@ export const posts = [
                 media: null,
             },
         ],
+        likes: []
     },
     {
         id: 3,
@@ -72,6 +78,7 @@ export const posts = [
         caption: 'Looking hot af',
         repost: 1,
         comments: [],
+        likes: []
     },
     {
         id: 4,
@@ -85,5 +92,6 @@ export const posts = [
         caption: 'Looking hot af',
         repost: 0,
         comments: [],
+        likes: []
     }
 ];

@@ -1,36 +1,50 @@
-<div *ngFor="let post of posts; let liked = liked">
-    <mat-list>
-        <mat-list-item>
-            <img matListAvatar [src]="post.author.profilePic" class="avatar"  [routerLink]="['/profile', post.author.id]"/>
-            <h3 matLine [routerLink]="['/profile', post.author.id]">
-                {{post.author.username}}
-            </h3>
-            <span *ngIf="post.repost">
-                <i class="ti-reload"></i>
-            </span>
-        </mat-list-item>
-        <mat-list-item>
-            <p>
-                {{post.caption}}
-            </p>
-        </mat-list-item>
-        <img class="feed-image" [src]="post.media" (dblclick)="this.liked = !this.liked"/>
-        <mat-list-item>
-            <span>
-                <mat-icon mat-list-icon class="ti-heart" [class.feed-icon-red]="liked" (dblclick)="this.liked = !this.liked"></mat-icon>
-                <mat-icon mat-list-icon class="ti-comment feed-icon-spacer" [routerLink]="['/post', post.id]"></mat-icon>
-                <mat-icon mat-list-icon class="ti-reload feed-icon-spacer"></mat-icon>
-            </span>
-        </mat-list-item>
-        <mat-list-item  *ngIf="post.comments.length" class="feed-comment-container" [routerLink]="['/post', post.id]">
-            <span>
-                <div *ngFor="let comment of post.comments; let i = index" class="feed-comment">
-                    <span *ngIf="i < 2">
-                        <b>{{comment.author.username}}</b> {{comment.text}}
-                    </span>
-                </div>
-            </span>
-        </mat-list-item>
-    </mat-list>
-    <mat-divider></mat-divider>
+<div *ngIf="posts.length">
+    <div *ngFor="let post of posts; let i = index">
+        <mat-list>
+            <!-- Profile Row -->
+            <mat-list-item>
+                <img matListAvatar [src]="post.author.profilePic" class="avatar"  [routerLink]="['/profile', post.author.id]"/>
+                <h3 matLine>
+                    <span [routerLink]="['/profile', post.author.id]" class="feed-username-text mat-h3">{{post.author.username}}</span>
+                    <!-- TODO: Check if user already following profile -->
+                    <a *ngIf="post.author.id == user.id" mat-button color="primary">Follow</a>
+                </h3>
+                <span *ngIf="post.repost"><i class="ti-reload"></i></span>
+            </mat-list-item>
+
+            <!-- Caption Row -->
+            <mat-list-item>
+                <p class="mat-body">{{post.caption}}</p>
+            </mat-list-item>
+
+            <!-- Post Media -->
+            <img class="feed-image" [src]="post.media" (dblclick)="likePost(post)"/>
+
+            <!-- Interaction Button Row -->
+            <mat-list-item>
+                <span>
+                    <!-- TODO: implement a way to check for like, implement repost popup -->
+                    <mat-icon mat-list-icon class="ti-heart" [ngClass]="isLiked(post) ? 'feed-icon-red' : ''" (dblclick)="likePost(post)"></mat-icon>
+                    <mat-icon mat-list-icon class="ti-comment feed-icon-spacer" [routerLink]="['/post', post.id]"></mat-icon>
+                    <mat-icon mat-list-icon class="ti-reload feed-icon-spacer" (click)="repost(post)"></mat-icon>
+                </span>
+            </mat-list-item>
+
+            <!-- Comment Display Row -->
+            <h3 matSubheader class="feed-subheader-text" [routerLink]="['/post', post.id]">View more comments</h3>
+            <mat-list-item *ngIf="post.comments.length" class="feed-comment-container" [routerLink]="['/post', post.id]">
+                <span>
+                    <div *ngFor="let comment of post.comments; let i = index" class="feed-comment">
+                        <span *ngIf="i<2" class="mat-body">
+                            <b>{{comment.author.username}}</b> {{comment.text}}
+                        </span>
+                    </div>
+                </span>
+            </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+    </div>
+</div>
+<div *ngIf="!posts.length">
+
 </div>

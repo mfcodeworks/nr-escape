@@ -1,3 +1,9 @@
+.feed-username-text {
+    margin-right: 5px;
+}
+.feed-subheader-text {
+    height: 32px !important;
+}
 .feed-image {
     max-width: 100%;
     margin: 0px;
