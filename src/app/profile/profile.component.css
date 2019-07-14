@@ -1,0 +1,29 @@
+h4 {
+    font-weight: bold !important;
+}
+.profile-button {
+    margin: 6px 8px;
+    width: -webkit-fill-available;
+}
+.profile-text-container {
+    padding-left: 16px;
+}
+.profile-username-text {
+    font-weight: bold;
+}
+.profile-container {
+    margin-top: 30px;
+    display: flex;
+    text-align: center;
+}
+.profile-contact-button-row {
+    margin: 0 8px 8px 8px;
+    display: flex;
+}
+.profile-row, .profile-contact-button {
+    flex: 1 1 auto;
+}
+.profile-avatar {
+    height: 80px !important;
+    width: 80px !important;
+}

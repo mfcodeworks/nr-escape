@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatListModule, MatToolbarModule, MatIconModule } from '@angular/material';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
@@ -29,6 +30,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
         MatCheckboxModule,
         MatListModule,
         MatIconModule,
+        MatGridListModule,
         ReactiveFormsModule,
         MatToolbarModule,
         RouterModule.forRoot([
