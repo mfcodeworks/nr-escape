@@ -8,6 +8,9 @@ import { MatButtonModule, MatCheckboxModule, MatListModule, MatToolbarModule, Ma
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
+import { PostDisplayComponent } from './post-display/post-display.component';
+import { PostInteractionBarComponent } from './post-interaction-bar/post-interaction-bar.component';
+import { CommentPreviewComponent } from './comment-preview/comment-preview.component';
 import { FeedComponent } from './feed/feed.component';
 import { LoginComponent } from './login/login.component';
 import { NewPostComponent } from './new-post/new-post.component';
@@ -44,6 +47,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
         AppComponent,
         TopBarComponent,
         BottomBarComponent,
+        PostDisplayComponent,
+        PostInteractionBarComponent,
+        CommentPreviewComponent,
         FeedComponent,
         LoginComponent,
         NewPostComponent,

@@ -1,20 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { user } from '../test-data/user';
-import { posts } from '../test-data/posts';
 
 @Component({
-    selector: 'app-feed',
-    templateUrl: './feed.component.html',
-    styleUrls: ['./feed.component.css'],
+    selector: 'app-post-interaction-bar',
+    templateUrl: './post-interaction-bar.component.html',
+    styleUrls: ['./post-interaction-bar.component.css'],
 })
-export class FeedComponent {
-    posts = posts;
+export class PostInteractionBarComponent {
+    @Input() post;
     user = user;
-    post: any;
 
     likePost(post) {
-        switch (this.isLiked(post)) {
+        switch(this.isLiked(post)) {
             // If post is liked, remove like
             case true:
                 for (let i = 0; i < post.likes.length; i++) {

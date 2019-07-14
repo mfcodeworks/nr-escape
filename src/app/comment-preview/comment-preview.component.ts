@@ -1,17 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { user } from '../test-data/user';
-import { posts } from '../test-data/posts';
 
 @Component({
-    selector: 'app-feed',
-    templateUrl: './feed.component.html',
-    styleUrls: ['./feed.component.css'],
+    selector: 'app-comment-preview',
+    templateUrl: './comment-preview.component.html',
+    styleUrls: ['./comment-preview.component.css'],
 })
-export class FeedComponent {
-    posts = posts;
+export class CommentPreviewComponent {
     user = user;
-    post: any;
+    @Input() post;
 
     likePost(post) {
         switch (this.isLiked(post)) {

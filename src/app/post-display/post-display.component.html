@@ -1,0 +1,17 @@
+<!-- Profile Row -->
+<mat-list-item>
+    <img matListAvatar [src]="post.author.profilePic" class="avatar"  [routerLink]="['/profile', post.author.id]"/>
+    <h3 matLine>
+        <span [routerLink]="['/profile', post.author.id]" class="post-username-text mat-h3">{{post.author.username}}</span>
+        <a *ngIf="post.author.id == user.id" mat-button color="primary" (click)="followUser(post.author.id)">Follow</a>
+    </h3>
+    <span *ngIf="post.repost"><i class="ti-reload"></i></span>
+</mat-list-item>
+
+<!-- Caption Row -->
+<mat-list-item>
+    <p class="mat-body">{{post.caption}}</p>
+</mat-list-item>
+
+<!-- Post Media -->
+<img class="post-image" [src]="post.media" (dblclick)="likePost(post)"/>
