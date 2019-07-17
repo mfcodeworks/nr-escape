@@ -27,7 +27,7 @@
             ]
         }
     ],
-    "profiles": [
+    "profile": [
         {
             "id": 1,
             "username": "nygmarose",
@@ -101,7 +101,7 @@
             "posts": [ ]
         }
     ],
-    "posts": [
+    "post": [
         {
             "id": 1,
             "authorId": 1,
@@ -164,7 +164,7 @@
             "likes": []
         }
     ],
-    "comments": [
+    "comment": [
         {
             "id": 1,
             "author": 2,
@@ -194,7 +194,7 @@
             "media": null
         }
     ],
-    "notifications": [
+    "notification": [
         {
             "id": 1,
             "forAuthor": 1,

@@ -2,10 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatListModule, MatToolbarModule, MatIconModule } from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
 
+import { BackendService } from './backend/backend.service';
+import { ApiService } from './api/api.service';
+import { UserService } from './user/user.service';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
@@ -26,6 +30,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        HttpClientModule,
         MatButtonModule,
         MatCheckboxModule,
         MatListModule,
@@ -62,7 +67,11 @@ import { SignUpComponent } from './sign-up/sign-up.component';
         SettingsComponent,
         SignUpComponent
     ],
-    providers: [],
+    providers: [
+        BackendService,
+        ApiService,
+        UserService
+    ],
     bootstrap: [ AppComponent ]
 })
 export class AppModule { }
