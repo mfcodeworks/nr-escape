@@ -1,20 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { User } from '../user';
+import { Post } from '../post';
+import { Comment } from '../comment';
 import { UserService } from '../user/user.service';
+import { BackendService } from '../backend/backend.service';
 
 @Component({
     selector: 'app-comment-preview',
     templateUrl: './comment-preview.component.html',
     styleUrls: ['./comment-preview.component.css'],
 })
-export class CommentPreviewComponent {
+export class CommentPreviewComponent implements OnInit {
+    @Input() post: Post;
+    comments: Comment[] = [];
     user: User;
 
-    @Input() post;
-
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private backend: BackendService) {
         this.user = userService.user;
+    }
+
+    ngOnInit() {
+        this.post.comments.forEach((id) => {
+            this.backend.getComment(id).subscribe((comment) => {
+                this.comments.push(comment);
+            });
+        });
     }
 
     likePost(post) {

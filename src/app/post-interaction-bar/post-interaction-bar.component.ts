@@ -1,28 +1,37 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { user } from '../test-data/user';
+import { User } from '../user';
+import { Post } from '../post';
+import { UserService } from '../user/user.service';
 
 @Component({
     selector: 'app-post-interaction-bar',
     templateUrl: './post-interaction-bar.component.html',
     styleUrls: ['./post-interaction-bar.component.css'],
 })
-export class PostInteractionBarComponent {
-    @Input() post;
-    user = user;
+export class PostInteractionBarComponent implements OnInit {
+    @Input() post: Post;
+    user: User;
 
-    likePost(post) {
-        switch(this.isLiked(post)) {
+    constructor(private userService: UserService) {
+
+        this.user = userService.user;
+    }
+
+    ngOnInit() {}
+
+    likePost(post: Post) {
+        switch (this.isLiked(post)) {
             // If post is liked, remove like
             case true:
                 for (let i = 0; i < post.likes.length; i++) {
-                    if (post.likes[i] === user.id) { post.likes.splice(i, 1); }
+                    if (post.likes[i] === this.user.id) { post.likes.splice(i, 1); }
                 }
                 break;
 
             // If not liked add a new like
             case false:
-                post.likes.push(user.id);
+                post.likes.push(this.user.id);
                 break;
         }
 
@@ -30,9 +39,9 @@ export class PostInteractionBarComponent {
         console.log(post.likes);
     }
 
-    isLiked(post) {
-        return post.likes.includes(user.id);
+    isLiked(post: Post) {
+        return post.likes.includes(this.user.id);
     }
 
-    repost(post) { }
+    repost(post: Post) { }
 }

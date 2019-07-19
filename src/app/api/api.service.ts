@@ -16,9 +16,7 @@ const API_URL = environment.apiUrl;
 })
 export class ApiService {
 
-    constructor(
-        private http: HttpClient
-    ) {}
+    constructor(private http: HttpClient) {}
 
     // Http Headers
     headers = {
@@ -29,6 +27,15 @@ export class ApiService {
     getUserNotifications(id: number): Observable<Notification[]> {
         return this.http
         .get<Notification[]>(`${API_URL}/notification?forAuthor=${id}&_limit=20`)
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    getUserFeed(id: number): Observable<Post[]> {
+        return this.http
+        .get<Post[]>(`${API_URL}/feed`)
         .pipe(
             retry(3),
             catchError(this.handleError)

@@ -1,28 +1,44 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { user } from '../test-data/user';
+import { UserService } from '../user/user.service';
+import { User } from '../user';
+import { Post } from '../post';
+import { Profile } from '../profile';
+import { BackendService } from '../backend/backend.service';
 
 @Component({
     selector: 'app-post-display',
     templateUrl: './post-display.component.html',
     styleUrls: ['./post-display.component.css'],
 })
-export class PostDisplayComponent {
-    @Input() post;
-    user = user;
+export class PostDisplayComponent implements OnInit {
+    @Input() post: Post;
+    user: User;
+    author: Profile;
 
-    likePost(post) {
-        switch(this.isLiked(post)) {
+    constructor(private userService: UserService, private backend: BackendService) {
+        this.user = this.userService.user;
+    }
+
+    ngOnInit() {
+        this.backend.getProfile(this.post.authorId).subscribe((profile) => {
+            this.author = profile;
+            console.log(this.author);
+        });
+    }
+
+    likePost(post: Post) {
+        switch (this.isLiked(post)) {
             // If post is liked, remove like
             case true:
                 for (let i = 0; i < post.likes.length; i++) {
-                    if (post.likes[i] === user.id) { post.likes.splice(i, 1); }
+                    if (post.likes[i] === this.user.id) { post.likes.splice(i, 1); }
                 }
                 break;
 
             // If not liked add a new like
             case false:
-                post.likes.push(user.id);
+                post.likes.push(this.user.id);
                 break;
         }
 
@@ -30,11 +46,11 @@ export class PostDisplayComponent {
         console.log(post.likes);
     }
 
-    isLiked(post) {
-        return post.likes.includes(user.id);
+    isLiked(post: Post) {
+        return post.likes.includes(this.user.id);
     }
 
-    followUser(id) {
+    followUser(id: number) {
         console.log(id);
     }
 }

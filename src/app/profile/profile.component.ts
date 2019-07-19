@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { profiles } from '../test-data/profiles';
-import { user } from '../test-data/user';
+import { BackendService } from '../backend/backend.service';
+import { Profile } from '../profile';
+import { User } from '../user';
+import { UserService } from '../user/user.service';
 
 @Component({
     selector: 'app-profile',
@@ -10,33 +12,36 @@ import { user } from '../test-data/user';
     styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-    profiles = profiles;
-    user = user;
-    profile: any;
+    user: User = new User();
+    profile: Profile = new Profile();
 
-    constructor(
-        private route: ActivatedRoute,
-    ) { }
+    constructor(private route: ActivatedRoute, private backend: BackendService, private userService: UserService) {
+        this.user = userService.user;
+    }
 
     ngOnInit() {
+        // Get route parameters
         this.route.paramMap.subscribe(params => {
-            for (const profile of profiles) {
-                if (profile.id.toString() === params.get('profileId')) { this.profile = profile; }
-            }
+            // Get profile from backend service
+            this.backend.getProfile( parseInt(params.get('profileId'), 10) )
+            .subscribe((profile) => {
+                // Set profile from backend data
+                this.profile = profile;
+            });
         });
     }
 
-    isFollowing(id) {
-        return user.following.includes(id);
+    isFollowing(id: number) {
+        return this.user.following.includes(id);
     }
 
-    isMe(id) {
-        return id === user.id;
+    isMe() {
+        return this.profile.id === this.user.id;
     }
 
     editProfile() { }
 
-    followUser(id) {
-        user.following.push(id);
+    followUser(id: number) {
+        this.user.following.push(id);
     }
 }

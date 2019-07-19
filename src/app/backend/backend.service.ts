@@ -16,13 +16,16 @@ export class BackendService {
     comments: Comment[] = [];
     notifications: Notification[] = [];
 
-    constructor(
-        private api: ApiService
-    ) { }
+    constructor(private api: ApiService) {}
 
     // Get User Notifications
     getUserNotifications(id: number): Observable<Notification[]> {
         return this.api.getUserNotifications(id);
+    }
+
+    // Get User Feed
+    getUserFeed(id: number): Observable<Post[]> {
+        return this.api.getUserFeed(id);
     }
 
     // Get Profile

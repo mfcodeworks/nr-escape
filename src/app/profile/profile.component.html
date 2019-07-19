@@ -22,9 +22,9 @@
     </p>
     <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe(profile.id)">Edit Profile</button>
     <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe(profile.id) && !isFollowing(profile.id)">Follow</button>
-    <span class="profile-contact-button-row">
-        <a [href]="profile.contactInfo.website" mat-raised-button class="profile-contact-button" *ngIf="!isMe(profile.id) && profile.contactInfo.website">Website</a>
-        <a [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="!isMe(profile.id) && profile.contactInfo.email">Email</a>
+    <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
+        <a [href]="profile.contactInfo.website" mat-raised-button class="profile-contact-button" *ngIf="!isMe() && profile.contactInfo.website">Website</a>
+        <a [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="!isMe() && profile.contactInfo.email">Email</a>
     </span>
     <mat-divider></mat-divider>
 </div>

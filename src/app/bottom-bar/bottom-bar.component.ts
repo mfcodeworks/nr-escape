@@ -12,8 +12,9 @@ export class BottomBarComponent implements OnInit {
     user: User;
 
     constructor(private userService: UserService) {
-        this.user = userService.user;
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.user = this.userService.user;
+    }
 }

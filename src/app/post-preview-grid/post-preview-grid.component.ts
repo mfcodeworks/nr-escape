@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { profiles } from '../test-data/user';
+import { Profile } from '../profile';
 
 @Component({
     selector: 'app-post-preview-grid',
@@ -8,5 +8,5 @@ import { profiles } from '../test-data/user';
     styleUrls: ['./post-preview-grid.component.css'],
 })
 export class ProfileComponent {
-    @Input() profile;
+    @Input() profile: Profile;
 }
