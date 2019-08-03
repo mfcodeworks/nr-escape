@@ -1,15 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatListModule, MatToolbarModule, MatIconModule } from '@angular/material';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule
+} from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 import { BackendService } from './backend/backend.service';
 import { ApiService } from './api/api.service';
 import { UserService } from './user/user.service';
+import { FeedResolver } from './feed/feed.resolver';
+import { ProfileResolver } from './profile/profile.resolver';
+import { PostResolver } from './post/post.resolver';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
@@ -36,18 +46,55 @@ import { SignUpComponent } from './sign-up/sign-up.component';
         MatListModule,
         MatIconModule,
         MatGridListModule,
-        ReactiveFormsModule,
         MatToolbarModule,
+        MatInputModule,
+        MatFormFieldModule,
         RouterModule.forRoot([
-            { path: '', component: FeedComponent },
-            { path: 'login', component: LoginComponent },
-            { path: 'signup', component: SignUpComponent },
-            { path: 'search', component: SearchComponent },
-            { path: 'new-post', component: NewPostComponent },
-            { path: 'post/:postId', component: PostComponent },
-            { path: 'notifications', component: NotificationsComponent },
-            { path: 'profile/:profileId', component: ProfileComponent },
-            { path: 'settings', component: SettingsComponent },
+            {
+                path: '',
+                component: FeedComponent,
+                resolve: {
+                    posts: FeedResolver
+                }
+            },
+            {
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                path: 'signup',
+                component: SignUpComponent
+            },
+            {
+                path: 'search',
+                component: SearchComponent
+            },
+            {
+                path: 'new-post',
+                component: NewPostComponent
+            },
+            {
+                path: 'post/:postId',
+                component: PostComponent,
+                resolve: {
+                    post: PostResolver
+                }
+            },
+            {
+                path: 'notifications',
+                component: NotificationsComponent
+            },
+            {
+                path: 'profile/:profileId',
+                component: ProfileComponent,
+                resolve: {
+                    profile: ProfileResolver
+                }
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent
+            },
         ]),
     ],
     declarations: [
@@ -70,8 +117,13 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     providers: [
         BackendService,
         ApiService,
-        UserService
+        UserService,
+        FeedResolver,
+        ProfileResolver,
+        PostResolver
     ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [
+        AppComponent
+    ]
 })
 export class AppModule { }

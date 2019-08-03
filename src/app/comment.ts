@@ -1,6 +1,6 @@
 export class Comment {
     id: number;
-    author: number;
+    author: any;
     text: string;
     media: string;
     replyTo: number;

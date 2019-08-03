@@ -6,7 +6,7 @@ export class Profile {
     postCount: number;
     followingCount: number;
     followerCount: number;
-    contactInfo: object;
+    contactInfo: any;
     followers: number[];
     following: number[];
     posts: number[];
