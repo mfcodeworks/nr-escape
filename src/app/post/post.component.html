@@ -1,14 +1,24 @@
 <!-- Container -->
 <mat-list>
 
-<!-- Post Display -->
-<app-post-display [post]="post"></app-post-display>
+    <!-- Post Display -->
+    <app-post-display [post]="post"></app-post-display>
 
-<!-- Post Interaction Row -->
-<app-post-interaction-bar [post]=post></app-post-interaction-bar>
+    <!-- Post Interaction Row -->
+    <app-post-interaction-bar [post]=post></app-post-interaction-bar>
 
-<!-- TODO: Comment Input -->
+    <!-- TODO: Comment Input -->
+    <mat-divider></mat-divider>
+    <form #commentForm class="comment-form">
+        <mat-form-field appearance="standard" class="comment-form-input">
+            <input #commentInput matInput placeholder="Comment">
+            <mat-icon matSuffix (click)="postComment(commentInput.value);commentForm.reset()">send</mat-icon>
+        </mat-form-field>
+    </form>
 
-<!-- TODO: Comment Display -->
+    <!-- TODO: Comment Display -->
+    <span *ngIf="comments.length == 0">
+        <p class="mat-body comment-placeholder">I've Got Nothing</p>
+    </span>
 
 </mat-list>

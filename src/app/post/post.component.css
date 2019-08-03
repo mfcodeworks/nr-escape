@@ -1,0 +1,14 @@
+.comment-form {
+    width: 98%;
+    max-height: 50px;
+}
+.comment-form-input {
+    width: 100%;
+    padding: 0 5px 0 5px;
+    height: 50px;
+}
+.comment-placeholder {
+    text-align: center;
+    font-style: italic;
+    color: #888888;
+}

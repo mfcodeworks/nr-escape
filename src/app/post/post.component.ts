@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Post } from '../post';
+import { Comment } from '../comment';
 import { BackendService } from '../backend/backend.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { BackendService } from '../backend/backend.service';
 })
 export class PostComponent implements OnInit {
     post: Post;
+    comments: Comment[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -18,14 +20,19 @@ export class PostComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // Get route parameters
-        this.route.paramMap.subscribe(params => {
-            // Get post from route postId
-            this.backend.getPost( parseInt(params.get('postId'), 10) )
-            .subscribe((post) => {
-                // Assign post as data from backend service
-                this.post = post;
+        this.post = this.route.snapshot.data.post;
+        console.log(this.post);
+
+        // Get comments asynchronously
+        this.post.comments.forEach((commentId) => {
+            this.backend.getComment(commentId).subscribe((comment) => {
+                this.comments.push(comment);
             });
         });
+        console.log(this.comments);
+    }
+
+    postComment(input) {
+        console.log(input);
     }
 }

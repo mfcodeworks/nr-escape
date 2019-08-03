@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BackendService } from '../backend/backend.service';
 import { Profile } from '../profile';
 import { User } from '../user';
+import { Post } from '../post';
 import { UserService } from '../user/user.service';
 
 @Component({
@@ -14,19 +15,20 @@ import { UserService } from '../user/user.service';
 export class ProfileComponent implements OnInit {
     user: User = new User();
     profile: Profile = new Profile();
+    posts: Post[] = [];
 
     constructor(private route: ActivatedRoute, private backend: BackendService, private userService: UserService) {
         this.user = userService.user;
     }
 
     ngOnInit() {
-        // Get route parameters
-        this.route.paramMap.subscribe(params => {
-            // Get profile from backend service
-            this.backend.getProfile( parseInt(params.get('profileId'), 10) )
-            .subscribe((profile) => {
-                // Set profile from backend data
-                this.profile = profile;
+        this.profile = this.route.snapshot.data.profile;
+        console.log(this.profile);
+
+        // Get posts asynchronously
+        this.profile.posts.forEach((postId) => {
+            this.backend.getPost(postId).subscribe((post) => {
+                this.posts.push(post);
             });
         });
     }

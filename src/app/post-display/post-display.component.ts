@@ -14,18 +14,12 @@ import { BackendService } from '../backend/backend.service';
 export class PostDisplayComponent implements OnInit {
     @Input() post: Post;
     user: User;
-    author: Profile;
 
     constructor(private userService: UserService, private backend: BackendService) {
         this.user = this.userService.user;
     }
 
-    ngOnInit() {
-        this.backend.getProfile(this.post.authorId).subscribe((profile) => {
-            this.author = profile;
-            console.log(this.author);
-        });
-    }
+    ngOnInit() {}
 
     likePost(post: Post) {
         switch (this.isLiked(post)) {

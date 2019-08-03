@@ -14,7 +14,6 @@ export class PostInteractionBarComponent implements OnInit {
     user: User;
 
     constructor(private userService: UserService) {
-
         this.user = userService.user;
     }
 

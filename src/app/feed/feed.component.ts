@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../user/user.service';
 import { User } from '../user';
@@ -14,15 +15,13 @@ export class FeedComponent implements OnInit {
     user: User;
     post: Post;
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private route: ActivatedRoute) {
         this.user = this.userService.user;
     }
 
     public ngOnInit() {
-        this.userService.getUserFeed().subscribe((feed) => {
-            this.posts = feed;
-            console.log(this.posts);
-        });
+        // Get posts from route resolver data
+        this.posts = this.route.snapshot.data.posts;
     }
 
     // Update for API usage
