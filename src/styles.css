@@ -22,3 +22,10 @@ html, body {
 .avatar {
     width: 40px;
 }
+app-profile {
+    width: 100%;
+    margin: 0 8px 0 8px;
+}
+.comment-form-input .mat-form-field-wrapper .mat-form-field-flex {
+    padding-top: 0;
+}
