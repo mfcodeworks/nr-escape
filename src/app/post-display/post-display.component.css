@@ -5,3 +5,8 @@
     max-width: 100%;
     margin: 0px;
 }
+.post-datetime {
+    color: #888888;
+    font-size: 14px;
+    margin-left: 15px;
+}

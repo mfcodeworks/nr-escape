@@ -5,6 +5,9 @@ import { Post } from '../post';
 import { Comment } from '../comment';
 import { BackendService } from '../backend/backend.service';
 
+// Moment.js
+declare var moment: any;
+
 @Component({
     selector: 'app-post',
     templateUrl: './post.component.html',
@@ -21,7 +24,6 @@ export class PostComponent implements OnInit {
 
     ngOnInit() {
         this.post = this.route.snapshot.data.post;
-        console.log(this.post);
 
         // Get comments asynchronously
         this.post.comments.forEach((commentId) => {
@@ -29,10 +31,14 @@ export class PostComponent implements OnInit {
                 this.comments.push(comment);
             });
         });
-        console.log(this.comments);
     }
 
-    postComment(input) {
+    postComment(input: string) {
         console.log(input);
+    }
+
+    dateDiff(datetime: number) {
+        // Moment.js datediff
+        return moment(datetime).fromNow();
     }
 }

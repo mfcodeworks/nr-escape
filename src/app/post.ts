@@ -1,6 +1,7 @@
 export class Post {
     id: number;
     author: any;
+    datetime: number;
     type: string;
     media: string;
     caption: string;

@@ -3,8 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { User } from '../user';
 import { Post } from '../post';
-import { Profile } from '../profile';
 import { BackendService } from '../backend/backend.service';
+
+declare var moment: any;
 
 @Component({
     selector: 'app-post-display',
@@ -20,6 +21,11 @@ export class PostDisplayComponent implements OnInit {
     }
 
     ngOnInit() {}
+
+    dateDiff(datetime: number) {
+        // Moment.js datediff
+        return moment(datetime).fromNow();
+    }
 
     likePost(post: Post) {
         switch (this.isLiked(post)) {

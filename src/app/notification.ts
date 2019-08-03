@@ -1,5 +1,6 @@
 export class Notification {
     id: number;
+    datetime: number;
     forAuthor: number;
     fromUser: number;
     postId: number;
