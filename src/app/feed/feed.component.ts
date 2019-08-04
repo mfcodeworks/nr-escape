@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../user/user.service';
-import { User } from '../user';
 import { Post } from '../post';
 
 @Component({
@@ -12,12 +11,10 @@ import { Post } from '../post';
 })
 export class FeedComponent implements OnInit {
     posts: Post[] = [];
-    user: User;
+    userId: number;
     post: Post;
 
-    constructor(private userService: UserService, private route: ActivatedRoute) {
-        this.user = this.userService.user;
-    }
+    constructor(private userService: UserService, private route: ActivatedRoute) {}
 
     public ngOnInit() {
         // Get posts from route resolver data
@@ -30,13 +27,13 @@ export class FeedComponent implements OnInit {
             // If post is liked, remove like
             case true:
                 for (let i = 0; i < post.likes.length; i++) {
-                    if (post.likes[i] === this.user.id) { post.likes.splice(i, 1); }
+                    if (post.likes[i] === this.userService.profile.id) { post.likes.splice(i, 1); }
                 }
                 break;
 
             // If not liked add a new like
             case false:
-                post.likes.push(this.user.id);
+                post.likes.push(this.userService.profile.id);
                 break;
         }
 
@@ -45,7 +42,7 @@ export class FeedComponent implements OnInit {
     }
 
     isLiked(post: Post) {
-        return post.likes.includes(this.user.id);
+        return post.likes.includes(this.userService.profile.id);
     }
 
     repost(post: Post) { }

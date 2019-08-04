@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { UserService } from '../user/user.service';
-import { User } from '../user';
 import { Post } from '../post';
-import { BackendService } from '../backend/backend.service';
+import { Profile } from '../profile';
 
 declare var moment: any;
 
@@ -14,10 +13,10 @@ declare var moment: any;
 })
 export class PostDisplayComponent implements OnInit {
     @Input() post: Post;
-    user: User;
+    user: Profile;
 
-    constructor(private userService: UserService, private backend: BackendService) {
-        this.user = this.userService.user;
+    constructor(private userService: UserService) {
+        this.user = this.userService.profile;
     }
 
     ngOnInit() {}

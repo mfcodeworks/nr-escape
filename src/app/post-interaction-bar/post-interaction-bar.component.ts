@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { User } from '../user';
 import { Post } from '../post';
 import { UserService } from '../user/user.service';
 
@@ -11,11 +10,8 @@ import { UserService } from '../user/user.service';
 })
 export class PostInteractionBarComponent implements OnInit {
     @Input() post: Post;
-    user: User;
 
-    constructor(private userService: UserService) {
-        this.user = userService.user;
-    }
+    constructor(private userService: UserService) {}
 
     ngOnInit() {}
 
@@ -24,13 +20,13 @@ export class PostInteractionBarComponent implements OnInit {
             // If post is liked, remove like
             case true:
                 for (let i = 0; i < post.likes.length; i++) {
-                    if (post.likes[i] === this.user.id) { post.likes.splice(i, 1); }
+                    if (post.likes[i] === this.userService.profile.id) { post.likes.splice(i, 1); }
                 }
                 break;
 
             // If not liked add a new like
             case false:
-                post.likes.push(this.user.id);
+                post.likes.push(this.userService.profile.id);
                 break;
         }
 
@@ -39,7 +35,7 @@ export class PostInteractionBarComponent implements OnInit {
     }
 
     isLiked(post: Post) {
-        return post.likes.includes(this.user.id);
+        return post.likes.includes(this.userService.profile.id);
     }
 
     repost(post: Post) { }

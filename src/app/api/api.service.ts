@@ -23,6 +23,33 @@ export class ApiService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
+    // API: Sign Up User
+    signUp(username: string, password: string, email: string): any {
+        return this.http
+        .post(`${API_URL}/sign-up`, {
+            username,
+            password,
+            email
+        })
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Sign In User
+    signIn(username: string, password: string): any {
+        return this.http
+        .post(`${API_URL}/sign-in`, {
+            username,
+            password
+        })
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
     // API: Get User Notifications
     getUserNotifications(id: number): Observable<Notification[]> {
         return this.http

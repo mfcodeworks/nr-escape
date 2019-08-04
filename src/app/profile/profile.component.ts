@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BackendService } from '../backend/backend.service';
 import { Profile } from '../profile';
-import { User } from '../user';
 import { Post } from '../post';
 import { UserService } from '../user/user.service';
 
@@ -13,13 +12,10 @@ import { UserService } from '../user/user.service';
     styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-    user: User = new User();
-    profile: Profile = new Profile();
+    profile: Profile;
     posts: Post[] = [];
 
-    constructor(private route: ActivatedRoute, private backend: BackendService, private userService: UserService) {
-        this.user = userService.user;
-    }
+    constructor(private route: ActivatedRoute, private backend: BackendService, private userService: UserService) {}
 
     ngOnInit() {
         this.profile = this.route.snapshot.data.profile;
@@ -34,16 +30,16 @@ export class ProfileComponent implements OnInit {
     }
 
     isFollowing(id: number) {
-        return this.user.following.includes(id);
+        return this.userService.profile.following.includes(id);
     }
 
     isMe() {
-        return this.profile.id === this.user.id;
+        return this.profile.id === this.userService.profile.id;
     }
 
-    editProfile() { }
+    editProfile() {}
 
     followUser(id: number) {
-        this.user.following.push(id);
+        this.userService.profile.following.push(id);
     }
 }

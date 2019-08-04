@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../user/user.service';
-import { User } from '../user';
 
 @Component({
     selector: 'app-bottom-bar',
@@ -9,12 +8,11 @@ import { User } from '../user';
     styleUrls: ['./bottom-bar.component.css'],
 })
 export class BottomBarComponent implements OnInit {
-    user: User;
+    userId: number;
 
-    constructor(private userService: UserService) {
-    }
+    constructor(private userService: UserService) {}
 
     ngOnInit() {
-        this.user = this.userService.user;
+        this.userId = this.userService.profile.id;
     }
 }

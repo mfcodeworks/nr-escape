@@ -17,6 +17,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { BackendService } from './backend/backend.service';
 import { ApiService } from './api/api.service';
 import { UserService } from './user/user.service';
+import { AuthService } from './auth/auth.service';
 import { FeedResolver } from './feed/feed.resolver';
 import { ProfileResolver } from './profile/profile.resolver';
 import { PostResolver } from './post/post.resolver';
@@ -35,6 +36,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
     imports: [
@@ -95,6 +97,10 @@ import { SignUpComponent } from './sign-up/sign-up.component';
                 path: 'settings',
                 component: SettingsComponent
             },
+            {
+                path: 'sign-in',
+                component: SignInComponent
+            }
         ]),
     ],
     declarations: [
@@ -112,11 +118,13 @@ import { SignUpComponent } from './sign-up/sign-up.component';
         ProfileComponent,
         SearchComponent,
         SettingsComponent,
-        SignUpComponent
+        SignUpComponent,
+        SignInComponent
     ],
     providers: [
         BackendService,
         ApiService,
+        AuthService,
         UserService,
         FeedResolver,
         ProfileResolver,
