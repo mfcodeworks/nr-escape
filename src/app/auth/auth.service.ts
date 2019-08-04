@@ -16,10 +16,10 @@ export class AuthService {
         this.user.destroy();
     }
 
-    public doSignIn(token: string, profile: Profile, email: string, settings: any) {
+    public doSignIn(token: string, profile: any, email: string, settings: any) {
         if ((!token) || (!profile) || (!email) || (!settings)) { return; }
         this.user.token = token;
-        this.user.profile = profile;
+        this.user.profile = new Profile(profile);
         this.user.email = email;
         this.user.settings = settings;
     }

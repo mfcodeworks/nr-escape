@@ -1,3 +1,6 @@
+<!-- App Top Bar -->
+<app-top-bar></app-top-bar>
+
 <!-- Container -->
 <mat-list>
 
@@ -10,12 +13,12 @@
     <!-- TODO: Comment Input -->
     <mat-divider></mat-divider>
 
-    <form #commentForm class="comment-form">
+    <div #commentForm class="comment-form">
         <mat-form-field appearance="standard" class="comment-form-input">
             <input #commentInput matInput placeholder="Comment">
             <mat-icon matSuffix (click)="postComment(commentInput.value); commentForm.reset()">send</mat-icon>
         </mat-form-field>
-    </form>
+    </div>
 
     <!-- TODO: Comment Display -->
     <span *ngIf="comments.length == 0">
@@ -31,3 +34,6 @@
     </span>
 
 </mat-list>
+
+<!-- App Botttom Bar -->
+<app-bottom-bar></app-bottom-bar>

@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
+import { UserService } from '../user/user.service';
 import { Post } from '../post';
 import { Comment } from '../comment';
 import { Profile } from '../profile';
@@ -16,12 +17,7 @@ const API_URL = environment.apiUrl;
 })
 export class ApiService {
 
-    constructor(private http: HttpClient) {}
-
-    // Http Headers
-    headers = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
+    constructor(private http: HttpClient, private userService: UserService) {}
 
     // API: Sign Up User
     signUp(username: string, password: string, email: string): any {
@@ -30,7 +26,7 @@ export class ApiService {
             username,
             password,
             email
-        })
+        }, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
@@ -43,7 +39,7 @@ export class ApiService {
         .post(`${API_URL}/sign-in`, {
             username,
             password
-        })
+        }, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
@@ -53,16 +49,17 @@ export class ApiService {
     // API: Get User Notifications
     getUserNotifications(id: number): Observable<Notification[]> {
         return this.http
-        .get<Notification[]>(`${API_URL}/notification?forAuthor=${id}&_limit=20`)
+        .get<Notification[]>(`${API_URL}/notification?forAuthor=${id}&_limit=20`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
         );
     }
 
+    // API: Get User Feed
     getUserFeed(id: number): Observable<Post[]> {
         return this.http
-        .get<Post[]>(`${API_URL}/feed`)
+        .get<Post[]>(`${API_URL}/feed`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
@@ -72,7 +69,7 @@ export class ApiService {
     // API: Get Profile
     getProfile(id: number): Observable<Profile> {
         return this.http
-        .get<Profile>(`${API_URL}/profile/${id}`)
+        .get<Profile>(`${API_URL}/profile/${id}`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
@@ -82,7 +79,7 @@ export class ApiService {
     // API: Get Post
     getPost(id: number): Observable<Post> {
         return this.http
-            .get<Post>(`${API_URL}/post/${id}`)
+            .get<Post>(`${API_URL}/post/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -92,7 +89,7 @@ export class ApiService {
     // API: Create Post
     addPost(post: Post): Observable<Post> {
         return this.http
-            .post<Post>(`${API_URL}/post`, post, this.headers)
+            .post<Post>(`${API_URL}/post`, post, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -102,7 +99,7 @@ export class ApiService {
     // API: Delete Post
     deletePost(id: number) {
         this.http
-            .delete(`${API_URL}/post/${id}`, this.headers)
+            .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -112,7 +109,7 @@ export class ApiService {
     // API: Update Post
     updatePost(id: number, post: Post): Observable<Post> {
         return this.http
-            .put<Post>(`${API_URL}/post/${id}`, post, this.headers)
+            .put<Post>(`${API_URL}/post/${id}`, post, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -122,7 +119,7 @@ export class ApiService {
     // API: Get Comment
     getComment(id: number): Observable<Comment> {
         return this.http
-            .get<Comment>(`${API_URL}/comment/${id}`)
+            .get<Comment>(`${API_URL}/comment/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -132,7 +129,7 @@ export class ApiService {
     // API: Create Comment
     addComment(comment: Comment): Observable<Comment> {
         return this.http
-            .post<Comment>(`${API_URL}/comment`, comment)
+            .post<Comment>(`${API_URL}/comment`, comment, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -142,7 +139,7 @@ export class ApiService {
     // API: Delete Comment
     deleteComment(id: number) {
         this.http
-            .delete(`${API_URL}/comment/${id}`, this.headers)
+            .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -152,7 +149,7 @@ export class ApiService {
     // API: Update Comment
     updateComment(id: number, comment: Comment): Observable<Comment> {
         return this.http
-            .put<Comment>(`${API_URL}/post/${id}`, comment, this.headers)
+            .put<Comment>(`${API_URL}/post/${id}`, comment, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -162,7 +159,7 @@ export class ApiService {
     // API: Get Notification
     getNotification(id: number): Observable<Notification> {
         return this.http
-            .get<Notification>(`${API_URL}/notification/${id}`)
+            .get<Notification>(`${API_URL}/notification/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -178,5 +175,16 @@ export class ApiService {
             errorMessage = `Error Code: ${error.code}\nMessage: ${error.message}`;
         console.log(errorMessage);
         return throwError(errorMessage);
+    }
+
+    // Http Headers
+    private getRequestHeaders() {
+        const headers = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: (this.userService.token) ? `Bearer ${this.userService.token}` : ''
+            })
+        };
+        return headers;
     }
 }

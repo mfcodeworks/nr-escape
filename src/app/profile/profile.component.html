@@ -1,6 +1,9 @@
-<div>
+<!-- App Top Bar -->
+<app-top-bar></app-top-bar>
+
+<div class="profile-container">
     <!-- Profile Info -->
-    <mat-list class="profile-container">
+    <mat-list class="profile-info">
         <mat-list-item class="profile-row">
             <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
         </mat-list-item>
@@ -17,11 +20,13 @@
             <p mat-line>Followings</p>
         </mat-list-item>
     </mat-list>
+
     <!-- Profile Bio -->
     <p class="mat-body profile-text-container">
         <span class="profile-username-text">{{profile.username}}</span><br>
         {{profile.bio}}
     </p>
+
     <!-- Profile Interaction -->
     <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe(profile.id)">Edit Profile</button>
     <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe(profile.id) && !isFollowing(profile.id)">Follow</button>
@@ -30,6 +35,7 @@
         <a color="primary" [href]="profile.contactInfo.email" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
     </span>
     <mat-divider></mat-divider>
+
     <!-- Posts grid -->
     <mat-grid-list cols="3" class="profile-grid">
         <mat-grid-tile *ngFor="let post of posts">
@@ -37,3 +43,6 @@
         </mat-grid-tile>
     </mat-grid-list>
 </div>
+
+<!-- App Botttom Bar -->
+<app-bottom-bar></app-bottom-bar>

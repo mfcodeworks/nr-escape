@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -14,6 +15,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 
+import { SignedInGuard } from './signed-in.guard';
 import { BackendService } from './backend/backend.service';
 import { ApiService } from './api/api.service';
 import { UserService } from './user/user.service';
@@ -28,7 +30,6 @@ import { PostDisplayComponent } from './post-display/post-display.component';
 import { PostInteractionBarComponent } from './post-interaction-bar/post-interaction-bar.component';
 import { CommentPreviewComponent } from './comment-preview/comment-preview.component';
 import { FeedComponent } from './feed/feed.component';
-import { LoginComponent } from './login/login.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostComponent } from './post/post.component';
@@ -43,6 +44,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+        ReactiveFormsModule,
         MatButtonModule,
         MatCheckboxModule,
         MatListModule,
@@ -57,49 +59,71 @@ import { SignInComponent } from './sign-in/sign-in.component';
                 component: FeedComponent,
                 resolve: {
                     posts: FeedResolver
-                }
-            },
-            {
-                path: 'login',
-                component: LoginComponent
-            },
-            {
-                path: 'signup',
-                component: SignUpComponent
+                },
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'search',
-                component: SearchComponent
+                component: SearchComponent,
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'new-post',
-                component: NewPostComponent
+                component: NewPostComponent,
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'post/:postId',
                 component: PostComponent,
                 resolve: {
                     post: PostResolver
-                }
+                },
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'notifications',
-                component: NotificationsComponent
+                component: NotificationsComponent,
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'profile/:profileId',
                 component: ProfileComponent,
                 resolve: {
                     profile: ProfileResolver
-                }
+                },
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'settings',
-                component: SettingsComponent
+                component: SettingsComponent,
+                canActivate: [
+                    SignedInGuard
+                ]
             },
             {
                 path: 'sign-in',
                 component: SignInComponent
+            },
+            {
+                path: 'sign-up',
+                component: SignUpComponent
+            },
+            {
+                path: 'login',
+                redirectTo: '/sign-in',
+                pathMatch: 'full'
             }
         ]),
     ],
@@ -111,7 +135,6 @@ import { SignInComponent } from './sign-in/sign-in.component';
         PostInteractionBarComponent,
         CommentPreviewComponent,
         FeedComponent,
-        LoginComponent,
         NewPostComponent,
         NotificationsComponent,
         PostComponent,
@@ -122,6 +145,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
         SignInComponent
     ],
     providers: [
+        SignedInGuard,
         BackendService,
         ApiService,
         AuthService,

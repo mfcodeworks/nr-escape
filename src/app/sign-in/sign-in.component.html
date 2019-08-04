@@ -1,1 +1,39 @@
-<p>sign-in works!</p>
+<div  class="container">
+
+    <mat-list>
+        <!-- Form Branding -->
+        <mat-list-item class="branding-container">
+            <img src="../../assets/images/Logo_Transparent-scaledown.png" class="branding-logo" />
+        </mat-list-item>
+
+        <!-- Sign In Form -->
+        <mat-list-item class="signin-form-container">
+            <div class="signin-form">
+                <mat-form-field>
+                    <input matInput [formControl]="username" placeholder="Username" />
+                    <span matPrefix><i class="ti-user form-input-prefix"></i></span>
+                    <mat-error *ngIf="username.invalid">{{getUsernameError()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [formControl]="password" placeholder="Enter your password" [type]="hide ? 'password' : 'text'" />
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <span matPrefix><i class="ti-lock form-input-prefix"></i></span>
+                    <mat-error *ngIf="password.invalid">{{getPasswordError()}}</mat-error>
+                </mat-form-field>
+                <div class="form-button-row">
+                    <button mat-raised-button color="primary" class="form-button-spacer">Forgot Password</button>
+                    <button mat-raised-button color="primary" (click)="doSignIn()">Login</button>
+                </div>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item>
+            <p matBody>Need an account? <a class="signup-link" [routerLink]="['/sign-up']">Sign up</a> here</p>
+        </mat-list-item>
+    </mat-list>
+
+
+
+</div>

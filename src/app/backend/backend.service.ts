@@ -18,6 +18,16 @@ export class BackendService {
 
     constructor(private api: ApiService) {}
 
+    // Sign Up User
+    signUp(username: string, password: string, email: string): any {
+        return this.api.signUp(username, password, email);
+    }
+
+    // Sign In User
+    signIn(username: string, password: string): any {
+        return this.api.signIn(username, password);
+    }
+
     // Get User Notifications
     getUserNotifications(id: number): Observable<Notification[]> {
         return this.api.getUserNotifications(id);

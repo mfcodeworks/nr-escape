@@ -11,21 +11,21 @@ export class AppComponent implements OnInit {
     constructor() {}
     ngOnInit() {
         // Moment.js set locale to display with shorthand (s,h,d,m,y)
-        moment.locale('en', {
+        moment.updateLocale('en', {
             relativeTime: {
                 future: 'in %s',
                 past: '%s',
-                s:  'seconds',
+                s:  '1s',
                 ss: '%ss',
-                m:  'a minute',
+                m:  '1m',
                 mm: '%dm',
-                h:  'an hour',
+                h:  '1h',
                 hh: '%dh',
-                d:  'a day',
+                d:  '1d',
                 dd: '%dd',
-                M:  'a month',
+                M:  '1M',
                 MM: '%dM',
-                y:  'a year',
+                y:  '1Y',
                 yy: '%dY'
             }
         });
