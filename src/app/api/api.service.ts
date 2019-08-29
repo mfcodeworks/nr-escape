@@ -46,14 +46,34 @@ export class ApiService {
         );
     }
 
-    // API: Get User Notifications
-    getUserNotifications(id: number): Observable<Notification[]> {
+    // API: Send User Forgot Password Request
+    forgotPassword(email: string): any {
+        // TODO:
+    }
+
+    // API: Reset User Password
+    resetPassword(token: string, email: string, password: string, passwordConfirmation: string): any {
+        // TODO:
+    }
+
+    // API: Get Profile
+    getProfile(id: number): Observable<Profile> {
         return this.http
-        .get<Notification[]>(`${API_URL}/notification?forAuthor=${id}&_limit=20`, this.getRequestHeaders())
+        .get<Profile>(`${API_URL}/profile/${id}`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
         );
+    }
+
+    // API: Update User Profile
+    updateProfile() {
+        // TODO:
+    }
+
+    // API: Deactivate user profile
+    deactivateProfile() {
+        // TODO:
     }
 
     // API: Get User Feed
@@ -66,14 +86,34 @@ export class ApiService {
         );
     }
 
-    // API: Get Profile
-    getProfile(id: number): Observable<Profile> {
+    // API: Get Recommended Users
+    getRecommendations() {
+        // TODO:
+    }
+
+    // API: Get User Engagement Score
+    getEngagementScore() {
+        // TODO:
+    }
+
+    // API: Get User Notifications
+    getUserNotifications(id: number): Observable<Notification[]> {
         return this.http
-        .get<Profile>(`${API_URL}/profile/${id}`, this.getRequestHeaders())
+        .get<Notification[]>(`${API_URL}/notification?forAuthor=${id}&_limit=20`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError)
         );
+    }
+
+    // API: Get Notification
+    getNotification(id: number): Observable<Notification> {
+        return this.http
+            .get<Notification>(`${API_URL}/notification/${id}`, this.getRequestHeaders())
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
     }
 
     // API: Get Post
@@ -96,20 +136,20 @@ export class ApiService {
             );
     }
 
-    // API: Delete Post
-    deletePost(id: number) {
-        this.http
-            .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
+    // API: Update Post
+    updatePost(id: number, post: Post): Observable<Post> {
+        return this.http
+            .put<Post>(`${API_URL}/post/${id}`, post, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
             );
     }
 
-    // API: Update Post
-    updatePost(id: number, post: Post): Observable<Post> {
-        return this.http
-            .put<Post>(`${API_URL}/post/${id}`, post, this.getRequestHeaders())
+    // API: Delete Post
+    deletePost(id: number) {
+        this.http
+            .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -136,16 +176,6 @@ export class ApiService {
             );
     }
 
-    // API: Delete Comment
-    deleteComment(id: number) {
-        this.http
-            .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
-    }
-
     // API: Update Comment
     updateComment(id: number, comment: Comment): Observable<Comment> {
         return this.http
@@ -156,19 +186,64 @@ export class ApiService {
             );
     }
 
-    // API: Get Notification
-    getNotification(id: number): Observable<Notification> {
-        return this.http
-            .get<Notification>(`${API_URL}/notification/${id}`, this.getRequestHeaders())
+    // API: Delete Comment
+    deleteComment(id: number) {
+        this.http
+            .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
             .pipe(
                 retry(3),
                 catchError(this.handleError)
             );
     }
 
+    // API: Follow user
+    followUser() {
+        // TODO:
+    }
+
+    // API: Unfollow user
+    unfollowUser() {
+        // TODO:
+    }
+
+    // API: Like Post
+    likePost() {
+        // TODO:
+    }
+
+    // API: Unlike Post
+    unlikePost() {
+        // TODO:
+    }
+
+    // API: Block User
+    blockUser() {
+        // TODO:
+    }
+
+    // API: Unblock User
+    unblockUser() {
+        // TODO:
+    }
+
+    // API: Report User
+    reportUser() {
+        // TODO:
+    }
+
+    // API: Report Post
+    reportPost() {
+        // TODO:
+    }
+
     // Error handling
     handleError(error: any) {
+        // DEBUG: Log error
+        console.log(error);
+
+        // Instantiate error message
         let errorMessage: string;
+
         // Set error message
         (error.error instanceof ErrorEvent) ?
             errorMessage = error.error.message :
