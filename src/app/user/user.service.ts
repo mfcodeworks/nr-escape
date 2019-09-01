@@ -8,12 +8,14 @@ import { Profile } from '../profile';
 })
 export class UserService {
     public settings: any = [];
-    public email: string = '';
-    public token: string = '';
+    public email: string;
+    public token: string;
     public profile: Profile = new Profile();
 
-    // TODO: Get user profile (id: 1) and create user
-    constructor() {}
+    // TODO: Get user profile and create user
+    constructor(values: object = {}) {
+        Object.assign(this, values);
+    }
 
     public destroy(): void {
         this.settings = null;

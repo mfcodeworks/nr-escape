@@ -22,7 +22,7 @@ export class ApiService {
     // API: Sign Up User
     signUp(username: string, password: string, email: string): any {
         return this.http
-        .post(`${API_URL}/sign-up`, {
+        .post(`${API_URL}/signup`, {
             username,
             password,
             email
@@ -36,7 +36,7 @@ export class ApiService {
     // API: Sign In User
     signIn(username: string, password: string): any {
         return this.http
-        .post(`${API_URL}/sign-in`, {
+        .post(`${API_URL}/login`, {
             username,
             password
         }, this.getRequestHeaders())
@@ -48,12 +48,111 @@ export class ApiService {
 
     // API: Send User Forgot Password Request
     forgotPassword(email: string): any {
-        // TODO:
+        return this.http
+        .post(`${API_URL}/forgot`, {
+            email
+        }, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Reset User Password
     resetPassword(token: string, email: string, password: string, passwordConfirmation: string): any {
-        // TODO:
+        return this.http
+        .post(`${API_URL}/reset`, {
+            token,
+            email,
+            password,
+            passwordConfirmation
+        }, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Get User Profile
+    getUser(): Observable<Profile> {
+        return this.http
+        .get<Profile>(`${API_URL}/me`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Update User Profile
+    updateUser(user: Profile): Observable<Profile> {
+        return this.http
+        .put<Profile>(`${API_URL}/me/update`,
+            user,
+            this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Deactivate user profile
+    deactivateProfile(): any {
+        return this.http
+        .post(`${API_URL}/me/deactivate`, null, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Get User Feed
+    getUserFeed(): Observable<Post[]> {
+        return this.http
+        .get<Post[]>(`${API_URL}/me/feed`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Get Recommended Users
+    getRecommendations(): any {
+        return this.http
+        .get(`${API_URL}/me/recmomendations`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Get User Engagement Score
+    getEngagementScore(): any {
+        return this.http
+        .get(`${API_URL}/me/engagement`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Get User Notifications
+    getUserNotifications(): Observable<Notification[]> {
+        return this.http
+        .get<Notification[]>(`${API_URL}/me/notifications`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Get Notification
+    getNotification(id: number): Observable<Notification> {
+        return this.http
+        .get<Notification>(`${API_URL}/notification/${id}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Get Profile
@@ -66,174 +165,164 @@ export class ApiService {
         );
     }
 
-    // API: Update User Profile
-    updateProfile() {
-        // TODO:
-    }
-
-    // API: Deactivate user profile
-    deactivateProfile() {
-        // TODO:
-    }
-
-    // API: Get User Feed
-    getUserFeed(id: number): Observable<Post[]> {
-        return this.http
-        .get<Post[]>(`${API_URL}/feed`, this.getRequestHeaders())
-        .pipe(
-            retry(3),
-            catchError(this.handleError)
-        );
-    }
-
-    // API: Get Recommended Users
-    getRecommendations() {
-        // TODO:
-    }
-
-    // API: Get User Engagement Score
-    getEngagementScore() {
-        // TODO:
-    }
-
-    // API: Get User Notifications
-    getUserNotifications(id: number): Observable<Notification[]> {
-        return this.http
-        .get<Notification[]>(`${API_URL}/notification?forAuthor=${id}&_limit=20`, this.getRequestHeaders())
-        .pipe(
-            retry(3),
-            catchError(this.handleError)
-        );
-    }
-
-    // API: Get Notification
-    getNotification(id: number): Observable<Notification> {
-        return this.http
-            .get<Notification>(`${API_URL}/notification/${id}`, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
-    }
-
     // API: Get Post
     getPost(id: number): Observable<Post> {
         return this.http
-            .get<Post>(`${API_URL}/post/${id}`, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        .get<Post>(`${API_URL}/post/${id}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Create Post
     addPost(post: Post): Observable<Post> {
         return this.http
-            .post<Post>(`${API_URL}/post`, post, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        .post<Post>(`${API_URL}/post`, post, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Update Post
     updatePost(id: number, post: Post): Observable<Post> {
         return this.http
-            .put<Post>(`${API_URL}/post/${id}`, post, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        .put<Post>(`${API_URL}/post/${id}`, post, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Delete Post
     deletePost(id: number) {
-        this.http
-            .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        return this.http
+        .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Get Comment
     getComment(id: number): Observable<Comment> {
         return this.http
-            .get<Comment>(`${API_URL}/comment/${id}`, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        .get<Comment>(`${API_URL}/comment/${id}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Create Comment
     addComment(comment: Comment): Observable<Comment> {
         return this.http
-            .post<Comment>(`${API_URL}/comment`, comment, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        .post<Comment>(`${API_URL}/comment`, comment, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Update Comment
     updateComment(id: number, comment: Comment): Observable<Comment> {
         return this.http
-            .put<Comment>(`${API_URL}/post/${id}`, comment, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        .put<Comment>(`${API_URL}/comment/${id}`, comment, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Delete Comment
     deleteComment(id: number) {
-        this.http
-            .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
-            .pipe(
-                retry(3),
-                catchError(this.handleError)
-            );
+        return this.http
+        .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Follow user
-    followUser() {
-        // TODO:
+    followUser(id: number): any {
+        return this.http
+        .post(`${API_URL}/profile/${id}/follow`, null, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Unfollow user
-    unfollowUser() {
-        // TODO:
+    unfollowUser(id: number): any {
+        return this.http
+        .post(`${API_URL}/profile/${id}/unfollow`, null, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Like Post
-    likePost() {
-        // TODO:
+    likePost(id: number) {
+        return this.http
+        .post(`${API_URL}/post/${id}/like`, null, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Unlike Post
-    unlikePost() {
-        // TODO:
+    unlikePost(id: number) {
+        return this.http
+        .delete(`${API_URL}/post/${id}/like`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Block User
-    blockUser() {
-        // TODO:
+    blockUser(id: number) {
+        return this.http
+        .post(`${API_URL}/profile/${id}/block`, null, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Unblock User
-    unblockUser() {
-        // TODO:
+    unblockUser(id: number) {
+        return this.http
+        .post(`${API_URL}/profile/${id}/unblock`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Report User
-    reportUser() {
-        // TODO:
+    reportUser(id: number) {
+        return this.http
+        .post(`${API_URL}/profile/${id}/report`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // API: Report Post
-    reportPost() {
-        // TODO:
+    reportPost(id: number) {
+        return this.http
+        .post(`${API_URL}/post/${id}/report`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
     }
 
     // Error handling
@@ -247,7 +336,7 @@ export class ApiService {
         // Set error message
         (error.error instanceof ErrorEvent) ?
             errorMessage = error.error.message :
-            errorMessage = `Error Code: ${error.code}\nMessage: ${error.message}`;
+            errorMessage = `Error Code: ${error.code}\nMessage: ${error.error}`;
         console.log(errorMessage);
         return throwError(errorMessage);
     }
