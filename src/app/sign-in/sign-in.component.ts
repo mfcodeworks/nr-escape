@@ -55,6 +55,8 @@ export class SignInComponent implements OnInit {
                 response.settings
             );
             this.router.navigate(['']);
-        }, (error: any) => {});
+        }, (error: any) => {
+            console.log(error);
+        });
       }
 }

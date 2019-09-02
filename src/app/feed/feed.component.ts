@@ -19,6 +19,7 @@ export class FeedComponent implements OnInit {
     public ngOnInit() {
         // Get posts from route resolver data
         this.posts = this.route.snapshot.data.posts;
+        console.log(this.posts);
     }
 
     // Update for API usage

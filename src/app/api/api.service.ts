@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { map, retry, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { UserService } from '../user/user.service';
@@ -111,7 +111,10 @@ export class ApiService {
         .get<Post[]>(`${API_URL}/me/feed`, this.getRequestHeaders())
         .pipe(
             retry(3),
-            catchError(this.handleError)
+            catchError(this.handleError),
+            map((response) => response.map(
+                post => new Post(post)
+            ))
         );
     }
 
@@ -161,7 +164,10 @@ export class ApiService {
         .get<Profile>(`${API_URL}/profile/${id}`, this.getRequestHeaders())
         .pipe(
             retry(3),
-            catchError(this.handleError)
+            catchError(this.handleError),
+            map(profile =>
+                new Profile(profile)
+            )
         );
     }
 

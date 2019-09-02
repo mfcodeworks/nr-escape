@@ -19,14 +19,17 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.profile = this.route.snapshot.data.profile;
+        this.posts = this.profile.posts;
         console.log(this.profile);
 
         // Get posts asynchronously
+        /*
         this.profile.posts.forEach((postId) => {
             this.backend.getPost(postId).subscribe((post) => {
                 this.posts.push(post);
             });
         });
+        */
     }
 
     isFollowing(id: number) {

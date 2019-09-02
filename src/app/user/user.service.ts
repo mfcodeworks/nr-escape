@@ -13,9 +13,7 @@ export class UserService {
     public profile: Profile = new Profile();
 
     // TODO: Get user profile and create user
-    constructor(values: object = {}) {
-        Object.assign(this, values);
-    }
+    constructor() {}
 
     public destroy(): void {
         this.settings = null;

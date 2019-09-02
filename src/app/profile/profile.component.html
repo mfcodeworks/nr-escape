@@ -37,9 +37,10 @@
     <mat-divider></mat-divider>
 
     <!-- Posts grid -->
-    <mat-grid-list cols="3" class="profile-grid">
+    <mat-grid-list cols="3" class="profile-grid" gutterSize="4px">
         <mat-grid-tile *ngFor="let post of posts">
-            <img [routerLink]="['/post', post.id]" [src]="post.media" class="post"/>
+            <img [routerLink]="['/post', post.id]" [src]="post.media" class="post" *ngIf="post.type.startsWith('image')"/>
+            <p [routerLink]="['/post', post.id]" class="post text-post" *ngIf="post.type.startsWith('text')">{{post.caption}}</p>
         </mat-grid-tile>
     </mat-grid-list>
 </div>
