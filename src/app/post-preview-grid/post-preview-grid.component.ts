@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Profile } from '../profile';
+import { Profile } from '../_models/profile';
 
 @Component({
     selector: 'app-post-preview-grid',

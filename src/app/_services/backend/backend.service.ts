@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { Profile } from '../profile';
-import { Post } from '../post';
-import { Comment } from '../comment';
-import { Notification } from '../notification';
+import { Profile } from '../../_models/profile';
+import { Post } from '../../_models/post';
+import { Comment } from '../../_models/comment';
+import { Notification } from '../../_models/notification';
 
 @Injectable({
   providedIn: 'root'

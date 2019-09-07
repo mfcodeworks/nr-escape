@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { UserService } from '../user/user.service';
-import { Post } from '../post';
-import { Profile } from '../profile';
+import { UserService } from '../_services/user/user.service';
+import { Post } from '../_models/post';
+import { Profile } from '../_models/profile';
 
 declare var moment: any;
 

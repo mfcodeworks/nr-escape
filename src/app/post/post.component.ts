@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Post } from '../post';
-import { Comment } from '../comment';
-import { BackendService } from '../backend/backend.service';
+import { Post } from '../_models/post';
+import { Comment } from '../_models/comment';
+import { BackendService } from '../_services/backend/backend.service';
 
 // Moment.js
 declare var moment: any;
@@ -24,13 +24,7 @@ export class PostComponent implements OnInit {
 
     ngOnInit() {
         this.post = this.route.snapshot.data.post;
-
-        // Get comments asynchronously
-        this.post.comments.forEach((commentId) => {
-            this.backend.getComment(commentId).subscribe((comment) => {
-                this.comments.push(comment);
-            });
-        });
+        this.comments = this.post.comments;
     }
 
     postComment(input: string) {

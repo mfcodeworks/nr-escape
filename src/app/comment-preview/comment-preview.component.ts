@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Post } from '../post';
-import { Comment } from '../comment';
-import { BackendService } from '../backend/backend.service';
+import { Post } from '../_models/post';
+import { Comment } from '../_models/comment';
+import { BackendService } from '../_services/backend/backend.service';
 
 @Component({
     selector: 'app-comment-preview',
@@ -17,10 +17,6 @@ export class CommentPreviewComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.post.comments.forEach((id) => {
-            this.backend.getComment(id).subscribe((comment) => {
-                this.comments.push(comment);
-            });
-        });
+        this.comments = this.post.comments;
     }
 }

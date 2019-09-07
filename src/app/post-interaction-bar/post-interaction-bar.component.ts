@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Post } from '../post';
-import { UserService } from '../user/user.service';
+import { Post } from '../_models/post';
+import { UserService } from '../_services/user/user.service';
 
 @Component({
     selector: 'app-post-interaction-bar',

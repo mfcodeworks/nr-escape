@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { UserService } from '../user/user.service';
-import { Post } from '../post';
+import { UserService } from '../_services/user/user.service';
+import { Post } from '../_models/post';
 
 @Component({
     selector: 'app-feed',

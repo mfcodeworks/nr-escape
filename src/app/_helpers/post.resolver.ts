@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { BackendService } from '../backend/backend.service';
+import { BackendService } from '../_services/backend/backend.service';
 
-import { Post } from '../post';
+import { Post } from '../_models/post';
 
 @Injectable()
 export class PostResolver implements Resolve<Observable<Post>> {

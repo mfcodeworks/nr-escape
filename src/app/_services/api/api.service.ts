@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { UserService } from '../user/user.service';
-import { Post } from '../post';
-import { Comment } from '../comment';
-import { Profile } from '../profile';
-import { Notification } from '../notification';
+import { Post } from '../../_models/post';
+import { Comment } from '../../_models/comment';
+import { Profile } from '../../_models/profile';
+import { Notification } from '../../_models/notification';
 
 const API_URL = environment.apiUrl;
 
@@ -333,17 +333,13 @@ export class ApiService {
 
     // Error handling
     handleError(error: any) {
-        // DEBUG: Log error
-        console.log(error);
-
         // Instantiate error message
         let errorMessage: string;
 
         // Set error message
-        (error.error instanceof ErrorEvent) ?
-            errorMessage = error.error.message :
+        (error instanceof HttpErrorResponse) ?
+            errorMessage = `ErrorCode: ${error.status}\nMessage: ${error.error.message}` :
             errorMessage = `Error Code: ${error.code}\nMessage: ${error.error}`;
-        console.log(errorMessage);
         return throwError(errorMessage);
     }
 

@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
 import { BackendService } from './backend.service';
-import { Post } from '../post';
+import { Post } from '../../_models/post';
 
 describe('BackendService', () => {
     beforeEach(() => TestBed.configureTestingModule({

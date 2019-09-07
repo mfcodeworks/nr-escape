@@ -15,14 +15,14 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 
-import { SignedInGuard } from './signed-in.guard';
-import { BackendService } from './backend/backend.service';
-import { ApiService } from './api/api.service';
-import { UserService } from './user/user.service';
-import { AuthService } from './auth/auth.service';
-import { FeedResolver } from './feed/feed.resolver';
-import { ProfileResolver } from './profile/profile.resolver';
-import { PostResolver } from './post/post.resolver';
+import { SignedInGuard } from './_helpers/signed-in.guard';
+import { BackendService } from './_services/backend/backend.service';
+import { ApiService } from './_services/api/api.service';
+import { UserService } from './_services/user/user.service';
+import { AuthService } from './_services/auth/auth.service';
+import { FeedResolver } from './_helpers/feed.resolver';
+import { ProfileResolver } from './_helpers/profile.resolver';
+import { PostResolver } from './_helpers/post.resolver';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
@@ -57,69 +57,27 @@ import { SignInComponent } from './sign-in/sign-in.component';
             {
                 path: '',
                 component: FeedComponent,
-                resolve: {
-                    posts: FeedResolver
-                },
-                canActivate: [
-                    SignedInGuard
+                resolve: { posts: FeedResolver },
+                canActivate: [ SignedInGuard ],
+                children: [
+                    { path: 'search',  component: SearchComponent },
+                    { path: 'new-post', component: NewPostComponent },
+                    {
+                        path: 'post/:postId',
+                        component: PostComponent,
+                        resolve: { post: PostResolver }
+                    },
+                    { path: 'notifications', component: NotificationsComponent },
+                    {
+                        path: 'profile/:profileId',
+                        component: ProfileComponent,
+                        resolve: { profile: ProfileResolver }
+                    },
+                    { path: 'settings', component: SettingsComponent },
                 ]
             },
-            {
-                path: 'search',
-                component: SearchComponent,
-                canActivate: [
-                    SignedInGuard
-                ]
-            },
-            {
-                path: 'new-post',
-                component: NewPostComponent,
-                canActivate: [
-                    SignedInGuard
-                ]
-            },
-            {
-                path: 'post/:postId',
-                component: PostComponent,
-                resolve: {
-                    post: PostResolver
-                },
-                canActivate: [
-                    SignedInGuard
-                ]
-            },
-            {
-                path: 'notifications',
-                component: NotificationsComponent,
-                canActivate: [
-                    SignedInGuard
-                ]
-            },
-            {
-                path: 'profile/:profileId',
-                component: ProfileComponent,
-                resolve: {
-                    profile: ProfileResolver
-                },
-                canActivate: [
-                    SignedInGuard
-                ]
-            },
-            {
-                path: 'settings',
-                component: SettingsComponent,
-                canActivate: [
-                    SignedInGuard
-                ]
-            },
-            {
-                path: 'sign-in',
-                component: SignInComponent
-            },
-            {
-                path: 'sign-up',
-                component: SignUpComponent
-            },
+            { path: 'sign-in', component: SignInComponent },
+            { path: 'sign-up', component: SignUpComponent },
             {
                 path: 'login',
                 redirectTo: '/sign-in',

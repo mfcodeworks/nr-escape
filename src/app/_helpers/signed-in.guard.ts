@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from '../_services/auth/auth.service';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -13,10 +13,10 @@ export class SignedInGuard implements CanActivate {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        if (!this.auth.isSignedIn()) {
-            this.router.navigate(['/login']);
-            return false;
+        if (this.auth.isSignedIn()) {
+            return true;
         }
-        return true;
+        this.router.navigate(['/login']);
+        return false;
     }
 }

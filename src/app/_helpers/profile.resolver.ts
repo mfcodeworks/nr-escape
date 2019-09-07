@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { BackendService } from '../backend/backend.service';
+import { BackendService } from '../_services/backend/backend.service';
 
-import { Profile } from '../profile';
+import { Profile } from '../_models/profile';
 
 @Injectable()
 export class ProfileResolver implements Resolve<Observable<Profile>> {
