@@ -2,11 +2,26 @@
     margin-right: 5px;
 }
 .post-image {
-    max-width: 100%;
+    width: 100%;
     margin: 0px;
 }
 .post-datetime {
     color: #888888;
     font-size: 14px;
     margin-left: 15px;
+}
+.text-post-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 250px;
+    text-align: center;
+}
+.text-post {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    margin: auto;
+    overflow: hidden;
+    font-size: x-large;
 }
