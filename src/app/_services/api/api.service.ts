@@ -105,6 +105,19 @@ export class ApiService {
         );
     }
 
+    // API: User search
+    search(query: string): Observable<Profile[]> {
+        return this.http
+        .get<Profile[]>(`${API_URL}/search?query=${query}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError),
+            map((response) => response.map(
+                profile => new Profile(profile)
+            ))
+        );
+    }
+
     // API: Get User Feed
     getUserFeed(): Observable<Post[]> {
         return this.http
@@ -144,7 +157,10 @@ export class ApiService {
         .get<Notification[]>(`${API_URL}/me/notifications`, this.getRequestHeaders())
         .pipe(
             retry(3),
-            catchError(this.handleError)
+            catchError(this.handleError),
+            map((response) => response.map(
+                notification => new Notification(notification)
+            ))
         );
     }
 
@@ -168,6 +184,19 @@ export class ApiService {
             map(profile =>
                 new Profile(profile)
             )
+        );
+    }
+
+    // API: Get User Posts
+    getProfilePosts(id: number, offset: number): Observable<Post[]> {
+        return this.http
+        .get<Post[]>(`${API_URL}/profile/${id}/posts?offset=${offset}`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError),
+            map((response) => response.map(
+                post => new Post(post)
+            ))
         );
     }
 
@@ -202,7 +231,7 @@ export class ApiService {
     }
 
     // API: Delete Post
-    deletePost(id: number) {
+    deletePost(id: number): any {
         return this.http
         .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
         .pipe(
@@ -242,7 +271,7 @@ export class ApiService {
     }
 
     // API: Delete Comment
-    deleteComment(id: number) {
+    deleteComment(id: number): any {
         return this.http
         .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
         .pipe(
@@ -272,7 +301,7 @@ export class ApiService {
     }
 
     // API: Like Post
-    likePost(id: number) {
+    likePost(id: number): any {
         return this.http
         .post(`${API_URL}/post/${id}/like`, null, this.getRequestHeaders())
         .pipe(
@@ -282,7 +311,7 @@ export class ApiService {
     }
 
     // API: Unlike Post
-    unlikePost(id: number) {
+    unlikePost(id: number): any {
         return this.http
         .delete(`${API_URL}/post/${id}/like`, this.getRequestHeaders())
         .pipe(
@@ -292,7 +321,7 @@ export class ApiService {
     }
 
     // API: Block User
-    blockUser(id: number) {
+    blockUser(id: number): any {
         return this.http
         .post(`${API_URL}/profile/${id}/block`, null, this.getRequestHeaders())
         .pipe(
@@ -302,7 +331,7 @@ export class ApiService {
     }
 
     // API: Unblock User
-    unblockUser(id: number) {
+    unblockUser(id: number): any {
         return this.http
         .post(`${API_URL}/profile/${id}/unblock`, this.getRequestHeaders())
         .pipe(
@@ -312,7 +341,7 @@ export class ApiService {
     }
 
     // API: Report User
-    reportUser(id: number) {
+    reportUser(id: number): any {
         return this.http
         .post(`${API_URL}/profile/${id}/report`, this.getRequestHeaders())
         .pipe(
@@ -322,7 +351,7 @@ export class ApiService {
     }
 
     // API: Report Post
-    reportPost(id: number) {
+    reportPost(id: number): any {
         return this.http
         .post(`${API_URL}/post/${id}/report`, this.getRequestHeaders())
         .pipe(

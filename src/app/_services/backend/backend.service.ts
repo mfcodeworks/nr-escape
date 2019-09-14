@@ -53,6 +53,11 @@ export class BackendService {
         return this.api.deactivateProfile();
     }
 
+    // User search
+    search(query: string): Observable<Profile[]> {
+        return this.api.search(query);
+    }
+
     // Get User Feed
     getUserFeed(): Observable<Post[]> {
         return this.api.getUserFeed();
@@ -81,6 +86,11 @@ export class BackendService {
     // Get Profile
     getProfile(id: number): Observable<Profile> {
         return this.api.getProfile(id);
+    }
+
+    // Get Profile Posts
+    getProfilePosts(id: number, offset = 0): Observable<Post[]> {
+        return this.api.getProfilePosts(id, offset);
     }
 
     // Get Post
