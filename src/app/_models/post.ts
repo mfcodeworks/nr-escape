@@ -15,20 +15,6 @@ export class Post {
     likes: number[];
 
     constructor(values: any = {}) {
-        this.id = values.id;
-        this.author = new Profile(values.author);
-        this.datetime = values.created_at;
-        this.type = values.type;
-        this.media = values.media;
-        this.caption = values.caption;
-        this.repost = values.repost;
-        this.repostOf = values.repost_of;
-        if (values.recent_comments) {
-            values.recent_comments.map(comment =>
-                new Comment(comment)
-            );
-        }
-        this.comments = values.recent_comments;
-        this.likes = values.likes;
+        Object.assign(this, values);
     }
 }
