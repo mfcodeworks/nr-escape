@@ -8,11 +8,11 @@
             <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
         </mat-list-item>
         <mat-list-item class="profile-row">
-            <h4 mat-line>{{profile.postCount}}</h4>
+            <h4 mat-line>{{profile.postsCount}}</h4>
             <p mat-line>Posts</p>
         </mat-list-item>
         <mat-list-item class="profile-row">
-            <h4 mat-line>{{profile.followerCount}}</h4>
+            <h4 mat-line>{{profile.followersCount}}</h4>
             <p mat-line>Followers</p>
         </mat-list-item>
         <mat-list-item class="profile-row">
@@ -28,8 +28,8 @@
     </p>
 
     <!-- Profile Interaction -->
-    <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe(profile.id)">Edit Profile</button>
-    <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe(profile.id) && !isFollowing(profile.id)">Follow</button>
+    <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
+    <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
     <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
         <a color="primary" [href]="profile.contactInfo.website" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
         <a color="primary" [href]="profile.contactInfo.email" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>

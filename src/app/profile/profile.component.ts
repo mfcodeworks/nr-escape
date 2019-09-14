@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
 
 import { BackendService } from '../_services/backend/backend.service';
 import { Profile } from '../_models/profile';
@@ -15,12 +16,16 @@ export class ProfileComponent implements OnInit {
     profile: Profile;
     posts: Post[] = [];
 
-    constructor(private route: ActivatedRoute, private userService: UserService) {}
+    constructor(private route: ActivatedRoute, private userService: UserService, private backend: BackendService) {}
 
     ngOnInit() {
         this.profile = this.route.snapshot.data.profile;
-        this.posts = this.profile.posts;
         console.log(this.profile);
+
+        this.backend.getProfilePosts(this.profile.id).subscribe((data) => {
+            // Merge posts arrays without duplicates
+            this.posts = _.union(this.posts, data);
+        });
     }
 
     isFollowing(id: number) {
