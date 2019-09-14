@@ -3,30 +3,32 @@
     <mat-list>
         <!-- Form Branding -->
         <mat-list-item class="branding-container">
-            <img src="../../assets/images/Logo_Transparent-scaledown.png" class="branding-logo" />
+            <img src="assets/images/Logo_Transparent-scaledown.png" class="branding-logo" />
         </mat-list-item>
 
         <!-- Sign In Form -->
         <mat-list-item class="signin-form-container">
-            <div class="signin-form">
+            <form [formGroup]="loginForm" class="signin-form" (ngSubmit)="doSignIn(loginForm.controls['username'].value, loginForm.controls['password'].value)">
                 <mat-form-field>
-                    <input matInput [formControl]="username" placeholder="Username" />
+                    <input matInput formControlName="username" placeholder="Username" />
                     <span matPrefix><i class="ti-user form-input-prefix"></i></span>
-                    <mat-error *ngIf="username.invalid">{{getUsernameError()}}</mat-error>
+                    <mat-error *ngIf="loginForm.controls['username'].invalid">{{ getErrorUsername() }}</mat-error>
                 </mat-form-field>
+
                 <mat-form-field>
-                    <input matInput [formControl]="password" placeholder="Enter your password" [type]="hide ? 'password' : 'text'" />
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <input matInput formControlName="password" placeholder="Enter your password" [type]="hide ? 'password' : 'text'" />
+                    <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     <span matPrefix><i class="ti-lock form-input-prefix"></i></span>
-                    <mat-error *ngIf="password.invalid">{{getPasswordError()}}</mat-error>
+                    <mat-error *ngIf="loginForm.controls['password'].invalid">{{ getErrorPassword() }}</mat-error>
                 </mat-form-field>
+
                 <div class="form-button-row">
-                    <button mat-raised-button color="primary" class="form-button-spacer">Forgot Password</button>
-                    <button mat-raised-button color="primary" (click)="doSignIn()">Login</button>
+                    <button mat-raised-button color="primary" type="button" class="form-button-spacer">Forgot Password</button>
+                    <button mat-raised-button color="primary" type="submit">Login</button>
                 </div>
-            </div>
+            </form>
         </mat-list-item>
 
         <mat-list-item>

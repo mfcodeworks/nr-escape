@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { BackendService } from '../_services/backend/backend.service';
@@ -13,36 +13,32 @@ import { AuthService } from '../_services/auth/auth.service';
 export class SignInComponent implements OnInit {
     hide = true;
 
-    username = new FormControl('', {
-        validators: Validators.required
-    });
-    password = new FormControl('', {
-        validators: Validators.required
+    loginForm = this.fb.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
     });
 
     constructor(
         private backend: BackendService,
         private auth: AuthService,
         private router: Router,
+        private fb: FormBuilder
     ) {}
 
     ngOnInit() {}
 
-    getUsernameError() {
-        return this.username.hasError('required') ? 'Please enter a username' :
-            this.username.hasError('username') ? 'Not a valid username' : '';
+    getErrorUsername() {
+        return this.loginForm.get('username').hasError('required') ? 'Username is required' : '';
     }
 
-    getPasswordError() {
-        return this.username.hasError('required') ? 'Please enter a password' :
-            this.password.hasError('password') ? 'Not a valid password' : '';
+    getErrorPassword() {
+      return this.loginForm.get('password').hasError('required') ? 'Password is required' : '';
     }
 
-    public doSignIn() {
-        const username = this.username.value;
-        const password = this.password.value;
-
-        if ((!username) || (!password)) { return; }
+    public doSignIn(username: string, password: string) {
+        // Validate form before submission
+        this.loginForm.markAllAsTouched();
+        if (this.loginForm.invalid) { return; }
 
         // Submit request to API
         this.backend
