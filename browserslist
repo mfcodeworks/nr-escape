@@ -8,5 +8,6 @@
 > 0.5%
 last 2 versions
 Firefox ESR
+Chrome >= 70 and Chrome <= 75
 not dead
 not IE 9-11 # For IE 9-11 support, remove 'not'.

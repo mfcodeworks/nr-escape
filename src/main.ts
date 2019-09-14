@@ -8,5 +8,12 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+const bootstrap = () => {
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.error(err));
+};
+
+// If running over Cordova (file:) wait for device ready to access native resources
+document.location.protocol === 'file:'
+  ? document.addEventListener('deviceready', bootstrap, false)
+  : bootstrap();
