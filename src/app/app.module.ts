@@ -27,6 +27,7 @@ import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
 import { PostDisplayComponent } from './post-display/post-display.component';
+import { PostPreviewGridComponent } from './post-preview-grid/post-preview-grid.component';
 import { PostInteractionBarComponent } from './post-interaction-bar/post-interaction-bar.component';
 import { CommentPreviewComponent } from './comment-preview/comment-preview.component';
 import { FeedComponent } from './feed/feed.component';
@@ -56,10 +57,13 @@ import { SignInComponent } from './sign-in/sign-in.component';
         RouterModule.forRoot([
             {
                 path: '',
-                component: FeedComponent,
-                resolve: { posts: FeedResolver },
                 canActivate: [ SignedInGuard ],
                 children: [
+                    {
+                        path: '',
+                        component: FeedComponent,
+                        resolve: { posts: FeedResolver },
+                    },
                     { path: 'search',  component: SearchComponent },
                     { path: 'new-post', component: NewPostComponent },
                     {
@@ -90,6 +94,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
         TopBarComponent,
         BottomBarComponent,
         PostDisplayComponent,
+        PostPreviewGridComponent,
         PostInteractionBarComponent,
         CommentPreviewComponent,
         FeedComponent,
