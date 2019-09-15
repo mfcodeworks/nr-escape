@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 export class Post {
     id: number;
     author: Profile;
-    datetime: number;
+    ceatedAt: string;
     type: string;
     media: string;
     caption: string;
