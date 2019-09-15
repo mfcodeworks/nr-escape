@@ -12,6 +12,7 @@ import {
     MatIconModule,
     MatInputModule
 } from '@angular/material';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 
@@ -54,6 +55,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
         MatToolbarModule,
         MatInputModule,
         MatFormFieldModule,
+        MatProgressBarModule,
         RouterModule.forRoot([
             {
                 path: '',
