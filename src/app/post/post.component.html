@@ -2,38 +2,44 @@
 <app-top-bar></app-top-bar>
 
 <!-- Container -->
-<mat-list class="min-h-100">
+<div class="min-h-100">
+    <mat-list *ngIf="this.post">
 
-    <!-- Post Display -->
-    <app-post-display [post]="post"></app-post-display>
+        <!-- Post Display -->
+        <app-post-display [post]="post"></app-post-display>
 
-    <!-- Post Interaction Row -->
-    <app-post-interaction-bar [post]=post></app-post-interaction-bar>
+        <!-- Post Interaction Row -->
+        <app-post-interaction-bar [post]=post></app-post-interaction-bar>
 
-    <!-- TODO: Comment Input -->
-    <mat-divider></mat-divider>
+        <!-- TODO: Comment Input -->
+        <mat-divider></mat-divider>
 
-    <div #commentForm class="comment-form">
-        <mat-form-field appearance="standard" class="comment-form-input">
-            <input #commentInput matInput placeholder="Comment">
-            <mat-icon matSuffix (click)="postComment(commentInput.value); commentForm.reset()">send</mat-icon>
-        </mat-form-field>
-    </div>
+        <div #commentForm class="comment-form">
+            <mat-form-field appearance="standard" class="comment-form-input">
+                <input #commentInput matInput placeholder="Comment">
+                <mat-icon matSuffix (click)="postComment(commentInput.value); commentForm.reset()">send</mat-icon>
+            </mat-form-field>
+        </div>
 
-    <!-- TODO: Comment Display -->
-    <span *ngIf="comments.length == 0">
-        <p class="mat-body comment-placeholder mt-3">I've Got Nothing</p>
+        <!-- TODO: Comment Display -->
+        <span *ngIf="comments.length == 0">
+            <p class="mat-body error-placeholder mt-3">I've Got Nothing</p>
+        </span>
+
+        <span *ngIf="post.comments.length">
+            <mat-list-item *ngFor="let comment of comments" class="post-comment-container mb-2">
+                <img [src]="comment.author.profilePic" [routerLink]="['/profile', comment.author.id]" matListAvatar class="avatar" />
+                <p matLine><b [routerLink]="['/profile', comment.author.id]">{{comment.author.username}}</b> {{comment.text}}</p>
+                <p matLine matSmall class="comment-datetime">{{dateDiff(comment.datetime)}}</p>
+            </mat-list-item>
+        </span>
+
+    </mat-list>
+
+    <span *ngIf="!post">
+        <p class="mat-body error-placeholder mt-4">Sorry, I couldn't find that one</p>
     </span>
-
-    <span *ngIf="post.comments.length">
-        <mat-list-item *ngFor="let comment of comments" class="post-comment-container">
-            <img [src]="comment.author.profilePic" [routerLink]="['/profile', comment.author.id]" matListAvatar class="avatar" />
-            <p matLine><b [routerLink]="['/profile', comment.author.id]">{{comment.author.username}}</b> {{comment.text}}</p>
-            <p matLine matSmall class="comment-datetime">{{dateDiff(comment.datetime)}}</p>
-        </mat-list-item>
-    </span>
-
-</mat-list>
+</div>
 
 <!-- App Botttom Bar -->
 <app-bottom-bar></app-bottom-bar>

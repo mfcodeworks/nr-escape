@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 import { Post } from '../_models/post';
 import { Comment } from '../_models/comment';
@@ -14,17 +15,27 @@ declare var moment: any;
     styleUrls: ['./post.component.css'],
 })
 export class PostComponent implements OnInit {
-    post: Post;
+    post: Post = null;
     comments: Comment[] = [];
 
     constructor(
         private route: ActivatedRoute,
-        private backend: BackendService
+        private backend: BackendService,
+        private errorToast: MatSnackBar
     ) { }
 
     ngOnInit() {
-        this.post = this.route.snapshot.data.post;
-        this.comments = this.post.comments;
+        window.scrollTo(0, 0);
+        this.route.data.subscribe((data) => {
+            if (data.post instanceof Object) {
+                this.post = data.post;
+                this.comments = this.post.comments;
+            } else {
+                this.errorToast.open(data.post, 'close', {
+                    duration: 3000
+                });
+            }
+        });
     }
 
     postComment(input: string) {

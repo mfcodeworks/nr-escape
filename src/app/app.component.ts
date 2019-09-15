@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  Event,
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router
+    Event,
+    NavigationCancel,
+    NavigationEnd,
+    NavigationError,
+    NavigationStart,
+    Router
 } from '@angular/router';
 
 declare const moment: any;

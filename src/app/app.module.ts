@@ -4,17 +4,20 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OverlayModule } from '@angular/cdk/overlay';
 import {
     MatButtonModule,
     MatCheckboxModule,
     MatListModule,
     MatToolbarModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBar,
+    MatProgressBarModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatSnackBarModule
 } from '@angular/material';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
 
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { BackendService } from './_services/backend/backend.service';
@@ -36,13 +39,14 @@ import { NewPostComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostComponent } from './post/post.component';
 import { ProfileComponent } from './profile/profile.component';
-import { SearchComponent } from './search/search.component';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
     imports: [
+        OverlayModule,
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
@@ -54,6 +58,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
         MatGridListModule,
         MatToolbarModule,
         MatInputModule,
+        MatSnackBarModule,
         MatFormFieldModule,
         MatProgressBarModule,
         RouterModule.forRoot([
@@ -104,12 +109,13 @@ import { SignInComponent } from './sign-in/sign-in.component';
         NotificationsComponent,
         PostComponent,
         ProfileComponent,
-        SearchComponent,
+        RecommendationsComponent,
         SettingsComponent,
         SignUpComponent,
         SignInComponent
     ],
     providers: [
+        MatSnackBar,
         SignedInGuard,
         BackendService,
         ApiService,

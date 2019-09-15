@@ -18,7 +18,6 @@ h4 {
 }
 .profile-container {
     margin: 0 5px 0 5px;
-    min-height: calc(100% - 132px);
     margin-top: -10px;
 }
 .profile-contact-button-row {

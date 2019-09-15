@@ -367,8 +367,8 @@ export class ApiService {
 
         // Set error message
         (error instanceof HttpErrorResponse) ?
-            errorMessage = `ErrorCode: ${error.status}\nMessage: ${error.error.message}` :
-            errorMessage = `Error Code: ${error.code}\nMessage: ${error.error}`;
+            errorMessage = `(${error.status}) Message: ${error.statusText}` :
+            errorMessage = `(${error.status}) Message: ${error.error}`;
         return throwError(errorMessage);
     }
 

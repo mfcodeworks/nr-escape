@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 import * as _ from 'lodash';
 
 import { BackendService } from '../_services/backend/backend.service';
@@ -13,15 +14,33 @@ import { UserService } from '../_services/user/user.service';
     styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-    profile: Profile;
+    profile: Profile = null;
     posts: Post[] = [];
 
-    constructor(private route: ActivatedRoute, private userService: UserService, private backend: BackendService) {}
+    constructor(
+        private route: ActivatedRoute,
+        private userService: UserService,
+        private backend: BackendService,
+        private errorToast: MatSnackBar
+    ) {}
 
     ngOnInit() {
-        this.profile = this.route.snapshot.data.profile;
+        // Scroll to top
+        window.scrollTo(0, 0);
+
+        // Set profile data
+        this.route.data.subscribe((data) => {
+            if (data.profile instanceof Object) {
+                this.profile = data.profile;
+            } else {
+                this.errorToast.open(data.profile, 'close', {
+                    duration: 3000
+                });
+            }
+        });
         console.log(this.profile);
 
+        // Get profile posts
         this.backend.getProfilePosts(this.profile.id).subscribe((data) => {
             // Merge posts arrays without duplicates
             this.posts = _.union(this.posts, data);

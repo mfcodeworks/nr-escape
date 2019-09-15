@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 import { UserService } from '../_services/user/user.service';
 import { Post } from '../_models/post';
@@ -10,16 +11,28 @@ import { Post } from '../_models/post';
     styleUrls: ['./feed.component.css'],
 })
 export class FeedComponent implements OnInit {
-    posts: Post[] = [];
+    posts: Post[] = null;
     userId: number;
     post: Post;
 
-    constructor(private userService: UserService, private route: ActivatedRoute) {}
+    constructor(
+        private userService: UserService,
+        private route: ActivatedRoute,
+        private errorToast: MatSnackBar
+    ) {}
 
     public ngOnInit() {
         // Get posts from route resolver data
-        this.posts = this.route.snapshot.data.posts;
-        console.log(this.posts);
+        this.route.data.subscribe((data) => {
+            if (data.posts instanceof Array) {
+                this.posts = data.posts;
+                console.log(this.posts);
+            } else {
+                this.errorToast.open(data.posts, 'close', {
+                    duration: 3000
+                });
+            }
+        });
     }
 
     // Update for API usage

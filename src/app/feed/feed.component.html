@@ -1,7 +1,7 @@
 <!-- App Top Bar -->
 <app-top-bar></app-top-bar>
 
-<div *ngIf="posts.length" class="min-h-100">
+<div class="min-h-100">
     <mat-list *ngFor="let post of posts">
         <!-- Post Display -->
         <app-post-display [post]=post></app-post-display>
@@ -13,6 +13,13 @@
         <app-comment-preview [post]=post></app-comment-preview>
         <mat-divider></mat-divider>
     </mat-list>
+
+    <span *ngIf="!posts">
+        <p class="mat-body error-placeholder mt-4">
+            It doesn't look like there's anything here.<br>
+            Try following some more active accounts?
+        </p>
+    </span>
 </div>
 
 <!-- App Botttom Bar -->

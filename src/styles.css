@@ -14,12 +14,13 @@ html, body {
     margin: 0px;
 }
 
-
-.min-h-100 {
-    min-height: calc(100vh - 112px) !important;
-}
 .avatar {
     width: 40px;
+}
+.error-placeholder {
+    text-align: center;
+    font-style: italic;
+    color: #888888;
 }
 .bottom-bar {
     box-shadow:
@@ -29,4 +30,12 @@ html, body {
 }
 .comment-form-input .mat-form-field-wrapper .mat-form-field-flex {
     padding-top: 0;
+}
+.min-h-100 {
+    min-height: calc(100vh - 128px) !important;
+}
+@media (max-width: 599px) {
+    .min-h-100 {
+        min-height: calc(100vh - 112px) !important;
+    }
 }

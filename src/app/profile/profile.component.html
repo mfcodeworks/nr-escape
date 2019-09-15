@@ -2,47 +2,57 @@
 <app-top-bar></app-top-bar>
 
 <div class="profile-container min-h-100">
-    <!-- Profile Info -->
-    <mat-list class="profile-info">
-        <mat-list-item class="profile-row">
-            <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
-        </mat-list-item>
-        <mat-list-item class="profile-row">
-            <h4 mat-line>{{profile.postsCount}}</h4>
-            <p mat-line>Posts</p>
-        </mat-list-item>
-        <mat-list-item class="profile-row">
-            <h4 mat-line>{{profile.followersCount}}</h4>
-            <p mat-line>Followers</p>
-        </mat-list-item>
-        <mat-list-item class="profile-row">
-            <h4 mat-line>{{profile.followingCount}}</h4>
-            <p mat-line>Followings</p>
-        </mat-list-item>
-    </mat-list>
+    <section *ngIf="profile">
+        <!-- Profile Info -->
+        <mat-list class="profile-info">
+            <mat-list-item class="profile-row">
+                <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
+            </mat-list-item>
+            <mat-list-item class="profile-row">
+                <h4 mat-line>{{profile.postsCount}}</h4>
+                <p mat-line>Posts</p>
+            </mat-list-item>
+            <mat-list-item class="profile-row">
+                <h4 mat-line>{{profile.followersCount}}</h4>
+                <p mat-line>Followers</p>
+            </mat-list-item>
+            <mat-list-item class="profile-row">
+                <h4 mat-line>{{profile.followingCount}}</h4>
+                <p mat-line>Followings</p>
+            </mat-list-item>
+        </mat-list>
 
-    <!-- Profile Bio -->
-    <p class="mat-body profile-text-container my-3">
-        <span class="profile-username-text">{{profile.username}}</span><br>
-        {{profile.bio}}
-    </p>
+        <!-- Profile Bio -->
+        <p class="mat-body profile-text-container my-3">
+            <span class="profile-username-text">{{profile.username}}</span><br>
+            {{profile.bio}}
+        </p>
 
-    <!-- Profile Interaction -->
-    <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
-    <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
-    <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
-        <a color="primary" [href]="profile.contactInfo.website" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
-        <a color="primary" [href]="profile.contactInfo.email" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
+        <!-- Profile Interaction -->
+        <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
+        <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
+        <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
+            <a color="primary" [href]="profile.contactInfo.website" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
+            <a color="primary" [href]="profile.contactInfo.email" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
+        </span>
+        <mat-divider class="my-3"></mat-divider>
+
+        <!-- Posts grid -->
+        <mat-grid-list cols="3" class="profile-grid" gutterSize="4px" *ngIf="posts.length">
+            <mat-grid-tile *ngFor="let post of posts">
+                <img [routerLink]="['/post', post.id]" [src]="post.media" class="post" *ngIf="post.type.startsWith('image')"/>
+                <p [routerLink]="['/post', post.id]" class="post text-post" *ngIf="post.type.startsWith('text')">{{post.caption}}</p>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <span *ngIf="!posts.length">
+            <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>
+        </span>
+    </section>
+
+    <span *ngIf="!profile">
+        <p class="mat-body error-placeholder mt-5">Sorry, I really don't know who that is</p>
     </span>
-    <mat-divider class="my-3"></mat-divider>
-
-    <!-- Posts grid -->
-    <mat-grid-list cols="3" class="profile-grid" gutterSize="4px">
-        <mat-grid-tile *ngFor="let post of posts">
-            <img [routerLink]="['/post', post.id]" [src]="post.media" class="post" *ngIf="post.type.startsWith('image')"/>
-            <p [routerLink]="['/post', post.id]" class="post text-post" *ngIf="post.type.startsWith('text')">{{post.caption}}</p>
-        </mat-grid-tile>
-    </mat-grid-list>
 </div>
 
 <!-- App Botttom Bar -->
