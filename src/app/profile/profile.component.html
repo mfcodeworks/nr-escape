@@ -1,7 +1,7 @@
 <!-- App Top Bar -->
 <app-top-bar></app-top-bar>
 
-<div class="profile-container">
+<div class="profile-container min-h-100">
     <!-- Profile Info -->
     <mat-list class="profile-info">
         <mat-list-item class="profile-row">
@@ -22,7 +22,7 @@
     </mat-list>
 
     <!-- Profile Bio -->
-    <p class="mat-body profile-text-container">
+    <p class="mat-body profile-text-container my-3">
         <span class="profile-username-text">{{profile.username}}</span><br>
         {{profile.bio}}
     </p>
@@ -34,7 +34,7 @@
         <a color="primary" [href]="profile.contactInfo.website" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
         <a color="primary" [href]="profile.contactInfo.email" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
     </span>
-    <mat-divider></mat-divider>
+    <mat-divider class="my-3"></mat-divider>
 
     <!-- Posts grid -->
     <mat-grid-list cols="3" class="profile-grid" gutterSize="4px">

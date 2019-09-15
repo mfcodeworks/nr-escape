@@ -1,7 +1,7 @@
 <!-- App Top Bar -->
 <app-top-bar></app-top-bar>
 
-<div *ngIf="posts.length">
+<div *ngIf="posts.length" class="min-h-100">
     <mat-list *ngFor="let post of posts">
         <!-- Post Display -->
         <app-post-display [post]=post></app-post-display>

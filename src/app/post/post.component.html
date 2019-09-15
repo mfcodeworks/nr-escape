@@ -2,7 +2,7 @@
 <app-top-bar></app-top-bar>
 
 <!-- Container -->
-<mat-list>
+<mat-list class="min-h-100">
 
     <!-- Post Display -->
     <app-post-display [post]="post"></app-post-display>
@@ -22,7 +22,7 @@
 
     <!-- TODO: Comment Display -->
     <span *ngIf="comments.length == 0">
-        <p class="mat-body comment-placeholder">I've Got Nothing</p>
+        <p class="mat-body comment-placeholder mt-3">I've Got Nothing</p>
     </span>
 
     <span *ngIf="post.comments.length">

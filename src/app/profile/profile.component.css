@@ -48,7 +48,7 @@ h4 {
     overflow: auto;
 }
 mat-grid-tile {
-    border-color: #555;
+    border-color: #ccc;
     border-style: solid;
     border-width: 0.5px;
 }
