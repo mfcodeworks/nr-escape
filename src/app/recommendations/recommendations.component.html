@@ -1,0 +1,15 @@
+<!-- App Top Bar -->
+<mat-toolbar class="top-bar mat-elevation-z2">
+    <mat-form-field class="top-bar-input" [routerLink]="['/search']">
+        <span matPrefix><i class="ti-search"></i> &nbsp;</span>
+        <input matInput type="search" placeholder="Search" disabled>
+    </mat-form-field>
+    <img class="top-bar-logo" src="assets/images/logo-marker.png" />
+</mat-toolbar>
+
+<div class="min-h-100">
+    <h3>Search</h3>
+</div>
+
+<!-- App Botttom Bar -->
+<app-bottom-bar></app-bottom-bar>

@@ -1,12 +1,17 @@
 .top-bar-logo {
-    display: block;
     margin: auto;
     height: 32px;
+}
+.top-bar-input {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 0.4rem;
+    width: 74%;
 }
 .top-bar {
     position: sticky;
     position: -webkit-sticky;
-    display: grid;
+    display: flex;
     top: 0;
     z-index: 1000;
 }

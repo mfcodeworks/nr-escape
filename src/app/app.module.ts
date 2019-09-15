@@ -71,7 +71,12 @@ import { SignInComponent } from './sign-in/sign-in.component';
                         component: FeedComponent,
                         resolve: { posts: FeedResolver },
                     },
-                    { path: 'search',  component: SearchComponent },
+                    { path: 'recommendations',  component: RecommendationsComponent },
+                    {
+                        path: 'search',
+                        redirectTo: '',
+                        pathMatch: 'full'
+                    },
                     { path: 'new-post', component: NewPostComponent },
                     {
                         path: 'post/:postId',
