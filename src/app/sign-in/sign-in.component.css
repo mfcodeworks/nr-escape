@@ -1,35 +1,28 @@
-.branding-container {
+.branding {
     height: 180px !important;
-    margin-top: 20px;
 }
-.branding-logo {
-    height: 100%;
-}
-.signin-form-container {
-    height: 60% !important;
-}
+
 .signin-form {
-    position: absolute;
-    top: 50%;
     display: flex;
     flex-direction: column;
 }
 .signin-form > * {
-    width: 100%;
+    width: 80%;
 }
-.signup-link {
-    text-decoration: none;
-}
+
 .form-input-prefix {
-    margin-right: 10px;
-}
-.form-button-row {
-    display: flex;
-    margin-top: 10px;
+    margin: 0px 10px;
 }
 .form-button-row button {
     flex: 1 1 auto;
 }
 .form-button-spacer {
-    margin-right: 8px;
+    margin: 0px 8px;
+}
+
+.signup-link {
+    text-decoration: none;
+}
+.register-link {
+    text-align: center;
 }
