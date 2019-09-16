@@ -9,9 +9,9 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script>
+    // Append cordova.js if not served over https (Most likely Cordova)
     (function() {
-      // Append cordova.js if served over file: (On device)
-      document.location.protocol === 'file:' ? document.write('<script type="text/javascript" src="cordova.js"><\/script>') : '';
+      (document.location.protocol !== 'https:') ? document.write('<script type="text/javascript" src="cordova.js"><\/script>') : '';
     })();
   </script>
 </head>
