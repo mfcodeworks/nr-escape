@@ -8,6 +8,8 @@ import {
     Router
 } from '@angular/router';
 
+import { PushService } from './_services/push/push.service';
+
 declare const moment: any;
 
 @Component({
@@ -18,7 +20,7 @@ declare const moment: any;
 export class AppComponent implements OnInit {
     loading = false;
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private push: PushService) {
         this.router.events.subscribe((event: Event) => {
             switch (true) {
                 case event instanceof NavigationStart: {
@@ -58,6 +60,11 @@ export class AppComponent implements OnInit {
                 y:  '1Y',
                 yy: '%dY'
             }
+        });
+
+        // On Cordova deviceready event init push services
+        document.addEventListener('deviceready', () => {
+            this.push.mobilePushInit();
         });
     }
 }
