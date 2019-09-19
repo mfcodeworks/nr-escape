@@ -11,6 +11,7 @@ import {
 import { PushService } from './_services/push/push.service';
 
 declare const moment: any;
+declare const cordova: any;
 
 @Component({
     selector: 'app-root',
@@ -63,8 +64,12 @@ export class AppComponent implements OnInit {
         });
 
         // On Cordova deviceready event init push services
-        document.addEventListener('deviceready', () => {
-            this.push.mobilePushInit();
-        });
+        if (window.hasOwnProperty('cordova')) {
+            document.addEventListener('deviceready', () => {
+                this.push.init();
+            });
+        } else {
+            this.push.init();
+        }
     }
 }

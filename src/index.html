@@ -9,17 +9,16 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script>
-    // Include renderer for Electron
-    (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) ? require('./assets/js/renderer.js') : '';
-  </script>
-  <script>
     // Append cordova.js if not served over https (Most likely Cordova)
     (function() {
-      (document.location.protocol !== 'https:') ? document.write('<script type="text/javascript" src="cordova.js"><\/script>') : '';
+      document.location.protocol !== 'https:' ? document.write('<script type="text/javascript" src="cordova.js"><\/script>') : '';
     })();
   </script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1976d2">
 </head>
 <body>
   <app-root></app-root>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 </html>

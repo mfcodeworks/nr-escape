@@ -21,7 +21,7 @@ export class PostDisplayComponent implements OnInit {
 
     ngOnInit() {}
 
-    dateDiff(datetime: number) {
+    dateDiff(datetime: string) {
         // Moment.js datediff
         return moment(datetime).fromNow();
     }

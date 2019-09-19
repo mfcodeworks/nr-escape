@@ -1,11 +1,10 @@
 import { Profile } from './profile';
 import { Comment } from './comment';
-import { map } from 'rxjs/operators';
 
 export class Post {
     id: number;
     author: Profile;
-    ceatedAt: string;
+    createdAt: string;
     type: string;
     media: string;
     caption: string;

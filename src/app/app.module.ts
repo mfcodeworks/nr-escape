@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -18,12 +20,15 @@ import {
     MatGridListModule,
     MatSnackBarModule
 } from '@angular/material';
+import { environment } from '../environments/environment';
 
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { BackendService } from './_services/backend/backend.service';
 import { ApiService } from './_services/api/api.service';
 import { UserService } from './_services/user/user.service';
 import { AuthService } from './_services/auth/auth.service';
+import { PushService } from './_services/push/push.service';
+import { IpcService } from './_services/ipc/ipc.service';
 import { FeedResolver } from './_helpers/feed.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
@@ -43,6 +48,7 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
 import { SettingsComponent } from './settings/settings.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     imports: [
@@ -61,6 +67,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
         MatSnackBarModule,
         MatFormFieldModule,
         MatProgressBarModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireMessagingModule,
         RouterModule.forRoot([
             {
                 path: '',
@@ -100,6 +108,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
                 pathMatch: 'full'
             }
         ]),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
     ],
     declarations: [
         AppComponent,
@@ -128,7 +137,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
         UserService,
         FeedResolver,
         ProfileResolver,
-        PostResolver
+        PostResolver,
+        PushService,
+        IpcService
     ],
     bootstrap: [
         AppComponent
