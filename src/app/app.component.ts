@@ -10,9 +10,6 @@ import {
 
 import { PushService } from './_services/push/push.service';
 
-declare const moment: any;
-declare const cordova: any;
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -43,33 +40,10 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        // Moment.js set locale to display with shorthand (s,h,d,m,y)
-        moment.updateLocale('en', {
-            relativeTime: {
-                future: 'in %s',
-                past: '%s',
-                s:  '1s',
-                ss: '%ss',
-                m:  '1m',
-                mm: '%dm',
-                h:  '1h',
-                hh: '%dh',
-                d:  '1d',
-                dd: '%dd',
-                M:  '1M',
-                MM: '%dM',
-                y:  '1Y',
-                yy: '%dY'
-            }
-        });
-
-        // On Cordova deviceready event init push services
-        if (window.hasOwnProperty('cordova')) {
-            document.addEventListener('deviceready', () => {
-                this.push.init();
-            });
-        } else {
-            this.push.init();
-        }
+        // On Cordova 'deviceready' event, or html 'load' event; init push services
+        document.addEventListener(
+            window.hasOwnProperty('cordova') ? 'deviceready' : 'load',
+            () => { this.push.init(); }
+        );
     }
 }

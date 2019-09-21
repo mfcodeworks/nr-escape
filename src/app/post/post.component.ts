@@ -41,9 +41,4 @@ export class PostComponent implements OnInit {
     postComment(input: string) {
         console.log(input);
     }
-
-    dateDiff(datetime: number) {
-        // Moment.js datediff
-        return moment(datetime).fromNow();
-    }
 }

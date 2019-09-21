@@ -49,6 +49,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DateDiffPipe } from './_helpers/date-diff.pipe';
 
 @NgModule({
     imports: [
@@ -126,7 +127,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         RecommendationsComponent,
         SettingsComponent,
         SignUpComponent,
-        SignInComponent
+        SignInComponent,
+        DateDiffPipe
     ],
     providers: [
         MatSnackBar,

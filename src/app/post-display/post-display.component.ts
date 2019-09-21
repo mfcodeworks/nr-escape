@@ -21,11 +21,6 @@ export class PostDisplayComponent implements OnInit {
 
     ngOnInit() {}
 
-    dateDiff(datetime: string) {
-        // Moment.js datediff
-        return moment(datetime).fromNow();
-    }
-
     likePost(post: Post) {
         switch (this.isLiked(post)) {
             // If post is liked, remove like
