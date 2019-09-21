@@ -30,7 +30,9 @@ export class PushService {
     init(): void {
         // Check device
         if (window.hasOwnProperty('cordova')) {
+            // DEBUG: Log device
             console.log(device);
+
             switch (device.platform) {
                 case 'Android':
                 case 'iOS':
@@ -78,30 +80,30 @@ export class PushService {
         });
 
         // Subscribe to notifications
-        this.push.on('Notification:', (data) => {
+        this.push.on('Notification:', (data: any) => {
             console.log(data);
         });
 
         // Subscribe to errors
-        this.push.on('Error:', (error) => {
+        this.push.on('Error:', (error: any) => {
             console.log(error);
         });
     }
 
     // Register push for electron
     electronInit(): void {
-        // Listen for service successfully started
+        // Handle push registration
         this.ipc.on(ipcChannels.NOTIFICATION_SERVICE_STARTED, (_, token) => {
             console.log('service successfully started', token);
             // TODO: Send token to server
         });
 
-        // Handle notification errors
+        // Handle push errors
         this.ipc.on(ipcChannels.NOTIFICATION_SERVICE_ERROR, (_, error) => {
             console.warn('notification error', error);
         });
 
-        // Send FCM token to backend
+        // Send token to backend when updated
         this.ipc.on(ipcChannels.TOKEN_UPDATED, (_, token) => {
             console.log('token updated', token);
             // TODO: Send token to server
@@ -109,14 +111,14 @@ export class PushService {
 
         // Display notification
         this.ipc.on(ipcChannels.NOTIFICATION_RECEIVED, (_, fcmNotification) => {
-            // Log notification
+            // DEBUG: Log notification
             console.log('Notification', fcmNotification);
 
-            // check to see if payload contains a body string, if it doesn't consider it a silent push
+            // Check notification for display title
             if (fcmNotification.notification.title) {
-                // payload has a body, so show it to the user
                 const notification = new Notification(fcmNotification.notification.title, {
-                    body: fcmNotification.notification.body
+                    body: fcmNotification.notification.body,
+                    icon: fcmNotification.notification.icon
                 });
 
                 notification.onclick = () => {
@@ -128,7 +130,7 @@ export class PushService {
         });
 
         // Start service
-        console.log('Starting service and registering a client');
+        console.log('Starting Electron push');
         this.ipc.send(ipcChannels.START_NOTIFICATION_SERVICE, environment.firebase.messagingSenderId);
     }
 
@@ -136,7 +138,9 @@ export class PushService {
     browserInit(): void {
         // Wait for service worker to be ready
         navigator.serviceWorker.ready.then(registration => {
+            // DEBUG: Log service worker registration
             console.log(registration);
+
             if (!!registration && registration.active.state === 'activated') {
                 // Retrieve an instance of Firebase Messaging so that it can handle background messages.
                 const messaging = this.firebase.messaging();
@@ -179,7 +183,7 @@ export class PushService {
             );
         }
 
-        // TODO: if Electron send to server to subscribe
+        // TODO: if Electron/browser send to server to subscribe
     }
 
     unsubscribe(topic: string): void {
@@ -196,6 +200,6 @@ export class PushService {
             );
         }
 
-        // TODO: if Electron send to server to unsubscribe
+        // TODO: if Electron/browser send to server to unsubscribe
     }
 }
