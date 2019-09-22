@@ -4,7 +4,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { environment } from '../../../environments/environment';
-import { UserService } from '../user/user.service';
+import { BackendService } from '../backend/backend.service';
 import { IpcService } from '../ipc/ipc.service';
 import * as ipcChannels from 'electron-push-receiver/src/constants';
 
@@ -19,10 +19,11 @@ declare const PushNotification: any;
 export class PushService {
     push: any;
     topics = ['test'];
+    token: string;
 
     constructor(
+        private backend: BackendService,
         private firebase: FirebaseApp,
-        private user: UserService,
         private fire: AngularFireMessaging,
         private ipc: IpcService
     ) {}
@@ -75,8 +76,8 @@ export class PushService {
 
         // Register push
         this.push.on('Registration:', (data: any) => {
-            console.log(data.registrationId);
-            console.log(data.registrationType);
+            console.log(data);
+            this.savetoken();
         });
 
         // Subscribe to notifications
@@ -95,6 +96,7 @@ export class PushService {
         // Handle push registration
         this.ipc.on(ipcChannels.NOTIFICATION_SERVICE_STARTED, (_, token) => {
             console.log('service successfully started', token);
+            this.savetoken();
             // TODO: Send token to server
         });
 
@@ -106,6 +108,7 @@ export class PushService {
         // Send token to backend when updated
         this.ipc.on(ipcChannels.TOKEN_UPDATED, (_, token) => {
             console.log('token updated', token);
+            this.savetoken();
             // TODO: Send token to server
         });
 
@@ -152,6 +155,7 @@ export class PushService {
                 this.fire.requestToken.subscribe(
                     (token) => {
                         console.log('Registration:', token);
+                        this.savetoken();
                     },
                     (error) => {
                         console.error('Error:', error);
@@ -169,37 +173,19 @@ export class PushService {
         });
     }
 
-    subscribe(topic: string): void {
-        // If Android/iOS subscribe as usual
-        if (!(device.platform === 'Android' || device.platform === 'iOS')) {
-            this.push.subscribe(
-                topic,
-                () => {
-                    console.log(`Subscribed to ${topic}`);
-                },
-                (error) => {
-                    console.log('Error:', error);
-                }
-            );
-        }
-
-        // TODO: if Electron/browser send to server to subscribe
+    // Send to server to save token
+    savetoken(): void {
+        // TODO: Check user logged in before sending token
+        console.log(this.backend.saveFcm(this.token));
     }
 
-    unsubscribe(topic: string): void {
-        // If Android/iOS unsubscribe as usual
-        if (!(device.platform === 'Android' || device.platform === 'iOS')) {
-            this.push.unsubscribe(
-                topic,
-                () => {
-                    console.log(`Unsubscribed from ${topic}`);
-                },
-                (error) => {
-                    console.log('Error:', error);
-                }
-            );
-        }
+    // Send to server to subscribe
+    subscribe(topic: string): void {
+        console.log(this.backend.subscribeFcm(this.token, topic));
+    }
 
-        // TODO: if Electron/browser send to server to unsubscribe
+    // Send to server to unsubscribe
+    unsubscribe(topic: string): void {
+        console.log(this.backend.subscribeFcm(this.token, topic));
     }
 }

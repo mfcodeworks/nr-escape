@@ -53,6 +53,21 @@ export class BackendService {
         return this.api.deactivateProfile();
     }
 
+    // Save FCM Token
+    saveFcm(token: string): any {
+        return this.api.saveFcm(token);
+    }
+
+    // Subscribe to FCM Topic
+    subscribeFcm(token: string, topic: string): any {
+        return this.api.subscribeFcm(token, topic);
+    }
+
+    // Unsubcribe from FCM Topic
+    unsubscribeFcm(token: string, topic: string): any {
+        return this.api.unsubscribeFcm(token, topic);
+    }
+
     // User search
     search(query: string): Observable<Profile[]> {
         return this.api.search(query);

@@ -105,6 +105,36 @@ export class ApiService {
         );
     }
 
+    // API: Save FCM Token
+    saveFcm(token: string): any {
+        return this.http
+        .post(`${API_URL}/me/fcm/token`, { token }, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Subscribe to FCM Topic
+    subscribeFcm(token: string, topic: string): any {
+        return this.http
+        .post(`${API_URL}/me/fcm/subscribe/${topic}`, { token }, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    // API: Unsubcribe from FCM Topic
+    unsubscribeFcm(token: string, topic: string): any {
+        return this.http
+        .post(`${API_URL}/me/fcm/unsubscribe/${topic}`, { token }, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
     // API: User search
     search(query: string): Observable<Profile[]> {
         return this.http
