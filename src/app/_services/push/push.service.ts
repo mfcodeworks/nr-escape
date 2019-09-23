@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { BackendService } from '../backend/backend.service';
 import { IpcService } from '../ipc/ipc.service';
 import * as ipcChannels from 'electron-push-receiver/src/constants';
+import { UserService } from '../user/user.service';
 
 declare const cordova: any;
 declare const device: any;
@@ -20,13 +21,25 @@ export class PushService {
     push: any;
     topics = ['test'];
     token: string;
+    loggedIn = false;
 
     constructor(
         private backend: BackendService,
         private firebase: FirebaseApp,
         private fire: AngularFireMessaging,
-        private ipc: IpcService
-    ) {}
+        private ipc: IpcService,
+        private user: UserService
+    ) {
+        // Set logged in status
+        this.loggedIn = !!this.user.token;
+
+        // On login save FCM token
+        this.user.isLoggedIn().subscribe(login => {
+            this.loggedIn = login;
+            console.log('Login event', login);
+            if (login) { this.saveToken(); }
+        });
+    }
 
     init(): void {
         // Check device
@@ -77,7 +90,7 @@ export class PushService {
         // Register push
         this.push.on('Registration:', (data: any) => {
             console.log(data);
-            this.savetoken();
+            this.saveToken();
         });
 
         // Subscribe to notifications
@@ -96,7 +109,8 @@ export class PushService {
         // Handle push registration
         this.ipc.on(ipcChannels.NOTIFICATION_SERVICE_STARTED, (_, token) => {
             console.log('service successfully started', token);
-            this.savetoken();
+            this.token = token;
+            this.saveToken();
             // TODO: Send token to server
         });
 
@@ -108,8 +122,8 @@ export class PushService {
         // Send token to backend when updated
         this.ipc.on(ipcChannels.TOKEN_UPDATED, (_, token) => {
             console.log('token updated', token);
-            this.savetoken();
-            // TODO: Send token to server
+            this.token = token;
+            this.saveToken();
         });
 
         // Display notification
@@ -155,7 +169,8 @@ export class PushService {
                 this.fire.requestToken.subscribe(
                     (token) => {
                         console.log('Registration:', token);
-                        this.savetoken();
+                        this.token = token;
+                        this.saveToken();
                     },
                     (error) => {
                         console.error('Error:', error);
@@ -174,18 +189,34 @@ export class PushService {
     }
 
     // Send to server to save token
-    savetoken(): void {
-        // TODO: Check user logged in before sending token
-        console.log(this.backend.saveFcm(this.token));
+    saveToken(): void {
+        // DEBUG:
+        console.log('Logged in', this.loggedIn);
+        console.log('Token', this.token);
+
+        /**
+         * Check user logged in before sending token
+         * If user isn't logged in, wait for login event as send
+         *
+         */
+        if (this.loggedIn) {
+            this.backend.saveFcm(this.token).subscribe(response => {
+                console.log('Saved FCM');
+            });
+        }
     }
 
     // Send to server to subscribe
     subscribe(topic: string): void {
-        console.log(this.backend.subscribeFcm(this.token, topic));
+        this.backend.subscribeFcm(this.token, topic).subscribe(response => {
+            console.log(response);
+        });
     }
 
     // Send to server to unsubscribe
     unsubscribe(topic: string): void {
-        console.log(this.backend.subscribeFcm(this.token, topic));
+        this.backend.subscribeFcm(this.token, topic).subscribe(response => {
+            console.log(response);
+        });
     }
 }

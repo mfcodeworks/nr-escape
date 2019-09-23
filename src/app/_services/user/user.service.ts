@@ -11,10 +11,16 @@ export class UserService {
     public email: string;
     public token: string;
     public profile: Profile = new Profile();
+    public loggedIn: Subject<boolean> = new Subject<boolean>();
 
     // Get user profile from storage
     constructor() {
         Object.assign(this, JSON.parse(localStorage.getItem('login')));
+    }
+
+    // Return logged in observable
+    public isLoggedIn() {
+        return this.loggedIn.asObservable();
     }
 
     // Destroy local user
