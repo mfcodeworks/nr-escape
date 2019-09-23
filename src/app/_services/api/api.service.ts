@@ -28,7 +28,6 @@ export class ApiService {
             email
         }, this.getRequestHeaders())
         .pipe(
-            retry(3),
             catchError(this.handleError)
         );
     }
@@ -41,7 +40,6 @@ export class ApiService {
             password
         }, this.getRequestHeaders())
         .pipe(
-            retry(3),
             catchError(this.handleError)
         );
     }
@@ -53,7 +51,6 @@ export class ApiService {
             email
         }, this.getRequestHeaders())
         .pipe(
-            retry(3),
             catchError(this.handleError)
         );
     }
@@ -68,7 +65,6 @@ export class ApiService {
             passwordConfirmation
         }, this.getRequestHeaders())
         .pipe(
-            retry(3),
             catchError(this.handleError)
         );
     }

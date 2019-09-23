@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { BackendService } from '../_services/backend/backend.service';
-import { AuthService } from '../_services/auth/auth.service';
+import { BackendService } from '../../../_services/backend/backend.service';
+import { AuthService } from '../../../_services/auth/auth.service';
 
 @Component({
     selector: 'app-sign-in',
@@ -12,6 +12,8 @@ import { AuthService } from '../_services/auth/auth.service';
 })
 export class SignInComponent implements OnInit {
     hide = true;
+    globalError: string = null;
+    processing = false;
 
     loginForm = this.fb.group({
         username: ['', Validators.required],
@@ -41,6 +43,7 @@ export class SignInComponent implements OnInit {
         if (this.loginForm.invalid) { return; }
 
         // Submit request to API
+        this.processing = true;
         this.backend
         .signIn(username, password)
         .subscribe((response: any) => {
@@ -50,9 +53,12 @@ export class SignInComponent implements OnInit {
                 response.email,
                 response.settings
             );
+            this.processing = false;
             this.router.navigate(['']);
         }, (error: any) => {
-            console.log(error);
+            console.warn(error);
+            this.globalError = error;
+            this.processing = false;
         });
-      }
+    }
 }

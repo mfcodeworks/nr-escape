@@ -23,9 +23,14 @@
                 <mat-error *ngIf="loginForm.controls['password'].invalid">{{ getErrorPassword() }}</mat-error>
             </mat-form-field>
 
+            <span class="mb-3 ta-c w-100"><mat-error *ngIf="globalError">{{ globalError }}</mat-error></span>
+
             <div class="justify-content-center d-flex form-group mx-auto">
-                <button mat-raised-button color="primary" type="button" class="form-button-spacer">Forgot Password</button>
-                <button mat-raised-button color="primary" type="submit">Login</button>
+                <button mat-raised-button color="primary" type="button" class="form-button-spacer" [routerLink]="['/forgot-password']">Forgot Password</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="processing">
+                    Login
+                    <i *ngIf="processing" class="ml-2 fas fa-spin fa-spinner"></i>
+                </button>
             </div>
         </form>
     </div>

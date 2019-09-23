@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
@@ -22,6 +21,7 @@ import {
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
+import { Routing } from './app.routing';
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { BackendService } from './_services/backend/backend.service';
 import { ApiService } from './_services/api/api.service';
@@ -46,13 +46,15 @@ import { PostComponent } from './post/post.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { SignInComponent } from './sign-in/sign-in.component';
+import {
+    AuthenticationModule
+} from './_modules/authentication/authentication.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DateDiffPipe } from './_helpers/date-diff.pipe';
 
 @NgModule({
     imports: [
+        AuthenticationModule,
         OverlayModule,
         BrowserModule,
         BrowserAnimationsModule,
@@ -70,45 +72,7 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         MatProgressBarModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
-        RouterModule.forRoot([
-            {
-                path: '',
-                canActivate: [ SignedInGuard ],
-                children: [
-                    {
-                        path: '',
-                        component: FeedComponent,
-                        resolve: { posts: FeedResolver },
-                    },
-                    { path: 'recommendations',  component: RecommendationsComponent },
-                    {
-                        path: 'search',
-                        redirectTo: '',
-                        pathMatch: 'full'
-                    },
-                    { path: 'new-post', component: NewPostComponent },
-                    {
-                        path: 'post/:postId',
-                        component: PostComponent,
-                        resolve: { post: PostResolver }
-                    },
-                    { path: 'notifications', component: NotificationsComponent },
-                    {
-                        path: 'profile/:profileId',
-                        component: ProfileComponent,
-                        resolve: { profile: ProfileResolver }
-                    },
-                    { path: 'settings', component: SettingsComponent },
-                ]
-            },
-            { path: 'sign-in', component: SignInComponent },
-            { path: 'sign-up', component: SignUpComponent },
-            {
-                path: 'login',
-                redirectTo: '/sign-in',
-                pathMatch: 'full'
-            }
-        ]),
+        Routing,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
     ],
     declarations: [
@@ -126,8 +90,6 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         ProfileComponent,
         RecommendationsComponent,
         SettingsComponent,
-        SignUpComponent,
-        SignInComponent,
         DateDiffPipe
     ],
     providers: [
