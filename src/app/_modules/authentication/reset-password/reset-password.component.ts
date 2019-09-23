@@ -1,82 +1,83 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { BackendService } from '../../../_services/backend/backend.service';
-import { AuthService } from '../../../_services/auth/auth.service';
 
 @Component({
-    selector: 'app-sign-up',
-    templateUrl: './sign-up.component.html',
-    styleUrls: ['./sign-up.component.css'],
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
     hide = true;
     globalError: string = null;
     processing = false;
-
-    registerForm = this.fb.group({
-        username: ['', Validators.required],
-        email: ['',
-            [
-                Validators.required,
-                Validators.email
-            ]
-        ],
-        password: ['', Validators.required],
-        password2: ['', Validators.required]
-    }, {
-        validator: this.MustMatch('password', 'password2')
-    });
+    complete = false;
+    resetToken: string;
+    email: string;
+    resetForm: FormGroup;
 
     constructor(
         private backend: BackendService,
-        private auth: AuthService,
-        private router: Router,
+        private route: ActivatedRoute,
         private fb: FormBuilder
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        // Get email from query params
+        this.route.queryParamMap
+        .subscribe((params: any) => {
+            console.log(params);
+            this.email = params.params.email;
+            console.log(this.email);
+        });
+
+        // Get reset token from URL
+        this.route.paramMap
+        .subscribe((params: any) => {
+            console.log(params);
+            this.resetToken = params.params.token;
+            console.log(this.resetToken);
+        });
+
+        this.resetForm = this.fb.group({
+            email: [this.email, Validators.required],
+            password: ['', Validators.required],
+            password2: ['', Validators.required]
+        }, {
+            validator: this.MustMatch('password', 'password2')
+        });
+    }
 
     getErrors(control: string) {
         switch (true) {
-            case this.registerForm.get(control).hasError('required'):
+            case this.resetForm.get(control).hasError('required'):
                 return `${this.prettyCapitalize(control.replace(/[0-9]/g, ''))} is required`;
 
-            case this.registerForm.get(control).hasError('mustMatch'):
+            case this.resetForm.get(control).hasError('mustMatch'):
                 return `${this.prettyCapitalize(control.replace(/[0-9]/g, ''))} must match`;
-
-            case this.registerForm.get(control).hasError('email'):
-                    return `${this.prettyCapitalize(control)} is not an email`;
         }
     }
 
-    doRegister(username: string, email: string, password: string) {
+    doReset(password: string, password2: string) {
         // Reset error
         this.globalError = null;
 
         // Validate form before submission
-        this.registerForm.markAllAsTouched();
-        if (this.registerForm.invalid) { return; }
+        this.resetForm.markAllAsTouched();
+        if (this.resetForm.invalid) { return; }
 
         // Submit request to API
         this.processing = true;
         this.backend
-        .signUp(username, password, email)
+        .resetPassword(this.resetToken, this.email, password, password2)
         .subscribe((response: any) => {
-            // Do sign in action
-            this.auth.doSignIn(
-                response.token,
-                response.profile,
-                response.email,
-                response.settings
-            );
-
             // End processing
             this.processing = false;
 
-            // Navigate to feed
-            this.router.navigate(['']);
+            // Set complete as true
+            this.complete = true;
         }, (error: any) => {
             // DEBUG: Log error
             console.warn(error);
@@ -98,10 +99,10 @@ export class SignUpComponent implements OnInit {
 
                 // If error is an object check for validators, otherwise display error text
                 default:
-                    this.globalError = (error.error.validator) ?
+                    this.globalError = (!!error.error.validator) ?
                         Object.keys(error.error.validator).map(errorText => {
                             return `${error.error.validator[errorText]}<br />`;
-                        }).join('') : error.error.error;
+                        }).join('') : error.error.error.email;
                     break;
             }
 

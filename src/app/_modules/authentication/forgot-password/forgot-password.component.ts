@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { BackendService } from '../../../_services/backend/backend.service';
-import { AuthService } from '../../../_services/auth/auth.service';
 
 @Component({
-    selector: 'app-sign-in',
-    templateUrl: './sign-in.component.html',
-    styleUrls: ['./sign-in.component.css']
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.css']
 })
-export class SignInComponent implements OnInit {
-    hide = true;
+export class ForgotPasswordComponent implements OnInit {
     globalError: string = null;
     processing = false;
+    complete = false;
 
-    loginForm = this.fb.group({
-        username: ['', Validators.required],
-        password: ['', Validators.required]
+    forgotForm = this.fb.group({
+        email: ['',
+            [
+                Validators.required,
+                Validators.email
+            ]
+        ],
     });
 
     constructor(
         private backend: BackendService,
-        private auth: AuthService,
-        private router: Router,
         private fb: FormBuilder
     ) {}
 
@@ -31,40 +31,32 @@ export class SignInComponent implements OnInit {
 
     getErrors(control: string) {
         switch (true) {
-            case this.loginForm.get(control).hasError('required'):
+            case this.forgotForm.get(control).hasError('required'):
                 return `${this.prettyCapitalize(control)} is required`;
 
-            case this.loginForm.get(control).hasError('mustMatch'):
-                return `${this.prettyCapitalize(control)} must match`;
+            case this.forgotForm.get(control).hasError('email'):
+                    return `${this.prettyCapitalize(control)} is not an email`;
         }
     }
 
-    doSignIn(username: string, password: string) {
+    doReset(email: string) {
         // Reset error
         this.globalError = null;
 
         // Validate form before submission
-        this.loginForm.markAllAsTouched();
-        if (this.loginForm.invalid) { return; }
+        this.forgotForm.markAllAsTouched();
+        if (this.forgotForm.invalid) { return; }
 
         // Submit request to API
         this.processing = true;
         this.backend
-        .signIn(username, password)
+        .forgotPassword(email)
         .subscribe((response: any) => {
-            // Do sign in action
-            this.auth.doSignIn(
-                response.token,
-                response.profile,
-                response.email,
-                response.settings
-            );
-
             // End processing
             this.processing = false;
 
-            // Navigate to feed
-            this.router.navigate(['']);
+            // Set complete as true
+            this.complete = true;
         }, (error: any) => {
             // DEBUG: Log error
             console.warn(error);

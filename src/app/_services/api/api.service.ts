@@ -62,7 +62,7 @@ export class ApiService {
             token,
             email,
             password,
-            passwordConfirmation
+            password_confirmation: passwordConfirmation
         }, this.getRequestHeaders())
         .pipe(
             catchError(this.handleError)
@@ -388,13 +388,18 @@ export class ApiService {
 
     // Error handling
     handleError(error: any) {
+        // DEBUG:
+        console.warn(error);
+
         // Instantiate error message
-        let errorMessage: string;
+        let errorMessage: any;
 
         // Set error message
-        (error instanceof HttpErrorResponse) ?
-            errorMessage = `(${error.status}) Message: ${error.statusText}` :
+        if (error instanceof HttpErrorResponse) {
+            errorMessage = (error.error) ? error : `(${error.status}) Message: ${error.statusText}`;
+        } else {
             errorMessage = `(${error.status}) Message: ${error.error}`;
+        }
         return throwError(errorMessage);
     }
 

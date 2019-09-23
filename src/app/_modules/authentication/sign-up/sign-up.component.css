@@ -1,0 +1,28 @@
+.branding {
+    height: 180px !important;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+.form-container > * {
+    width: 80%;
+}
+
+.form-input-prefix {
+    margin: 0px 10px;
+}
+.form-button-row button {
+    flex: 1 1 auto;
+}
+.form-button-spacer {
+    margin: 0px 8px;
+}
+
+.url-link {
+    text-decoration: none;
+}
+.text-link {
+    text-align: center;
+}

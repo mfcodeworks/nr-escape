@@ -1,1 +1,58 @@
-<h3>Sign Up</h3>
+<div class="min-vh-100 row">
+
+    <!-- Branding -->
+    <div class="branding mt-4 mx-auto d-block">
+        <img src="assets/images/Logo_Transparent-scaledown.png" class="h-100" />
+    </div>
+
+    <div class="col-12">
+        <!-- Sign In Form -->
+        <form [formGroup]="registerForm" class="form-container" (ngSubmit)="doRegister(registerForm.controls['username'].value, registerForm.controls['email'].value, registerForm.controls['password'].value)">
+            <mat-form-field class="form-group mx-auto">
+                <input matInput formControlName="username" placeholder="Username" />
+                <span matPrefix><i class="ti-user form-input-prefix"></i></span>
+                <mat-error *ngIf="registerForm.controls['username'].invalid">{{ getErrors('username') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-group mx-auto">
+                <input matInput formControlName="email" type="email" placeholder="Email" email/>
+                <span matPrefix><i class="ti-email form-input-prefix"></i></span>
+                <mat-error *ngIf="registerForm.controls['email'].invalid">{{ getErrors('email') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-group mx-auto">
+                <input matInput formControlName="password" placeholder="Enter your password" [type]="hide ? 'password' : 'text'" />
+                <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <span matPrefix><i class="ti-lock form-input-prefix"></i></span>
+                <mat-error *ngIf="registerForm.controls['password'].invalid">{{ getErrors('password') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-group mx-auto">
+                <input matInput formControlName="password2" placeholder="Enter matching password" [type]="hide ? 'password' : 'text'" />
+                <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <span matPrefix><i class="ti-lock form-input-prefix"></i></span>
+                <mat-error *ngIf="registerForm.controls['password2'].invalid">{{ getErrors('password2') }}</mat-error>
+            </mat-form-field>
+
+            <span class="mb-4 ta-c w-100"><mat-error *ngIf="globalError" [innerHTML]="globalError"></mat-error></span>
+
+            <div class="justify-content-center d-flex form-group mx-auto">
+                <button mat-raised-button color="primary" type="submit" [disabled]="processing">
+                    Register
+                    <i *ngIf="processing" class="ml-2 fas fa-spin fa-spinner"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-12">
+        <p matBody class="text-link">
+            By registering with NR Escape you agree to our <a class="url-link" [routerLink]="['/privacy-policy']">Privacy Policy</a> and <a class="url-link" [routerLink]="['/terms-and-conditions']">Terms & Conditions</a>
+        </p>
+    </div>
+
+</div>

@@ -15,11 +15,15 @@ import {
 import { Routing } from './app.routing';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     Routing,
@@ -36,7 +40,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
   ],
   exports: [
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ]
 })
 export class AuthenticationModule { }
