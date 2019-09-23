@@ -17,6 +17,9 @@ html, body {
 .avatar {
     width: 40px;
 }
+.ta-c {
+    text-align: center !important;
+}
 .error-placeholder {
     text-align: center;
     font-style: italic;
