@@ -194,16 +194,14 @@ export class PushService {
         console.log('Logged in', this.loggedIn);
         console.log('Token', this.token);
 
-        /**
-         * Check user logged in before sending token
-         * If user isn't logged in, wait for login event as send
-         *
-         */
-        if (this.loggedIn) {
-            this.backend.saveFcm(this.token).subscribe(response => {
-                console.log('Saved FCM');
-            });
+        if (!this.loggedIn || !this.token) {
+            return;
         }
+
+        // Send token to server
+        this.backend.saveFcm(this.token).subscribe(response => {
+            console.log('Saved FCM');
+        });
     }
 
     // Send to server to subscribe
