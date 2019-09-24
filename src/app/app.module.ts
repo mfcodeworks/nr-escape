@@ -19,7 +19,8 @@ import {
     MatGridListModule,
     MatSnackBarModule,
     MatSelectModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCardModule
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
@@ -68,6 +69,7 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         MatProgressBarModule,
         MatStepperModule,
         MatSelectModule,
+        MatCardModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         Routing,

@@ -13,5 +13,11 @@ export const environment = {
         storageBucket: 'nr-escape.appspot.com',
         messagingSenderId: '1731961068',
         appId: '1:1731961068:web:ccf4f76871e043bab745c9'
+    },
+
+    // URL Preview Link
+    urlPreview: {
+        url: 'https://api.linkpreview.net/',
+        key: '5b54e80a65c77848ceaa4630331e8384950e09d392365'
     }
 };

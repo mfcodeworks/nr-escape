@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
+import { UrlPreviewService } from '../_services/url-preview/url-preview.service';
+
 @Component({
     selector: 'app-new-post',
     templateUrl: './new-post.component.html',
@@ -10,7 +12,7 @@ export class NewPostComponent {
     @ViewChild('videoInput', {static: false}) videoInput: ElementRef;
     @ViewChild('photoInput', {static: false}) photoInput: ElementRef;
 
-    media: File;
+    media: any;
     mediaPreview: any;
     type: string;
     mediaTypes = [
@@ -24,8 +26,18 @@ export class NewPostComponent {
     });
 
     constructor(
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private urlPreview: UrlPreviewService
     ) {}
+
+    previewUrl(url: string): void {
+        this.urlPreview.fetch(url)
+        .subscribe((preview) => {
+            console.log(preview);
+            this.media = url;
+            this.mediaPreview = preview;
+        });
+    }
 
     selectedMedia() {
         // Switch media type
@@ -52,7 +64,13 @@ export class NewPostComponent {
         const reader = new FileReader();
         reader.readAsDataURL(this.media);
         reader.onloadend = (result: any) => {
+            console.log(reader.result);
             this.mediaPreview = reader.result;
         };
+    }
+
+    nullMedia() {
+        this.media = null;
+        this.mediaPreview = null;
     }
 }
