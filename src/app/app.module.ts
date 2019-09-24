@@ -17,18 +17,14 @@ import {
     MatProgressBarModule,
     MatFormFieldModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
+    MatStepperModule
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
 import { Routing } from './app.routing';
 import { SignedInGuard } from './_helpers/signed-in.guard';
-import { BackendService } from './_services/backend/backend.service';
-import { ApiService } from './_services/api/api.service';
-import { UserService } from './_services/user/user.service';
-import { AuthService } from './_services/auth/auth.service';
-import { PushService } from './_services/push/push.service';
-import { IpcService } from './_services/ipc/ipc.service';
 import { FeedResolver } from './_helpers/feed.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
@@ -70,6 +66,8 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         MatSnackBarModule,
         MatFormFieldModule,
         MatProgressBarModule,
+        MatStepperModule,
+        MatSelectModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         Routing,
@@ -95,15 +93,9 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
     providers: [
         MatSnackBar,
         SignedInGuard,
-        BackendService,
-        ApiService,
-        AuthService,
-        UserService,
         FeedResolver,
         ProfileResolver,
         PostResolver,
-        PushService,
-        IpcService
     ],
     bootstrap: [
         AppComponent

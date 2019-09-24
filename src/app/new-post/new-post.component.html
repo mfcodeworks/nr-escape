@@ -2,7 +2,58 @@
 <app-top-bar></app-top-bar>
 
 <div class="min-h-100">
-    <h3>New Post</h3>
+    <mat-vertical-stepper linear="false" #stepper>
+        <mat-step [stepControl]="postForm">
+            <form [formGroup]="postForm">
+                <ng-template matStepLabel>Media</ng-template>
+                <mat-form-field>
+                    <mat-label>Type</mat-label>
+                    <mat-select [(value)]="type">
+                        <mat-option *ngFor="let type of mediaTypes" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="type === 'URL'">
+                    <input matInput placeholder="URL" formControlName="firstCtrl">
+                </mat-form-field>
+                <input hidden (change)="selectedMedia()" #photoInput type="file" accepts="image/*">
+                <input hidden (change)="selectedMedia()" #videoInput type="file" accepts="video/*">
+                <div>
+                    <button *ngIf="type === 'Video'" mat-raised-button color="primary" (click)="videoInput.click()">{{type}}</button>
+                    <button *ngIf="type==='Photo'" mat-raised-button color="primary" (click)="photoInput.click()">{{type}}</button>
+                    <button mat-raised-button color="primary" matStepperNext>Next</button>
+                </div>
+                <div *ngIf="media" class="media-container mt-5 mx-auto d-block">
+                    <img *ngIf="type === 'Photo'" [src]="mediaPreview">
+                    <video *ngIf="type === 'Video'" class="w-100" controls loop autoplay>
+                        <source [src]="mediaPreview" [type]="media.type">
+                        Your device does not support video preview
+                    </video>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="postForm">
+            <form [formGroup]="postForm">
+                <ng-template matStepLabel>Caption</ng-template>
+                <mat-form-field>
+                    <input matInput placeholder="Caption" formControlName="secondCtrl">
+                </mat-form-field>
+                <div>
+                    <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Post</ng-template>
+            You are now done.
+            <div>
+                <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-vertical-stepper>
 </div>
 
 <!-- App Botttom Bar -->

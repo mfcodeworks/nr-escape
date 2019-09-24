@@ -1,0 +1,6 @@
+.media-container {
+    max-width: 90%;
+}
+.media-container > * {
+    width: 100%;
+}

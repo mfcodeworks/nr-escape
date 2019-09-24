@@ -6,9 +6,6 @@ import { Post } from '../_models/post';
 import { Comment } from '../_models/comment';
 import { BackendService } from '../_services/backend/backend.service';
 
-// Moment.js
-declare var moment: any;
-
 @Component({
     selector: 'app-post',
     templateUrl: './post.component.html',
