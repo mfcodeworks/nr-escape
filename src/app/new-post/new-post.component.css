@@ -1,6 +1,46 @@
 .media-container {
-    max-width: 90%;
+    max-width: 450px;
 }
 .media-container > * {
     width: 100%;
+}
+
+.text-form-field {
+    font-size: 24px;
+}
+
+.floating-button {
+    float: right;
+    position: absolute;
+    right: 0px;
+    margin-top: 5px;
+    margin-right: 0px;
+    width: 20px !important;
+    height: 40px;
+    color: #000;
+    filter: drop-shadow(0px 0px 0px #fff);
+}
+
+.add-post-bar {
+    bottom: 64px;
+    position: fixed;
+    background-color: #fff;
+}
+@media (max-width: 599px) {
+    .add-post-bar {
+        bottom: 56px !important;
+    }
+}
+
+.grad-color1:before {
+    color: #159957;
+}
+.grad-color2:before {
+    color: #4ac29a;
+}
+.grad-color3:before {
+    color: #C33764;
+}
+.grad-color4:before {
+    color: #B06AB3;
 }

@@ -1,68 +1,77 @@
 <!-- App Top Bar -->
 <app-top-bar></app-top-bar>
 
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
 <div class="min-h-100">
-    <mat-vertical-stepper linear="false" #stepper>
-        <mat-step [stepControl]="postForm">
-            <form [formGroup]="postForm">
-                <ng-template matStepLabel>Media</ng-template>
-                <mat-form-field>
-                    <mat-label>Type</mat-label>
-                    <mat-select [(value)]="type" (selectionChange)="nullMedia()">
-                        <mat-option *ngFor="let type of mediaTypes" [value]="type">
-                            {{type}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field *ngIf="type === 'URL'">
-                    <input matInput placeholder="URL" #urlInput formControlName="firstCtrl" (change)="previewUrl(urlInput.value)">
-                </mat-form-field>
-                <input hidden (change)="selectedMedia()" #photoInput type="file" accepts="image/*">
-                <input hidden (change)="selectedMedia()" #videoInput type="file" accepts="video/*">
-                <div>
-                    <button class="mr-2" *ngIf="type === 'Video'" mat-raised-button color="primary" (click)="videoInput.click()">{{type}}</button>
-                    <button class="mr-2" *ngIf="type === 'Photo'" mat-raised-button color="primary" (click)="photoInput.click()">{{type}}</button>
-                    <button mat-raised-button color="primary" matStepperNext>Next</button>
-                </div>
-                <div *ngIf="media" class="media-container mt-5 mx-auto d-block">
-                    <img *ngIf="type === 'Photo' && mediaPreview" [src]="mediaPreview">
-                    <video *ngIf="type === 'Video' && mediaPreview" class="w-100" controls loop autoplay>
-                        <source [type]="media.type" [src]="mediaPreview">
-                        Your device does not support video preview
-                    </video>
-                    <mat-card *ngIf="type === 'URL'">
-                        <mat-card-header>
-                            <mat-card-title class="mb-3">{{ mediaPreview?.title }}</mat-card-title>
-                        </mat-card-header>
-                        <img mat-card-image [src]="mediaPreview?.image" [alt]="mediaPreview?.title">
-                        <mat-card-content>
-                            <p class="mt-3">{{ mediaPreview?.description }}</p>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step [stepControl]="postForm">
-            <form [formGroup]="postForm">
-                <ng-template matStepLabel>Caption</ng-template>
-                <mat-form-field>
-                    <input matInput placeholder="Caption" formControlName="secondCtrl">
-                </mat-form-field>
-                <div>
-                    <button class="mr-2" mat-raised-button color="primary" matStepperPrevious>Back</button>
-                    <button class="mr-2" mat-raised-button color="primary" matStepperNext>Next</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Post</ng-template>
-            You are now done.
-            <div>
-                <button class="mr-2" mat-raised-button color="primary" matStepperPrevious>Back</button>
-                <button class="mr-2" mat-raised-button color="primary" (click)="stepper.reset()">Reset</button>
-            </div>
-        </mat-step>
-    </mat-vertical-stepper>
+    <mat-list>
+        <mat-list-item>
+            <img matListAvatar [src]="user.profile.profilePic" class="avatar"  [routerLink]="['/profile', user.profile.id]"/>
+            <h3 matLine><span [routerLink]="['/profile', user.profile.id]" class="mat-h3 font-weight-bold">{{user.profile.username}}</span></h3>
+            <span><button mat-raised-button color="primary" (click)="submit()">Post</button></span>
+        </mat-list-item>
+    </mat-list>
+    <mat-divider></mat-divider>
+
+    <!-- Autoresizing textarea -->
+    <mat-form-field class="pt-2 px-3 w-100 text-form-field">
+        <mat-label>Post Caption&hellip;</mat-label>
+        <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            #caption
+            cdkAutosizeMinRows="1"></textarea>
+    </mat-form-field>
+
+    <!-- URL Input -->
+    <mat-form-field *ngIf="currentType === 'URL'" class="w-100 px-3">
+        <input (change)="previewUrl()" #urlInput matInput placeholder="URL">
+    </mat-form-field>
+
+    <!-- File Input -->
+    <input hidden (change)="selectedMedia()" #photoInput type="file" accepts="image/*">
+    <input hidden (change)="selectedMedia()" #videoInput type="file" accepts="video/*">
+
+    <!-- Additional Media Preview -->
+    <div *ngIf="media" class="media-container pb-2 mx-auto d-block">
+        <!-- Image Preview-->
+        <button mat-button class="floating-button" (click)="nullMedia()"><i class="ti-close"></i></button>
+        <img *ngIf="currentType === 'Photo' && mediaPreview" [src]="mediaPreview">
+
+        <!-- Video review -->
+        <video *ngIf="currentType === 'Video' && mediaPreview" class="w-100" controls loop autoplay>
+            <source [type]="media.type" [src]="mediaPreview">
+            Your device does not support video preview
+        </video>
+
+        <!-- URL Preview -->
+        <a [href]="mediaPreview?.url" target="_blank">
+        <mat-card *ngIf="currentType === 'URL' && mediaPreview" class="mb-3 mx-3">
+            <mat-card-header *ngIf="mediaPreview?.title">
+                <mat-card-title class="mb-3">{{ mediaPreview?.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <img  *ngIf="mediaPreview?.image" mat-card-image [src]="mediaPreview?.image" [alt]="mediaPreview?.title">
+            <mat-divider></mat-divider>
+            <mat-card-content  *ngIf="mediaPreview?.description">
+                <p class="mt-3">{{ mediaPreview?.description }}</p>
+            </mat-card-content>
+        </mat-card>
+        </a>
+    </div>
+
+    <!-- Add Media Button Bar -->
+    <div class="pt-5"></div>
+    <mat-list role="list" class="add-post-bar w-100 pt-0">
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem" (click)="openBottomSheet()">
+            <i class="ti-gallery grad-color3 mr-1"></i>
+            <i class="ti-world grad-color2 mx-1"></i>
+            <i class="ti-camera grad-color4 mx-1"></i>
+            <i class="ti-video-camera grad-color1 ml-1 mr-2"></i>
+            Add to Post
+        </mat-list-item>
+    </mat-list>
 </div>
 
 <!-- App Botttom Bar -->

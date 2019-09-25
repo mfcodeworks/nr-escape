@@ -1,47 +1,102 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component, NgZone, ElementRef, ViewChild, Inject, OnInit  } from '@angular/core';
+import { Router } from '@angular/router';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
+import { Post } from '../_models/post';
 import { UrlPreviewService } from '../_services/url-preview/url-preview.service';
+import { UserService } from '../_services/user/user.service';
+import { BackendService } from '../_services/backend/backend.service';
+
+@Component({
+    selector: 'app-post-bottom-sheet',
+    templateUrl: './post-bottom-sheet.component.html',
+})
+export class PostBottomSheetComponent {
+    constructor(
+        @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+        private sheet: MatBottomSheetRef<PostBottomSheetComponent>
+    ) {
+        console.log(data.type);
+    }
+
+    setType(type: string) {
+        console.log(type);
+        this.data.type.next(type);
+        this.sheet.dismiss();
+    }
+}
 
 @Component({
     selector: 'app-new-post',
     templateUrl: './new-post.component.html',
     styleUrls: ['./new-post.component.css'],
 })
-export class NewPostComponent {
+export class NewPostComponent implements OnInit {
     @ViewChild('videoInput', {static: false}) videoInput: ElementRef;
     @ViewChild('photoInput', {static: false}) photoInput: ElementRef;
+    @ViewChild('urlInput', {static: false}) urlInput: ElementRef;
+    @ViewChild('caption', {static: false}) caption: ElementRef;
+    @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
 
-    media: any;
+    media: any = null;
     mediaPreview: any;
-    type: string;
-    mediaTypes = [
-        'Photo',
-        'Video',
-        'URL'
-    ];
-    postForm = this.fb.group({
-        firstCtrl: ['', Validators.required],
-        secondCtrl: ['', Validators.required]
-    });
+    type = new Subject<string>();
+    typeObs = this.type.asObservable();
+    currentType: string;
+    loading = false;
 
     constructor(
-        private fb: FormBuilder,
-        private urlPreview: UrlPreviewService
+        private urlPreview: UrlPreviewService,
+        private bottomSheet: MatBottomSheet,
+        protected user: UserService,
+        private ngZone: NgZone,
+        private backend: BackendService,
+        private router: Router
     ) {}
 
-    previewUrl(url: string): void {
-        this.urlPreview.fetch(url)
-        .subscribe((preview) => {
-            console.log(preview);
-            this.media = url;
-            this.mediaPreview = preview;
+    triggerResize() {
+      // Wait for changes to be applied, then trigger textarea resize.
+      this.ngZone.onStable.pipe(take(1))
+          .subscribe(() => this.autosize.resizeToFitContent(true));
+    }
+
+    ngOnInit() {
+        this.typeObs.subscribe(type => {
+            this.nullMedia();
+            console.log('New type', type);
+            this.currentType = type;
+            // Switch media type
+            switch (type) {
+                case 'URL':
+                    break;
+
+                case 'Camera':
+                    break;
+
+                case 'Video':
+                    this.videoInput.nativeElement.click();
+                    break;
+
+                case 'Photo':
+                    this.photoInput.nativeElement.click();
+                    break;
+            }
         });
     }
 
     selectedMedia() {
         // Switch media type
-        switch (this.type) {
+        switch (this.currentType) {
+            case 'URL':
+                break;
+
+            case 'Camera':
+                break;
+
             case 'Video':
                 this.saveMedia(this.videoInput.nativeElement.files);
                 break;
@@ -50,6 +105,32 @@ export class NewPostComponent {
                 this.saveMedia(this.photoInput.nativeElement.files);
                 break;
         }
+    }
+
+    openBottomSheet() {
+        this.bottomSheet.open(
+            PostBottomSheetComponent,
+            { data: { type: this.type } }
+        );
+    }
+
+    previewUrl(): void {
+        // Get URL
+        const url = this.urlInput.nativeElement.value;
+
+        // If empty remove current media
+        if (!url) {
+            this.nullMedia();
+            return;
+        }
+
+        // Get URL preview
+        this.urlPreview.fetch(url)
+        .subscribe((preview) => {
+            console.log(preview);
+            this.media = url;
+            this.mediaPreview = preview;
+        });
     }
 
     saveMedia(input: any) {
@@ -67,6 +148,55 @@ export class NewPostComponent {
             console.log(reader.result);
             this.mediaPreview = reader.result;
         };
+    }
+
+    submit() {
+        this.loading = true;
+
+        let type = 'text';
+        const caption = this.caption.nativeElement.value;
+
+        if (!this.media && !caption) {
+            console.log('Cannot post empty post');
+            this.loading = false;
+            return;
+        }
+        if (this.media) {
+            switch (this.currentType) {
+                case 'Photo':
+                    type = 'image';
+                    break;
+
+                case 'Video':
+                    type = 'video';
+                    break;
+
+                case 'URL':
+                    type = 'url';
+                    break;
+            }
+        }
+
+        const post = new Post({
+            author: this.user.profile.id,
+            type,
+            caption,
+            media: this.media,
+            repost: false
+        });
+
+        console.log(post);
+
+        this.backend.addPost(post).subscribe(response => {
+            console.log(response);
+            this.loading = false;
+            this.router.navigate(['']);
+            // TODO: Handle file uploads
+        }, error => {
+            console.error(error);
+            this.loading = false;
+            // TODO: Display error somewhere
+        });
     }
 
     nullMedia() {

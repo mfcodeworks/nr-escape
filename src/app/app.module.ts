@@ -20,7 +20,8 @@ import {
     MatSnackBarModule,
     MatSelectModule,
     MatStepperModule,
-    MatCardModule
+    MatCardModule,
+    MatBottomSheetModule
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
@@ -37,7 +38,7 @@ import { PostPreviewGridComponent } from './post-preview-grid/post-preview-grid.
 import { PostInteractionBarComponent } from './post-interaction-bar/post-interaction-bar.component';
 import { CommentPreviewComponent } from './comment-preview/comment-preview.component';
 import { FeedComponent } from './feed/feed.component';
-import { NewPostComponent } from './new-post/new-post.component';
+import { NewPostComponent, PostBottomSheetComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostComponent } from './post/post.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -70,6 +71,7 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         MatStepperModule,
         MatSelectModule,
         MatCardModule,
+        MatBottomSheetModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         Routing,
@@ -84,6 +86,7 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         PostInteractionBarComponent,
         CommentPreviewComponent,
         FeedComponent,
+        PostBottomSheetComponent,
         NewPostComponent,
         NotificationsComponent,
         PostComponent,
@@ -91,6 +94,9 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         RecommendationsComponent,
         SettingsComponent,
         DateDiffPipe
+    ],
+    entryComponents: [
+        PostBottomSheetComponent
     ],
     providers: [
         MatSnackBar,
