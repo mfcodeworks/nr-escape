@@ -29,8 +29,8 @@
     </mat-form-field>
 
     <!-- File Input -->
-    <input hidden (change)="selectedMedia()" #photoInput type="file" accepts="image/*">
-    <input hidden (change)="selectedMedia()" #videoInput type="file" accepts="video/*">
+    <input hidden (change)="selectedMedia()" #photoInput type="file" accept="image/*">
+    <input hidden (change)="selectedMedia()" #videoInput type="file" accept="video/*">
 
     <!-- Additional Media Preview -->
     <div *ngIf="media" class="media-container pb-2 mx-auto d-block">
