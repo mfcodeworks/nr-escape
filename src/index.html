@@ -11,7 +11,21 @@
   <script>
     // Append cordova.js if not served over https (Most likely Cordova)
     (function() {
-      document.location.protocol !== 'https:' ? document.write('<script type="text/javascript" src="cordova.js"><\/script>') : '';
+      if (document.location.protocol !== 'https:') {
+        window.addEventListener = function () {
+          EventTarget.prototype.addEventListener.apply(this, arguments);
+        };
+        window.removeEventListener = function () {
+          EventTarget.prototype.removeEventListener.apply(this, arguments);
+        };
+        document.addEventListener = function () {
+          EventTarget.prototype.addEventListener.apply(this, arguments);
+        };
+        document.removeEventListener = function () {
+          EventTarget.prototype.removeEventListener.apply(this, arguments);
+        };
+        document.write('<script type="text/javascript" src="cordova.js"><\/script>');
+      }
     })();
   </script>
   <link rel="manifest" href="manifest.webmanifest">
