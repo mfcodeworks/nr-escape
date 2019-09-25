@@ -237,7 +237,7 @@ export class ApiService {
     }
 
     // API: Create Post
-    addPost(post: Post): Observable<Post> {
+    addPost(post: any): Observable<Post> {
         return this.http
         .post<Post>(`${API_URL}/post`, post, this.getRequestHeaders())
         .pipe(
@@ -407,7 +407,7 @@ export class ApiService {
     private getRequestHeaders() {
         const headers = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 Authorization: (this.userService.token) ? `Bearer ${this.userService.token}` : ''
             })
         };

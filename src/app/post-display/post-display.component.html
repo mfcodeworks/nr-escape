@@ -12,7 +12,7 @@
 
 <span *ngIf="post.type.startsWith('image')">
     <!-- Caption Row -->
-    <mat-list-item>
+    <mat-list-item *ngIf="post.caption">
         <p class="mat-body">{{post.caption}}</p>
     </mat-list-item>
 
@@ -22,7 +22,7 @@
 
 <span *ngIf="post.type.startsWith('video')">
     <!-- Caption Row -->
-    <mat-list-item>
+    <mat-list-item *ngIf="post.caption">
         <p class="mat-body">{{post.caption}}</p>
     </mat-list-item>
 
@@ -40,3 +40,5 @@
     </mat-list-item>
     <mat-divider></mat-divider>
 </span>
+
+<!-- TODO: Display URL Post -->

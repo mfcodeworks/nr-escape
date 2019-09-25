@@ -114,7 +114,7 @@ export class BackendService {
     }
 
     // Create Post
-    addPost(post: Post): Observable<Post> {
+    addPost(post: any): Observable<Post> {
         return this.api.addPost(post);
     }
 

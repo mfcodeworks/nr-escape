@@ -95,6 +95,7 @@ export class NewPostComponent implements OnInit {
                 break;
 
             case 'Camera':
+                // TODO: Add Camera method
                 break;
 
             case 'Video':
@@ -142,10 +143,12 @@ export class NewPostComponent implements OnInit {
         console.log(input[0]);
         this.media = input[0];
 
+        this.loading = true;
         const reader = new FileReader();
         reader.readAsDataURL(this.media);
         reader.onloadend = (result: any) => {
-            console.log(reader.result);
+            console.log('Media preview loaded');
+            this.loading = false;
             this.mediaPreview = reader.result;
         };
     }
@@ -164,11 +167,11 @@ export class NewPostComponent implements OnInit {
         if (this.media) {
             switch (this.currentType) {
                 case 'Photo':
-                    type = 'image';
+                    type = this.media.type;
                     break;
 
                 case 'Video':
-                    type = 'video';
+                    type = this.media.type;
                     break;
 
                 case 'URL':
@@ -177,21 +180,17 @@ export class NewPostComponent implements OnInit {
             }
         }
 
-        const post = new Post({
-            author: this.user.profile.id,
-            type,
-            caption,
-            media: this.media,
-            repost: false
-        });
+        const formData = new FormData();
+        formData.append('media', this.media);
+        formData.append('author', this.user.profile.id.toString());
+        formData.append('type', type);
+        formData.append('caption', caption);
+        formData.append('repost', 'false');
 
-        console.log(post);
-
-        this.backend.addPost(post).subscribe(response => {
+        this.backend.addPost(formData).subscribe(response => {
             console.log(response);
             this.loading = false;
             this.router.navigate(['']);
-            // TODO: Handle file uploads
         }, error => {
             console.error(error);
             this.loading = false;
