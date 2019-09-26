@@ -1,6 +1,4 @@
-.interaction-bar-icon-spacer {
-    margin-left: 10px;
-}
-.interaction-bar-icon-red {
+.icon-red {
     color: red;
+    font-weight: 600;
 }

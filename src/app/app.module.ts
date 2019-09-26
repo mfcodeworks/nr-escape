@@ -28,6 +28,8 @@ import { environment } from '../environments/environment';
 import { Routing } from './app.routing';
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { FeedResolver } from './_helpers/feed.resolver';
+import { RecommendationsResolver } from './_helpers/recommendations.resolver';
+import { NotificationsResolver } from './_helpers/notifications.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
 import { AppComponent } from './app.component';
@@ -104,6 +106,8 @@ import { SearchComponent } from './search/search.component';
         MatSnackBar,
         SignedInGuard,
         FeedResolver,
+        RecommendationsResolver,
+        NotificationsResolver,
         ProfileResolver,
         PostResolver,
     ],

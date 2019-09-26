@@ -65,6 +65,7 @@ export class NewPostComponent implements OnInit {
     }
 
     ngOnInit() {
+        // Subscribe to type observer
         this.typeObs.subscribe(type => {
             this.nullMedia();
             console.log('New type', type);

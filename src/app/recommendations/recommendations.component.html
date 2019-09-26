@@ -1,14 +1,12 @@
 <!-- App Top Bar -->
-<mat-toolbar class="top-bar mat-elevation-z2">
-    <mat-form-field class="top-bar-input" [routerLink]="['/search']">
-        <span matPrefix><i class="ti-search"></i> &nbsp;</span>
-        <input matInput type="search" placeholder="Search" disabled>
-    </mat-form-field>
-    <img class="top-bar-logo" src="assets/images/logo-marker.png" />
+<mat-toolbar class="top-bar mat-elevation-z2" [routerLink]="['/search']">
+    <i class="ti-search ml-3 mr-2"></i> Search
+    <img class="top-bar-logo mr-4" src="assets/images/logo-marker.png" />
 </mat-toolbar>
 
 <div class="min-h-100">
-    <h3>Search</h3>
+    <!-- TODO: Display Recommendations -->
+    <h3>Recommendations</h3>
 </div>
 
 <!-- App Botttom Bar -->

@@ -3,6 +3,8 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { FeedResolver } from './_helpers/feed.resolver';
+import { RecommendationsResolver } from './_helpers/recommendations.resolver';
+import { NotificationsResolver } from './_helpers/notifications.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
 import { FeedComponent } from './feed/feed.component';
@@ -24,11 +26,10 @@ export const routes: Routes = [
                 component: FeedComponent,
                 resolve: { posts: FeedResolver },
             },
-            { path: 'recommendations',  component: RecommendationsComponent },
             {
-                path: 'search',
-                redirectTo: '',
-                pathMatch: 'full'
+                path: 'recommendations',
+                component: RecommendationsComponent,
+                resolve: { recommendations: RecommendationsResolver }
             },
             { path: 'search', component: SearchComponent },
             { path: 'new-post', component: NewPostComponent },
@@ -37,7 +38,11 @@ export const routes: Routes = [
                 component: PostComponent,
                 resolve: { post: PostResolver }
             },
-            { path: 'notifications', component: NotificationsComponent },
+            {
+                path: 'notifications',
+                component: NotificationsComponent,
+                resolve: { notifications: NotificationsResolver }
+            },
             {
                 path: 'profile/:profileId',
                 component: ProfileComponent,

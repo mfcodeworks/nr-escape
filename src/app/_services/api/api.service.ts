@@ -158,12 +158,15 @@ export class ApiService {
     }
 
     // API: Get Recommended Users
-    getRecommendations(): any {
+    getRecommendations(): Observable<Profile[]> {
         return this.http
-        .get(`${API_URL}/me/recmomendations`, this.getRequestHeaders())
+        .get<Profile[]>(`${API_URL}/me/recommendations`, this.getRequestHeaders())
         .pipe(
             retry(3),
-            catchError(this.handleError)
+            catchError(this.handleError),
+            map((response) => response.map(
+                recommendation => new Profile(recommendation)
+            ))
         );
     }
 
@@ -242,7 +245,8 @@ export class ApiService {
         .post<Post>(`${API_URL}/post`, post, this.getRequestHeaders())
         .pipe(
             retry(3),
-            catchError(this.handleError)
+            catchError(this.handleError),
+            map((response) => new Post(response))
         );
     }
 

@@ -1,3 +1,5 @@
+import { Post } from './post';
+
 export class Profile {
     id: number;
     username: string;
@@ -10,6 +12,7 @@ export class Profile {
     followers: number[];
     following: number[];
     fcmToken: string;
+    recentPosts?: Post[];
 
     constructor(values: any = {}) {
         Object.assign(this, values);
