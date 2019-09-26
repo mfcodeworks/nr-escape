@@ -1,0 +1,30 @@
+<!-- App Top Bar -->
+<mat-toolbar class="top-bar mat-elevation-z2">
+    <mat-form-field class="top-bar-input mx-a mt-2" floatLabel="never">
+        <span matPrefix><i class="ti-search"></i> &nbsp;</span>
+        <input matInput #searchInput type="search" placeholder="Search" autocomplete="off">
+    </mat-form-field>
+    <img class="top-bar-logo" src="assets/images/logo-marker.png" />
+</mat-toolbar>
+
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<div class="min-h-100">
+    <!-- TODO: Display search results -->
+    <span *ngIf="!results.length">
+        <p class="mat-body error-placeholder mt-4">
+            Haven't found anything yet&hellip;
+        </p>
+    </span>
+    <mat-list *ngIf="results.length">
+        <mat-list-item *ngFor="let result of results">
+            <mat-divider></mat-divider>
+            <img matListAvatar [src]="result.profilePic" class="avatar"  [routerLink]="['/profile', result.id]"/>
+            <h3 matLine><span [routerLink]="['/profile', result.id]" class="mat-h3 font-weight-bold">{{result.username}}</span></h3>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
+</div>
+
+<!-- App Botttom Bar -->
+<app-bottom-bar></app-bottom-bar>

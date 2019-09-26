@@ -49,6 +49,7 @@ import {
 } from './_modules/authentication/authentication.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DateDiffPipe } from './_helpers/date-diff.pipe';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
     imports: [
@@ -93,7 +94,8 @@ import { DateDiffPipe } from './_helpers/date-diff.pipe';
         ProfileComponent,
         RecommendationsComponent,
         SettingsComponent,
-        DateDiffPipe
+        DateDiffPipe,
+        SearchComponent
     ],
     entryComponents: [
         PostBottomSheetComponent

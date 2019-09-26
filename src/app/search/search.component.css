@@ -1,0 +1,21 @@
+.top-bar-logo {
+    margin: auto;
+    height: 32px;
+}
+.top-bar-input {
+    width: 74%;
+    font-size: 14px;
+}
+.top-bar {
+    position: sticky;
+    position: -webkit-sticky;
+    display: flex;
+    top: 0;
+    z-index: 1000;
+}
+@media (min-width: 992px) {
+    .top-bar {
+        min-width: 100vw;
+        margin-left: calc(-50vw/2);
+    }
+}

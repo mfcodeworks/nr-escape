@@ -12,6 +12,7 @@ import { PostComponent } from './post/post.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SearchComponent } from './search/search.component';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,7 @@ export const routes: Routes = [
                 redirectTo: '',
                 pathMatch: 'full'
             },
+            { path: 'search', component: SearchComponent },
             { path: 'new-post', component: NewPostComponent },
             {
                 path: 'post/:postId',
