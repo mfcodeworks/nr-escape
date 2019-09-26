@@ -25,9 +25,6 @@ export class ProfileComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // Scroll to top
-        window.scrollTo(0, 0);
-
         // Set profile data
         this.route.data.subscribe((data) => {
             if (data.profile instanceof Object) {

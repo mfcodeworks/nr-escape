@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
 import { SignedInGuard } from './_helpers/signed-in.guard';
@@ -58,5 +58,10 @@ export const routes: Routes = [
         pathMatch: 'full'
     }
 ];
+const options: ExtraOptions = {
+    useHash: false,
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled'
+};
 
-export const Routing: ModuleWithProviders = RouterModule.forRoot(routes);
+export const Routing: ModuleWithProviders = RouterModule.forRoot(routes, options);

@@ -2,8 +2,24 @@
 <app-top-bar></app-top-bar>
 
 <div class="min-h-100">
-    <h3>Notifications</h3>
     <!-- TODO: Display notifications -->
+    <mat-list class="pt-0">
+        <mat-list-item *ngFor="let notification of notifications">
+            <mat-divider></mat-divider>
+            <img matListAvatar [src]="notification.from.profilePic" class="avatar" [routerLink]="['/profile', notification.from.id]"/>
+            <h3 matLine *ngIf="notification.type === 'liked'" [routerLink]="['/post', notification.postId]">
+                <span class="mat-h3 font-weight-bold">{{ notification.from.username }}</span> liked your post
+            </h3>
+            <h3 matLine *ngIf="notification.type === 'reposted'" [routerLink]="['/post', notification.postId]">
+                <span class="mat-h3 font-weight-bold">{{ notification.from.username }}</span> reposted your post<span *ngIf="notification.post.caption">: {{ notification?.post.caption }}</span>
+            </h3>
+            <h3 matLine *ngIf="notification.type === 'commented on'" [routerLink]="['/post', notification.postId]" fragment="comment{{notification.commentId}}">
+                <span class="mat-h3 font-weight-bold">{{ notification.from.username }}</span> commented on your post: {{ notification?.comment.text }}
+            </h3>
+            <p matLine matSmall class="datetime">{{ notification.createdAt | dateDiff }}</p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
 </div>
 
 <!-- App Botttom Bar -->
