@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseApp } from '@angular/fire';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { filter } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { BackendService } from '../backend/backend.service';
@@ -21,7 +22,6 @@ export class PushService {
     push: any;
     topics = ['test'];
     token: string;
-    loggedIn = false;
 
     constructor(
         private backend: BackendService,
@@ -29,17 +29,7 @@ export class PushService {
         private fire: AngularFireMessaging,
         private ipc: IpcService,
         private user: UserService
-    ) {
-        // Set logged in status
-        this.loggedIn = !!this.user.token;
-
-        // On login save FCM token
-        this.user.isLoggedIn().subscribe(login => {
-            this.loggedIn = login;
-            console.log('Login event', login);
-            if (login) { this.saveToken(); }
-        });
-    }
+    ) {}
 
     init(): void {
         // Check device
@@ -189,18 +179,22 @@ export class PushService {
     }
 
     // Send to server to save token
-    saveToken(): void {
+    private saveToken(): void {
         // DEBUG:
-        console.log('Logged in', this.loggedIn);
-        console.log('Token', this.token);
+        console.log('Saving Token:', this.token);
 
-        if (!this.loggedIn || !this.token) {
-            return;
-        }
+        this.user.isLoggedIn().pipe(
+            // Only return true
+            filter((res) => {
+                return res;
+            })
+        ).subscribe(login => {
+            console.log('Logged in');
 
-        // Send token to server
-        this.backend.saveFcm(this.token).subscribe(response => {
-            console.log('Saved FCM');
+            // Send token to server
+            this.backend.saveFcm(this.token).subscribe(response => {
+                console.log('Saved FCM');
+            });
         });
     }
 
