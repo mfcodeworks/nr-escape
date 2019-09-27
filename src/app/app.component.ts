@@ -10,6 +10,8 @@ import {
 
 import { PushService } from './_services/push/push.service';
 
+declare const $: any;
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -40,6 +42,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        // TODO: Only set dark theme if dark theme enabled
+        $('body').addClass('dark-theme');
+
         // On Cordova 'deviceready' event, or html 'load' event; init push services
         document.addEventListener(
             window.hasOwnProperty('cordova') ? 'deviceready' : 'load',

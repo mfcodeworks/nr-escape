@@ -1,11 +1,12 @@
 .comment-form {
-    width: 98%;
-    max-height: 50px;
-}
-.comment-form-input {
-    width: 100%;
-    padding: 0 5px 0 5px;
     height: 50px;
+    bottom: 64px !important;
+    position: fixed;
+}
+@media (max-width: 599px) {
+    .comment-form {
+        bottom: 56px !important;
+    }
 }
 
 .comment-container {
@@ -17,12 +18,11 @@
     flex-direction: column;
     align-content: flex-start;
 }
+
+.comment-container > p,
 .comment-container > img {
     flex: 0 0 auto;
     object-fit: cover;
-}
-.comment-container > p {
-    flex: 0 1 auto;
 }
 .datetime {
     color: #888888;

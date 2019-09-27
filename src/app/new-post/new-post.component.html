@@ -8,7 +8,7 @@
         <mat-list-item>
             <img matListAvatar [src]="user.profile.profilePic" class="avatar"  [routerLink]="['/profile', user.profile.id]"/>
             <h3 matLine><span [routerLink]="['/profile', user.profile.id]" class="mat-h3 font-weight-bold">{{user.profile.username}}</span></h3>
-            <span><button mat-raised-button color="primary" (click)="submit()" [disabled]="loading">Post</button></span>
+            <span><button mat-raised-button color="accent" (click)="submit()" [disabled]="loading">Post</button></span>
         </mat-list-item>
     </mat-list>
     <mat-divider></mat-divider>
@@ -62,7 +62,7 @@
 
     <!-- Add Media Button Bar -->
     <div class="pt-5"></div>
-    <mat-list role="list" class="add-post-bar w-100 pt-0">
+    <mat-list role="list" class="app-background-color add-post-bar w-100 pt-0">
         <mat-divider></mat-divider>
         <mat-list-item role="listitem" (click)="openBottomSheet()">
             <i class="ti-gallery grad-color3 mr-1"></i>

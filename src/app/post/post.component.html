@@ -3,7 +3,7 @@
 
 <!-- Container -->
 <div class="min-h-100">
-    <mat-list *ngIf="this.post">
+    <mat-list *ngIf="this.post" class="mb-5">
 
         <!-- Post Display -->
         <app-post-display [post]="post"></app-post-display>
@@ -12,14 +12,6 @@
         <app-post-interaction-bar [post]=post></app-post-interaction-bar>
 
         <mat-divider></mat-divider>
-
-        <!-- TODO: Sticky comment input to bottom -->
-        <div #commentForm class="comment-form">
-            <mat-form-field appearance="standard" class="comment-form-input">
-                <input #commentInput matInput placeholder="Comment" autocomplete="off">
-                <mat-icon matSuffix (click)="postComment(commentInput.value); commentForm.reset()">send</mat-icon>
-            </mat-form-field>
-        </div>
 
         <!-- TODO: Comment Display -->
         <span *ngIf="comments.length == 0">
@@ -41,6 +33,20 @@
     <span *ngIf="!post">
         <p class="mat-body error-placeholder mt-4">Sorry, I couldn't find that one</p>
     </span>
+
+    <!-- Comment Input -->
+    <div #commentForm class="app-background-color comment-form w-100 px-2">
+        <mat-form-field appearance="standard" class="w-100" style="top: -8px;">
+            <mat-label>Comment&hellip;</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                #comment
+                cdkAutosizeMinRows="1"></textarea>
+            <!-- TODO: Send comment to server -->
+            <mat-icon matSuffix (click)="comment.value = ''">send</mat-icon>
+        </mat-form-field>
+    </div>
 </div>
 
 <!-- App Botttom Bar -->

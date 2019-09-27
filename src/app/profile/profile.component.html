@@ -32,16 +32,17 @@
         <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
         <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
         <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
-            <a color="primary" [href]="profile.contactInfo.website" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
-            <a color="primary" [href]="profile.contactInfo.email" mat-stroked-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
+            <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
+            <a color="primary" [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
         </span>
         <mat-divider class="my-3"></mat-divider>
 
         <!-- Posts grid -->
-        <mat-grid-list cols="3" class="profile-grid" gutterSize="4px" *ngIf="posts.length">
+        <mat-grid-list cols="3" class="profile-grid" gutterSize="3px" *ngIf="posts.length">
             <mat-grid-tile *ngFor="let post of posts">
+                <!-- TODO: Preview for video and URL posts -->
                 <img [routerLink]="['/post', post.id]" [src]="post.media" class="post" *ngIf="post.type.startsWith('image')"/>
-                <p [routerLink]="['/post', post.id]" class="post text-post" *ngIf="post.type.startsWith('text')">{{post.caption}}</p>
+                <p [routerLink]="['/post', post.id]" class="post text-post p-1" *ngIf="post.type.startsWith('text')">{{post.caption | slice:0:35}}&hellip;</p>
             </mat-grid-tile>
         </mat-grid-list>
 

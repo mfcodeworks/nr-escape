@@ -1,13 +1,13 @@
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-
 ::-webkit-scrollbar {
     width: 0px;
     display: none;
 }
 *, *:focus, *:active {
-    outline: none;
+    outline: none !important;
     box-shadow: none;
     -webkit-box-shadow: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
 html, body {
     height: 100%;
