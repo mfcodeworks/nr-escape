@@ -1,10 +1,11 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import { Post } from '../_models/post';
 import { Comment } from '../_models/comment';
 import { BackendService } from '../_services/backend/backend.service';
+import { UserService } from '../_services/user/user.service';
 
 declare const $: any;
 
@@ -14,15 +15,19 @@ declare const $: any;
     styleUrls: ['./post.component.css'],
 })
 export class PostComponent implements OnInit, AfterViewInit {
+    @Input() preview = false;
+    @ViewChild('comment', { static: false }) comment: ElementRef;
     post: Post = null;
     comments: Comment[] = [];
+    sending = false;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        private errorToast: MatSnackBar,
         private backend: BackendService,
-        private errorToast: MatSnackBar
-    ) { }
+        private user: UserService
+    ) {}
 
     ngOnInit() {
         this.route.data.subscribe((data) => {
@@ -43,7 +48,7 @@ export class PostComponent implements OnInit, AfterViewInit {
             const element = document.querySelector(`#${tree.fragment}`);
             if (element) {
                 const y = element.getBoundingClientRect().top + window.pageYOffset;
-                const offset = 300; // Unsure why this exists
+                const offset = 300; // Unsure why this is needed
                 window.scrollTo({
                     top: y + offset,
                     behavior: 'smooth'
@@ -53,7 +58,29 @@ export class PostComponent implements OnInit, AfterViewInit {
         }
     }
 
-    postComment(input: string) {
-        console.log(input);
+    // Post comment to server
+    postComment() {
+        const input = this.comment.nativeElement.value;
+        if (input.length < 1) { return; }
+
+        this.sending = true;
+        this.comment.nativeElement.value = '';
+
+        this.backend.addComment(
+            new Comment({
+                author: this.user.profile.id,
+                text: input,
+                reply_to: this.post.id
+            })
+        ).subscribe((response: any) => {
+            console.log(response);
+            this.post.comments.push(response);
+            $('html, body').animate({ scrollTop: $(document).height() }, 1000);
+        }, (error: any) => {
+            // TODO: Handle Error
+            console.warn(error);
+        }, () => {
+            this.sending = false;
+        });
     }
 }

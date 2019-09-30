@@ -1,0 +1,10 @@
+<!-- Post Display -->
+<app-post-display [post]="post" [isFollowed]=isFollowed() (liked)="likePost()" (follow)="followUser($event)"></app-post-display>
+
+<!-- Post Interaction Row -->
+<app-post-interaction-bar [post]=post [isLiked]=isLiked() (liked)="likePost()" (repost)="repost()"></app-post-interaction-bar>
+
+<mat-divider *ngIf="!preview"></mat-divider>
+
+<!-- Comment Display -->
+<app-comments [post]=post [preview]=preview></app-comments>

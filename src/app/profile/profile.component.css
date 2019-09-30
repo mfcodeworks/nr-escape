@@ -31,18 +31,3 @@ h4 {
     height: 80px !important;
     width: 80px !important;
 }
-.profile-grid {
-    margin-top: 10px;
-}
-.post {
-    object-fit: cover;
-    width: 100%;
-}
-.text-post {
-    text-align: center;
-    font-size: large;
-    font-weight: 500;
-    font-family: sans-serif;
-    text-overflow: ellipsis;
-    overflow: auto;
-}

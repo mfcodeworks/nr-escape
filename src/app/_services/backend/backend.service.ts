@@ -79,7 +79,7 @@ export class BackendService {
     }
 
     // Get Recommended Users
-    getRecommendations(): any {
+    getRecommendations(): Observable<Post[]> {
         return this.api.getRecommendations();
     }
 

@@ -4,35 +4,8 @@
 <!-- Container -->
 <div class="min-h-100">
     <mat-list *ngIf="this.post" class="mb-5">
-
-        <!-- Post Display -->
-        <app-post-display [post]="post"></app-post-display>
-
-        <!-- Post Interaction Row -->
-        <app-post-interaction-bar [post]=post></app-post-interaction-bar>
-
-        <mat-divider></mat-divider>
-
-        <!-- TODO: Comment Display -->
-        <span *ngIf="comments.length == 0">
-            <p class="mat-body error-placeholder mt-3">I've Got Nothing</p>
-        </span>
-
-        <span *ngIf="post.comments.length">
-            <div *ngFor="let comment of comments" class="d-flex comment-container my-3" id="comment{{comment.id}}">
-                <img [src]="comment.author.profilePic" [routerLink]="['/profile', comment.author.id]" matAvatar class="avatar mx-2" />
-                <span class="d-flex comment-text-container w-100">
-                    <p class="mb-0"><b [routerLink]="['/profile', comment.author.id]">{{comment.author.username}}</b> {{comment.text}}</p>
-                    <p matSmall class="datetime">{{comment.datetime | dateDiff}}</p>
-                </span>
-            </div>
-        </span>
-
+        <app-post-view [post]=post [preview]=false></app-post-view>
     </mat-list>
-
-    <span *ngIf="!post">
-        <p class="mat-body error-placeholder mt-4">Sorry, I couldn't find that one</p>
-    </span>
 
     <!-- Comment Input -->
     <div #commentForm class="app-background-color comment-form w-100 px-2">
@@ -42,9 +15,16 @@
                 cdkTextareaAutosize
                 #autosize="cdkTextareaAutosize"
                 #comment
-                cdkAutosizeMinRows="1"></textarea>
-            <!-- TODO: Send comment to server -->
-            <mat-icon matSuffix (click)="comment.value = ''">send</mat-icon>
+                cdkAutosizeMinRows="1"
+                [disabled]="sending"></textarea>
+            <!-- Send comment to server -->
+            <mat-icon matSuffix (click)="sending ? null: postComment()">
+                <i #commentButton
+                    class="fas"
+                    [class.fa-paper-plane]="!sending"
+                    [class.fa-spinner]="sending"
+                    [class.fa-spin]="sending"></i>
+            </mat-icon>
         </mat-form-field>
     </div>
 </div>

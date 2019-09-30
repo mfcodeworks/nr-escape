@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Profile } from '../_models/profile';
 
+declare const _: any;
+
 @Component({
     selector: 'app-recommendations',
     templateUrl: './recommendations.component.html',
@@ -19,7 +21,7 @@ export class RecommendationsComponent implements OnInit {
         // Get recommendations from route resolver data
         this.route.data.subscribe((data) => {
             if (data.recommendations instanceof Array) {
-                this.recommendations = data.recommendations;
+                this.recommendations = _.shuffle(data.recommendations);
                 console.log(this.recommendations);
             } else {
                 // TODO: Handle error

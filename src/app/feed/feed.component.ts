@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import { UserService } from '../_services/user/user.service';
 import { Post } from '../_models/post';
+
+declare const _: any;
 
 @Component({
     selector: 'app-feed',
@@ -13,10 +14,8 @@ import { Post } from '../_models/post';
 export class FeedComponent implements OnInit {
     posts: Post[] = null;
     userId: number;
-    post: Post;
 
     constructor(
-        private userService: UserService,
         private route: ActivatedRoute,
         private errorToast: MatSnackBar
     ) {}
@@ -28,36 +27,11 @@ export class FeedComponent implements OnInit {
                 this.posts = data.posts;
                 console.log(this.posts);
             } else {
+                console.error(data.posts);
                 this.errorToast.open(data.posts, 'close', {
                     duration: 3000
                 });
             }
         });
     }
-
-    // Update for API usage
-    likePost(post: Post) {
-        switch (this.isLiked(post)) {
-            // If post is liked, remove like
-            case true:
-                for (let i = 0; i < post.likes.length; i++) {
-                    if (post.likes[i] === this.userService.profile.id) { post.likes.splice(i, 1); }
-                }
-                break;
-
-            // If not liked add a new like
-            case false:
-                post.likes.push(this.userService.profile.id);
-                break;
-        }
-
-        // DEBUG: Log post data
-        console.log(post.likes);
-    }
-
-    isLiked(post: Post) {
-        return post.likes.includes(this.userService.profile.id);
-    }
-
-    repost(post: Post) { }
 }

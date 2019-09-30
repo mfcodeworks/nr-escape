@@ -158,14 +158,14 @@ export class ApiService {
     }
 
     // API: Get Recommended Users
-    getRecommendations(): Observable<Profile[]> {
+    getRecommendations(): Observable<Post[]> {
         return this.http
-        .get<Profile[]>(`${API_URL}/me/recommendations`, this.getRequestHeaders())
+        .get<any[]>(`${API_URL}/me/recommendations`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError),
-            map((response) => response.map(
-                recommendation => new Profile(recommendation)
+            map((response) => response[0].map(
+                recommendation => new Post(recommendation)
             ))
         );
     }

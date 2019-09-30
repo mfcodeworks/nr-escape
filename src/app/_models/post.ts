@@ -11,7 +11,7 @@ export class Post {
     repost: boolean;
     repostOf: Post;
     comments: Comment[];
-    likes: number[];
+    likes: any[];
 
     constructor(values: any = {}) {
         Object.assign(this, values);

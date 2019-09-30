@@ -3,14 +3,8 @@
 
 <div class="min-h-100">
     <mat-list *ngFor="let post of posts">
-        <!-- Post Display -->
-        <app-post-display [post]=post></app-post-display>
-
-        <!-- Post Interaction Row -->
-        <app-post-interaction-bar [post]=post></app-post-interaction-bar>
-
-        <!-- Comment Preview -->
-        <app-comment-preview [post]=post></app-comment-preview>
+        <!-- Posts -->
+        <app-post-view [post]=post [preview]=true></app-post-view>
         <mat-divider></mat-divider>
     </mat-list>
 

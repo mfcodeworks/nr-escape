@@ -182,7 +182,9 @@ export class NewPostComponent implements OnInit {
         }
 
         const formData = new FormData();
-        formData.append('media', this.media);
+        if (this.media) {
+            formData.append('media', this.media);
+        }
         formData.append('author', this.user.profile.id.toString());
         formData.append('type', type);
         formData.append('caption', caption);

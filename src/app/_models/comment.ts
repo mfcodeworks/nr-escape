@@ -1,7 +1,7 @@
 export class Comment {
     id: number;
     author: any;
-    datetime: number;
+    createdAt: number;
     text: string;
     media: string;
     replyTo: number;

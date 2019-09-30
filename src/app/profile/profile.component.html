@@ -38,13 +38,7 @@
         <mat-divider class="my-3"></mat-divider>
 
         <!-- Posts grid -->
-        <mat-grid-list cols="3" class="profile-grid" gutterSize="3px" *ngIf="posts.length">
-            <mat-grid-tile *ngFor="let post of posts">
-                <!-- TODO: Preview for video and URL posts -->
-                <img [routerLink]="['/post', post.id]" [src]="post.media" class="post" *ngIf="post.type.startsWith('image')"/>
-                <p [routerLink]="['/post', post.id]" class="post text-post p-1" *ngIf="post.type.startsWith('text')">{{post.caption | slice:0:35}}&hellip;</p>
-            </mat-grid-tile>
-        </mat-grid-list>
+        <app-post-preview-grid [posts]=posts></app-post-preview-grid>
 
         <span *ngIf="!posts.length">
             <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>

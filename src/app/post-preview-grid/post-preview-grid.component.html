@@ -1,5 +1,17 @@
-<div *ngIf="posts.length">
-    <span *ngFor="let post of posts">
-
-    </span>
-</div>
+<!-- Posts grid -->
+<mat-grid-list cols="3" class="my-2" gutterSize="3px" *ngIf="posts.length">
+    <mat-grid-tile *ngFor="let post of posts" class="tile-border d-flex" [class.text-tile-container]="post.type.startsWith('text')">
+        <!-- TODO: Preview for video and URL posts -->
+        <video [routerLink]="['/post', post.id]"
+            [src]="post.media"
+            class="tile"
+            *ngIf="post.type.startsWith('video')"
+            preload="metadata">
+            <source class="post-image" [src]="post.media" [type]="post.type"/>
+        </video>
+        <img [routerLink]="['/post', post.id]" [src]="post.media" class="tile" *ngIf="post.type.startsWith('image')"/>
+        <div [routerLink]="['/post', post.id]" class="tile text-tile" *ngIf="post.type.startsWith('text')">
+            <p class="text-tile-content">{{post.caption | slice:0:46}}<span *ngIf="post.caption.length > 35">&hellip;</span></p>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

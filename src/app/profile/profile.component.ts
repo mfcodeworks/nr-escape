@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // Set profile data
+        // Set profile data TODO: Sort posts newest to oldest
         this.route.data.subscribe((data) => {
             if (data.profile instanceof Object) {
                 this.profile = data.profile;

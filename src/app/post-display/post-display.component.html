@@ -3,8 +3,8 @@
     <img matListAvatar [src]="post.author.profilePic" class="avatar"  [routerLink]="['/profile', post.author.id]"/>
     <h3 matLine>
         <span [routerLink]="['/profile', post.author.id]" class="post-username-text mat-h3">{{post.author.username}}</span>
-        <!-- TODO: Update to check if user following author -->
-        <a mat-button color="accent" (click)="followUser(post.author.id)">Follow</a>
+        <!-- Update to check if user following author -->
+        <a mat-button color="accent" (click)="followUser(post.author.id)" *ngIf="!isFollowed">Follow</a>
     </h3>
     <span *ngIf="post.repost"><i class="ti-reload"></i></span>
     <span class="post-datetime">{{ post.createdAt | dateDiff }}</span>
@@ -17,7 +17,7 @@
     </mat-list-item>
 
     <!-- Post Media -->
-    <img class="post-image" [src]="post.media" (dblclick)="likePost(post)"/>
+    <img class="post-image" [src]="post.media" (dblclick)="likePost()"/>
 </span>
 
 <span *ngIf="post.type.startsWith('video')">
@@ -27,7 +27,7 @@
     </mat-list-item>
 
     <!-- Post Media -->
-    <video class="post-image" (dblclick)="likePost(post)" playsinline loop controls controlsList="nofullscreen nodownload" preload="metadata">
+    <video class="post-image" (dblclick)="likePost()" playsinline loop controls controlsList="nofullscreen nodownload" preload="metadata">
         <source class="post-image" [src]="post.media" [type]="post.type"/>
     </video>
 </span>
@@ -35,7 +35,7 @@
 <span *ngIf="post.type == 'text'">
     <mat-divider></mat-divider>
     <!-- Caption as Post -->
-    <mat-list-item class="text-post-container">
+    <mat-list-item class="text-post-container" (dblclick)="likePost(post)" >
         <span class="text-post">{{post.caption}}</span>
     </mat-list-item>
     <mat-divider></mat-divider>

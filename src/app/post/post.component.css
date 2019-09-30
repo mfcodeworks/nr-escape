@@ -8,36 +8,3 @@
         bottom: 56px !important;
     }
 }
-
-.comment-container {
-    flex-direction: row;
-    align-content: flex-start;
-}
-.comment-text-container {
-    flex: 0 1 auto;
-    flex-direction: column;
-    align-content: flex-start;
-}
-
-.comment-container > p,
-.comment-container > img {
-    flex: 0 0 auto;
-    object-fit: cover;
-}
-.datetime {
-    color: #888888;
-    font-size: 12px;
-}
-
-@keyframes highlight {
-    0% {
-      background-color: #871F78;
-    }
-    100% {
-      background-color: none;
-    }
-}
-
-.highlight {
-    animation: highlight 3s;
-}

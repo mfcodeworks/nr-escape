@@ -38,11 +38,12 @@ import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
 import { PostDisplayComponent } from './post-display/post-display.component';
 import { PostPreviewGridComponent } from './post-preview-grid/post-preview-grid.component';
 import { PostInteractionBarComponent } from './post-interaction-bar/post-interaction-bar.component';
-import { CommentPreviewComponent } from './comment-preview/comment-preview.component';
+import { CommentsComponent } from './comments/comments.component';
 import { FeedComponent } from './feed/feed.component';
 import { NewPostComponent, PostBottomSheetComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostComponent } from './post/post.component';
+import { PostViewComponent } from './post-view/post-view.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -87,7 +88,7 @@ import { SearchComponent } from './search/search.component';
         PostDisplayComponent,
         PostPreviewGridComponent,
         PostInteractionBarComponent,
-        CommentPreviewComponent,
+        CommentsComponent,
         FeedComponent,
         PostBottomSheetComponent,
         NewPostComponent,
@@ -97,7 +98,8 @@ import { SearchComponent } from './search/search.component';
         RecommendationsComponent,
         SettingsComponent,
         DateDiffPipe,
-        SearchComponent
+        SearchComponent,
+        PostViewComponent
     ],
     entryComponents: [
         PostBottomSheetComponent

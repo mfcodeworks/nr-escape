@@ -1,0 +1,30 @@
+<!-- Comment Display Row -->
+<span *ngIf="preview">
+    <b class="mat-h3 ml-2 mt-1" [routerLink]="['/post', post.id]">View more comments</b>
+
+    <span *ngIf="post.comments.length" [routerLink]="['/post', post.id]">
+        <div *ngFor="let comment of post.comments; let i = index" class="my-1 ml-3">
+            <div *ngIf="i < 2" class="d-flex comment-container mb-1" id="comment{{comment.id}}">
+                <span class="d-flex comment-text-container w-100">
+                    <p class="mb-0"><b [routerLink]="['/profile', comment.author.id]">{{comment.author.username}}</b> {{comment.text}}</p>
+                </span>
+            </div>
+        </div>
+    </span>
+</span>
+
+<span *ngIf="!preview">
+    <span *ngIf="post.comments.length == 0">
+        <p class="mat-body error-placeholder mt-3">I've Got Nothing</p>
+    </span>
+
+    <span *ngIf="post.comments.length">
+        <div *ngFor="let comment of post.comments" class="d-flex comment-container my-3" id="comment{{comment.id}}">
+            <img [src]="comment.author.profilePic" [routerLink]="['/profile', comment.author.id]" matAvatar class="avatar mx-2" />
+            <span class="d-flex comment-text-container w-100">
+                <p class="mb-0"><b [routerLink]="['/profile', comment.author.id]">{{comment.author.username}}</b> {{comment.text}}</p>
+                <p matSmall class="datetime">{{comment.createdAt | dateDiff}}</p>
+            </span>
+        </div>
+    </span>
+</span>
