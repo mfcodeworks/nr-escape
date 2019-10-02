@@ -28,6 +28,12 @@
       }
     })();
   </script>
+  <script>
+    // If loaded via Electron load jquery as a module
+    if ( typeof module === "object" && typeof module.exports === "object" ) {
+      window.$ = window.jQuery = require('jquery');
+    }
+  </script>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#1976d2">
 </head>
