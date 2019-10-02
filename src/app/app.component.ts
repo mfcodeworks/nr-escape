@@ -10,6 +10,7 @@ import {
 
 import { PushService } from './_services/push/push.service';
 
+// DEBUG: Electron not loading jQuery properly
 declare const $: any;
 
 @Component({
