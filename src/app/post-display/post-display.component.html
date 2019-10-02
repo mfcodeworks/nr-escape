@@ -8,6 +8,13 @@
     </h3>
     <span *ngIf="post.repost"><i class="ti-reload"></i></span>
     <span class="post-datetime">{{ post.createdAt | dateDiff }}</span>
+    <i class="ti-menu-alt ml-3" [matMenuTriggerFor]="menu"></i>
+    <!-- TODO: Make menu functional -->
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>Delete</button>
+        <button mat-menu-item>Report</button>
+        <button mat-menu-item>Share</button>
+    </mat-menu>
 </mat-list-item>
 
 <span *ngIf="post.type.startsWith('image')">

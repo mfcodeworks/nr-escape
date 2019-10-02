@@ -21,7 +21,9 @@ import {
     MatSelectModule,
     MatStepperModule,
     MatCardModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatDialogModule,
+    MatMenuModule
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
@@ -38,7 +40,7 @@ import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
 import { PostDisplayComponent } from './post-display/post-display.component';
 import { PostPreviewGridComponent } from './post-preview-grid/post-preview-grid.component';
 import { PostInteractionBarComponent } from './post-interaction-bar/post-interaction-bar.component';
-import { CommentsComponent } from './comments/comments.component';
+import { CommentsComponent, CommentDialogComponent } from './comments/comments.component';
 import { FeedComponent } from './feed/feed.component';
 import { NewPostComponent, PostBottomSheetComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
@@ -75,6 +77,8 @@ import { SearchComponent } from './search/search.component';
         MatStepperModule,
         MatSelectModule,
         MatCardModule,
+        MatDialogModule,
+        MatMenuModule,
         MatBottomSheetModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
@@ -88,6 +92,7 @@ import { SearchComponent } from './search/search.component';
         PostDisplayComponent,
         PostPreviewGridComponent,
         PostInteractionBarComponent,
+        CommentDialogComponent,
         CommentsComponent,
         FeedComponent,
         PostBottomSheetComponent,
@@ -102,6 +107,7 @@ import { SearchComponent } from './search/search.component';
         PostViewComponent
     ],
     entryComponents: [
+        CommentDialogComponent,
         PostBottomSheetComponent
     ],
     providers: [
