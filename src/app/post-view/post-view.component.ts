@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../_models/post';
 import { BackendService } from '../_services/backend/backend.service';
 import { UserService } from '../_services/user/user.service';
-import { Comment } from '../_models/comment';
 
 declare const _: any;
 
@@ -18,7 +17,7 @@ export class PostViewComponent implements OnInit {
 
     constructor(
         private backend: BackendService,
-        private user: UserService
+        protected user: UserService
     ) { }
 
     ngOnInit() {}

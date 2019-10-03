@@ -1,16 +1,9 @@
-<!-- TODO: Make menu functional and relevant -->
-<mat-nav-list class="m-3 p-0">
-    <mat-divider></mat-divider>
-    <mat-list-item class="h-100" (click)="close('example action')">
+<!-- TODO: Make menu functional -->
+<mat-nav-list class="p-0">
+    <mat-list-item *ngIf="data.comment.author.id != data.user.id" class="h-100" (click)="close('report')">
         <p class="m-3">Report</p>
     </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item class="h-100" (click)="close('example action 2')">
+    <mat-list-item *ngIf="data.comment.author.id == data.user.id" class="h-100" (click)="close('delete')">
         <p class="m-3">Delete</p>
     </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item class="h-100" (click)="close('example action 3')">
-        <p class="m-3">Something Else</p>
-    </mat-list-item>
-    <mat-divider></mat-divider>
 </mat-nav-list>

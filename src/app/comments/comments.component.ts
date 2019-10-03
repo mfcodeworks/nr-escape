@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Post } from '../_models/post';
+import { Profile } from '../_models/profile';
 
 export interface DialogData {
     comment: Comment;
@@ -20,7 +21,10 @@ export class CommentDialogComponent {
     ) {}
 
     close(action?: string): void {
-        this.dialogRef.close(action);
+        this.dialogRef.close({
+            action,
+            comment: this.data.comment
+        });
     }
 
 }
@@ -32,6 +36,7 @@ export class CommentDialogComponent {
 })
 export class CommentsComponent implements OnInit {
     @Input() post: Post;
+    @Input() user: Profile;
     @Input() preview = false;
     onHoldTimeout: any = null;
     commentAction: string;
@@ -60,7 +65,10 @@ export class CommentsComponent implements OnInit {
     openDialog(comment: Comment): void {
         const dialogRef = this.dialog.open(CommentDialogComponent, {
             width: '90%',
-            data: { comment }
+            data: {
+                comment,
+                user: this.user
+            }
         });
 
         dialogRef.afterClosed()

@@ -1,10 +1,22 @@
 <!-- Post Display -->
-<app-post-display [post]="post" [isFollowed]=isFollowed() (liked)="likePost()" (follow)="followUser($event)"></app-post-display>
+<app-post-display
+    [post]="post"
+    [isFollowed]="isFollowed()"
+    [user]="user.profile"
+    (liked)="likePost()"
+    (follow)="followUser($event)"></app-post-display>
 
 <!-- Post Interaction Row -->
-<app-post-interaction-bar [post]=post [isLiked]=isLiked() (liked)="likePost()" (repost)="repost()"></app-post-interaction-bar>
+<app-post-interaction-bar
+    [post]=post
+    [isLiked]=isLiked()
+    (liked)="likePost()"
+    (repost)="repost()"></app-post-interaction-bar>
 
 <mat-divider *ngIf="!preview"></mat-divider>
 
 <!-- Comment Display -->
-<app-comments [post]=post [preview]=preview></app-comments>
+<app-comments
+    [post]=post
+    [user]=user.profile
+    [preview]=preview></app-comments>
