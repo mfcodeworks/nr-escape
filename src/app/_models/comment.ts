@@ -1,6 +1,8 @@
+import { Profile } from './profile';
+
 export class Comment {
     id: number;
-    author: any;
+    author: Profile;
     createdAt: number;
     text: string;
     media: string;
