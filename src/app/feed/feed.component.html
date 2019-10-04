@@ -4,7 +4,10 @@
 <div class="min-h-100">
     <mat-list *ngFor="let post of posts">
         <!-- Posts -->
-        <app-post-view [post]=post [preview]=true></app-post-view>
+        <app-post-view
+            [post]=post
+            [preview]=true
+            (deleted)="removePost($event)"></app-post-view>
         <mat-divider></mat-divider>
     </mat-list>
 

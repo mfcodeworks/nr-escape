@@ -34,4 +34,11 @@ export class FeedComponent implements OnInit {
             }
         });
     }
+
+    removePost(id: number) {
+        // Remove post from feed array
+        _.remove(this.posts, (p: any) => {
+            return parseInt(p.id, 10) === id;
+        });
+    }
 }

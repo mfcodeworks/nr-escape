@@ -4,7 +4,10 @@
 <!-- Container -->
 <div class="min-h-100">
     <mat-list *ngIf="this.post" class="mb-5">
-        <app-post-view [post]=post [preview]=false></app-post-view>
+        <app-post-view
+            [post]=post
+            [preview]=false
+            (deleted)="location.back()"></app-post-view>
     </mat-list>
 
     <!-- Comment Input -->

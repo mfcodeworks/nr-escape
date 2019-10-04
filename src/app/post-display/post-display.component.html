@@ -9,11 +9,11 @@
     <span *ngIf="post.repost"><i class="ti-reload"></i></span>
     <span class="post-datetime">{{ post.createdAt | dateDiff }}</span>
     <i class="ti-menu-alt ml-3" [matMenuTriggerFor]="menu"></i>
-    <!-- TODO: Make menu functional -->
+    <!-- Post Menu -->
     <mat-menu #menu="matMenu" class="mat-elevation-z2">
-        <button mat-menu-item *ngIf="post.author.id == user.id">Delete</button>
-        <button mat-menu-item *ngIf="post.author.id !== user.id">Report</button>
-        <button mat-menu-item>Share</button>
+        <button mat-menu-item *ngIf="post.author.id == user.id" (click)="deletePost()"><i class="ti-trash"></i> Delete</button>
+        <button mat-menu-item *ngIf="post.author.id !== user.id" (click)="reportPost()"><i class="ti-na"></i> Report</button>
+        <button mat-menu-item  (click)="copyURL()"><i class="ti-link"></i> Copy Link</button>
     </mat-menu>
 </mat-list-item>
 

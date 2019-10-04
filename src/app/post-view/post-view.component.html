@@ -4,7 +4,9 @@
     [isFollowed]="isFollowed()"
     [user]="user.profile"
     (liked)="likePost()"
-    (follow)="followUser($event)"></app-post-display>
+    (follow)="followUser($event)"
+    (delete)="deletePost()"
+    (report)="reportPost()"></app-post-display>
 
 <!-- Post Interaction Row -->
 <app-post-interaction-bar

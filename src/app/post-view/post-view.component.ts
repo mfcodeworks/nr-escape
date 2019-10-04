@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Post } from '../_models/post';
 import { BackendService } from '../_services/backend/backend.service';
@@ -14,6 +14,7 @@ declare const _: any;
 export class PostViewComponent implements OnInit {
     @Input() preview = false;
     @Input() post: Post = null;
+    @Output() deleted: EventEmitter<any> = new EventEmitter();
 
     constructor(
         private backend: BackendService,
@@ -22,7 +23,7 @@ export class PostViewComponent implements OnInit {
 
     ngOnInit() {}
 
-    likePost() {
+    likePost(): void {
         switch (this.isLiked()) {
             // If not liked add a new like
             case false:
@@ -51,14 +52,14 @@ export class PostViewComponent implements OnInit {
     }
 
     // Check if post likes has an index with the users ID
-    isLiked(): any {
+    isLiked(): boolean {
         return _.findIndex(this.post.likes, (l: any) => {
             return parseInt(l.user, 10) === this.user.profile.id;
         }) !== -1;
     }
 
     // Check if post author is the active user or in the users following list
-    isFollowed(): any {
+    isFollowed(): boolean {
         return this.post.author.id === this.user.profile.id ||
             _.findIndex(this.user.profile.following, (f: any) => {
                 return f.followingUser === this.post.author.id;
@@ -79,8 +80,29 @@ export class PostViewComponent implements OnInit {
     }
 
     // Follow profile
-    followUser(event: any) {
+    followUser(event: any): void {
         console.log('Follow user', event);
+    }
+
+    // Delete post
+    deletePost(): void {
+        this.backend.deletePost(this.post.id)
+        .subscribe((response: any) => {
+            this.deleted.emit(this.post.id);
+        }, (error: any) => {
+            console.warn(error);
+        });
+    }
+
+    // Report post
+    reportPost(): void {
+        this.backend.reportPost(this.post.id)
+        .subscribe((response: any) => {
+            // TODO: Have some kind of response
+            console.log(response);
+        }, (error: any) => {
+            console.warn(error);
+        });
     }
 
     // TODO: Repost this.post

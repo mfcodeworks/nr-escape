@@ -3,6 +3,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 import { Post } from '../_models/post';
 import { Profile } from '../_models/profile';
+import { Comment } from '../_models/comment';
+import { BackendService } from '../_services/backend/backend.service';
+
+declare const _: any;
 
 export interface DialogData {
     comment: Comment;
@@ -17,7 +21,7 @@ export class CommentDialogComponent {
 
     constructor(
         public dialogRef: MatDialogRef<CommentDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {}
 
     close(action?: string): void {
@@ -39,11 +43,15 @@ export class CommentsComponent implements OnInit {
     @Input() user: Profile;
     @Input() preview = false;
     onHoldTimeout: any = null;
-    commentAction: string;
 
-    constructor(public dialog: MatDialog) {}
+    constructor(
+        private backend: BackendService,
+        public dialog: MatDialog
+    ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        console.log(this.post);
+    }
 
     startOnHold(comment: Comment) {
         this.onHoldTimeout = setTimeout(() => {
@@ -74,7 +82,36 @@ export class CommentsComponent implements OnInit {
         dialogRef.afterClosed()
         .subscribe((result: string) => {
             console.log('The dialog was closed, result:', result);
-            this.commentAction = result;
+            if (result) {
+                this.checkCommentAction(result);
+            }
         });
-  }
+    }
+
+    checkCommentAction(result: any) {
+        switch (result.action) {
+            case 'delete':
+                // Remove comment
+                this.removeComment(result.comment);
+                return;
+
+            case 'report':
+                // TODO: Report comment
+                return;
+        }
+    }
+
+    removeComment(comment: Comment) {
+        // remove comment on server
+        this.backend.deleteComment(comment.id)
+        .subscribe(() => {
+            // Remove comment from post
+            _.remove(this.post.comments, (c: any) => {
+                return parseInt(c.id, 10) === comment.id;
+            });
+        }, (error: any) => {
+            // TODO: Handle error
+            console.warn(error);
+        });
+    }
 }

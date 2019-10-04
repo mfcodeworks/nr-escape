@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
 
 import { Post } from '../_models/post';
@@ -26,7 +27,8 @@ export class PostComponent implements OnInit, AfterViewInit {
         private router: Router,
         private errorToast: MatSnackBar,
         private backend: BackendService,
-        private user: UserService
+        private user: UserService,
+        protected location: Location
     ) {}
 
     ngOnInit() {
