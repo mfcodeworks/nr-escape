@@ -101,7 +101,6 @@ export class PushService {
             console.log('service successfully started', token);
             this.token = token;
             this.saveToken();
-            // TODO: Send token to server
         });
 
         // Handle push errors
