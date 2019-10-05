@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import * as _ from 'lodash';
@@ -8,14 +8,17 @@ import { Profile } from '../_models/profile';
 import { Post } from '../_models/post';
 import { UserService } from '../_services/user/user.service';
 
+declare const $: any;
+
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
     profile: Profile = null;
     posts: Post[] = [];
+    topBarHeight = 56;
 
     constructor(
         private route: ActivatedRoute,
@@ -44,6 +47,11 @@ export class ProfileComponent implements OnInit {
         });
     }
 
+    ngAfterViewInit(): void {
+        // Get toolbar height
+        this.topBarHeight = $('mat-toolbar.top-bar')[0].offsetHeight;
+    }
+
     isFollowing(id: number) {
         return this.userService.profile.following.includes(id);
     }
@@ -56,5 +64,13 @@ export class ProfileComponent implements OnInit {
 
     followUser(id: number) {
         this.userService.profile.following.push(id);
+    }
+
+    isDarkMode() {
+        // TODO:
+    }
+
+    logout() {
+        // TODO:
     }
 }

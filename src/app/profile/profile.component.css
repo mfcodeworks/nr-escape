@@ -1,3 +1,20 @@
+.top-bar {
+    position: sticky;
+    position: -webkit-sticky;
+    display: flex;
+    top: 0;
+    z-index: 1000;
+}
+.top-bar-logo {
+    height: 34px;
+}
+.ti-menu {
+    position: absolute;
+    right: 0;
+}
+.sidenav {
+    width: 65%;
+}
 h4 {
     font-weight: bold !important;
 }

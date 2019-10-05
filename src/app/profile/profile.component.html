@@ -1,54 +1,106 @@
 <!-- App Top Bar -->
-<app-top-bar></app-top-bar>
+<mat-toolbar class="top-bar mat-elevation-z2" color="primary">
+    <div class="top-bar-logo logo mx-a w-100"></div>
+    <i class="ti-menu mr-3" (click)="sidenav.toggle()"></i>
+</mat-toolbar>
 
-<div class="profile-container min-h-100">
-    <section *ngIf="profile">
-        <!-- Profile Info -->
-        <mat-list class="profile-info px-1">
-            <mat-list-item class="profile-row">
-                <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
-            </mat-list-item>
-            <mat-list-item class="profile-row">
-                <h4 mat-line>{{profile.postsCount}}</h4>
-                <p mat-line>Posts</p>
-            </mat-list-item>
-            <mat-list-item class="profile-row">
-                <h4 mat-line>{{profile.followersCount}}</h4>
-                <p mat-line>Followers</p>
-            </mat-list-item>
-            <mat-list-item class="profile-row">
-                <h4 mat-line>{{profile.followingCount}}</h4>
-                <p mat-line>Followings</p>
-            </mat-list-item>
-        </mat-list>
+<mat-sidenav-container class="sidenav-container" hasBackdrop="false">
+    <mat-sidenav
+        class="sidenav ta-c"
+        #sidenav
+        mode="over"
+        position="end"
+        autoFocus="false"
+        fixedInViewport="true"
+        [fixedTopGap]="topBarHeight">
 
-        <!-- Profile Bio -->
-        <p class="mat-body profile-text-container my-3">
-            <span class="profile-username-text">{{profile.username}}</span><br>
-            {{profile.bio}}
-        </p>
+        <div>
+            <mat-accordion>
+                <!-- TODO: Account Settings Panel -->
+                <mat-expansion-panel class="z-elevation-0 w-100">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Account Settings
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
 
-        <!-- Profile Interaction -->
-        <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
-        <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
-        <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
-            <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
-            <a color="primary" [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
-        </span>
-        <mat-divider class="my-3"></mat-divider>
+                    <mat-form-field>
+                        <input matInput placeholder="First name">
+                    </mat-form-field>
 
-        <!-- Posts grid -->
-        <app-post-preview-grid [posts]=posts></app-post-preview-grid>
+                    <mat-form-field>
+                        <input matInput placeholder="Age">
+                    </mat-form-field>
+                </mat-expansion-panel>
 
-        <span *ngIf="!posts.length">
-            <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>
-        </span>
-    </section>
+                <!-- App Settings Panel -->
+                <mat-expansion-panel class="z-elevation-0">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            App Settings
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
 
-    <span *ngIf="!profile">
-        <p class="mat-body error-placeholder mt-5">Sorry, I really don't know who that is</p>
-    </span>
-</div>
+                    <mat-slide-toggle [checked]="isDarkMode()">Dark Mode</mat-slide-toggle>
+
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <!-- Logout -->
+            <p class="mt-3" (click)="logout()">Logout</p>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="profile-container min-h-100">
+            <section *ngIf="profile">
+                <!-- Profile Info -->
+                <mat-list class="profile-info px-1">
+                    <mat-list-item class="profile-row">
+                        <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
+                    </mat-list-item>
+                    <mat-list-item class="profile-row">
+                        <h4 mat-line>{{profile.postsCount}}</h4>
+                        <p mat-line>Posts</p>
+                    </mat-list-item>
+                    <mat-list-item class="profile-row">
+                        <h4 mat-line>{{profile.followersCount}}</h4>
+                        <p mat-line>Followers</p>
+                    </mat-list-item>
+                    <mat-list-item class="profile-row">
+                        <h4 mat-line>{{profile.followingCount}}</h4>
+                        <p mat-line>Followings</p>
+                    </mat-list-item>
+                </mat-list>
+
+                <!-- Profile Bio -->
+                <p class="mat-body profile-text-container my-3">
+                    <span class="profile-username-text">{{profile.username}}</span><br>
+                    {{profile.bio}}
+                </p>
+
+                <!-- Profile Interaction -->
+                <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
+                <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
+                <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
+                    <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
+                    <a color="primary" [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
+                </span>
+                <mat-divider class="my-3"></mat-divider>
+
+                <!-- Posts grid -->
+                <app-post-preview-grid [posts]=posts></app-post-preview-grid>
+
+                <span *ngIf="!posts.length">
+                    <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>
+                </span>
+            </section>
+
+            <span *ngIf="!profile">
+                <p class="mat-body error-placeholder mt-5">Sorry, I really don't know who that is</p>
+            </span>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
 <!-- App Botttom Bar -->
 <app-bottom-bar></app-bottom-bar>
