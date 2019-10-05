@@ -23,7 +23,10 @@ import {
     MatCardModule,
     MatBottomSheetModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatSlideToggleModule
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
@@ -80,6 +83,9 @@ import { SearchComponent } from './search/search.component';
         MatDialogModule,
         MatMenuModule,
         MatBottomSheetModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        MatSlideToggleModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         Routing,

@@ -1,9 +1,7 @@
 <div class="min-vh-100 row">
 
     <!-- Branding -->
-    <div class="branding mt-4 mx-auto d-block">
-        <img src="assets/images/Logo_Transparent-scaledown.png" class="h-100" />
-    </div>
+    <div class="branding logo logo-branded w-100 mt-5 mx-auto d-block"></div>
 
     <div class="col-12">
         <!-- Sign In Form -->
@@ -38,7 +36,7 @@
                 <mat-error *ngIf="registerForm.controls['password2'].invalid">{{ getErrors('password2') }}</mat-error>
             </mat-form-field>
 
-            <span class="mb-4 ta-c w-100"><mat-error *ngIf="globalError" [innerHTML]="globalError"></mat-error></span>
+            <mat-error class="mb-4 ta-c w-100" *ngIf="globalError" [innerHTML]="globalError"></mat-error>
 
             <div class="justify-content-center d-flex form-group mx-auto">
                 <button mat-raised-button color="primary" type="submit" [disabled]="processing">
@@ -50,7 +48,7 @@
     </div>
 
     <div class="col-12">
-        <p matBody class="text-link">
+        <p matBody class="text-link mx-3">
             By registering with NR Escape you agree to our <a class="url-link" [routerLink]="['/privacy-policy']">Privacy Policy</a> and <a class="url-link" [routerLink]="['/terms-and-conditions']">Terms & Conditions</a>
         </p>
     </div>
