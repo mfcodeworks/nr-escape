@@ -14,9 +14,15 @@ export class TopBarComponent implements OnInit {
 
     ngOnInit() {
         console.log(this.dark);
-        this.dark.isDarkMode().subscribe((darkMode: any) => {
-            console.log('Dark', darkMode);
-            this.isDark = darkMode;
-        });
+        this.dark.isDarkMode().subscribe(
+            (darkMode: any) => {
+                console.log('Dark', darkMode);
+                this.isDark = darkMode;
+            }, (error: any) => {
+                console.error('Dark mode error', error);
+            }, () => {
+                console.log('Dark mode complete');
+            }
+        );
     }
 }

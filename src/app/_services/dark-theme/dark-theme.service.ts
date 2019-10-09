@@ -7,7 +7,7 @@ declare const $: any;
     providedIn: 'root'
 })
 export class DarkThemeService {
-    isDark: Subject<boolean> = new Subject<boolean>();
+    isDark: Subject<any> = new Subject<any>();
 
     constructor() {
         // Set dark theme
