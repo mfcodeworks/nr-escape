@@ -10,21 +10,16 @@ import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 })
 export class BottomBarComponent implements OnInit {
     userId: number;
-    isDark;
+    isDark: boolean;
 
-    constructor(private user: UserService, private dark: DarkThemeService) {}
+    constructor(private user: UserService, private dark: DarkThemeService) {
+        this.dark.isDarkMode()
+        .subscribe((darkMode: any) => {
+            this.isDark = darkMode;
+        });
+    }
 
     ngOnInit() {
         this.userId = this.user.profile.id;
-        this.dark.isDarkMode().subscribe(
-            (darkMode: any) => {
-                console.log('Dark', darkMode);
-                this.isDark = darkMode;
-            }, (error: any) => {
-                console.error('Dark mode error', error);
-            }, () => {
-                console.log('Dark mode complete');
-            }
-        );
     }
 }

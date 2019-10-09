@@ -9,6 +9,7 @@ import {
 } from '@angular/router';
 
 import { PushService } from './_services/push/push.service';
+import { DarkThemeService } from './_services/dark-theme/dark-theme.service';
 
 declare const $: any;
 
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private push: PushService
+        private push: PushService,
+        private dark: DarkThemeService
     ) {
         this.router.events.subscribe((event: Event) => {
             switch (true) {

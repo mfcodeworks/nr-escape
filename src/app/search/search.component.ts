@@ -9,6 +9,7 @@ import {
 
 import { Profile } from '../_models/profile';
 import { BackendService } from '../_services/backend/backend.service';
+import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 
 @Component({
     selector: 'app-search',
@@ -20,10 +21,12 @@ export class SearchComponent implements AfterViewInit  {
     @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
     results: Profile[] = [];
     loading = false;
+    isDark: boolean;
 
     constructor(
         private backend: BackendService,
-        private cd: ChangeDetectorRef
+        private cd: ChangeDetectorRef,
+        private dark: DarkThemeService
     ) {}
 
     ngAfterViewInit() {
@@ -63,6 +66,11 @@ export class SearchComponent implements AfterViewInit  {
                     this.loading = false;
                 }
             );
+        });
+
+        this.dark.isDarkMode()
+        .subscribe((mode: boolean) => {
+            this.isDark = mode;
         });
     }
 }

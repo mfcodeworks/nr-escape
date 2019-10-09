@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject  } from 'rxjs';
 
 declare const $: any;
 
@@ -7,19 +7,16 @@ declare const $: any;
     providedIn: 'root'
 })
 export class DarkThemeService {
-    isDark: Subject<any> = new Subject<any>();
+    isDark: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor() {
-        // Set dark theme
-        localStorage.setItem('dark-mode', 'true');
-
-        // Begin switching dark theme
-        this.switchDarkMode();
-
         // Check for dark theme
         const darkTheme = JSON.parse(localStorage.getItem('dark-mode'));
         console.log('Dark mode', darkTheme);
         darkTheme ? this.isDark.next(darkTheme) : this.isDark.next(false);
+
+        // Begin switching dark theme
+        this.switchDarkMode();
     }
 
     setDarkTheme(dark: boolean) {

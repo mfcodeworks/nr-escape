@@ -1,6 +1,6 @@
 <!-- App Top Bar -->
-<mat-toolbar class="top-bar mat-elevation-z2" color="primary">
-    <mat-form-field class="top-bar-input mx-a mt-2" floatLabel="never">
+<mat-toolbar class="top-bar mat-elevation-z2" [class.app-background-color]="!isDark" color="primary">
+    <mat-form-field class="top-bar-input mx-a mt-2" [class.icon-black]="!isDark" floatLabel="never">
         <span matPrefix><i class="ti-search"></i> &nbsp;</span>
         <input matInput #searchInput type="search" placeholder="Search" autocomplete="off" autofocus>
     </mat-form-field>

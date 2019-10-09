@@ -1,6 +1,6 @@
 <!-- App Top Bar -->
-<mat-toolbar class="top-bar mat-elevation-z2" color="primary" [routerLink]="['/search']">
-    <i class="ti-search ml-3 mr-2"></i> Search
+<mat-toolbar class="top-bar mat-elevation-z2" [class.app-background-color]="!isDark" color="primary" [routerLink]="['/search']">
+    <i class="ti-search ml-3 mr-2" [class.icon-black]="!isDark"></i> <span [class.text-black]="!isDark">Search</span>
     <div class="top-bar-logo logo mr-0"></div>
 </mat-toolbar>
 

@@ -8,6 +8,7 @@ import { Profile } from '../_models/profile';
 import { Post } from '../_models/post';
 import { UserService } from '../_services/user/user.service';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
+import { AuthService } from '../_services/auth/auth.service';
 
 declare const $: any;
 
@@ -21,13 +22,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     posts: Post[] = [];
     topBarHeight = 56;
     isDark: boolean;
+    editing = false;
 
     constructor(
         private route: ActivatedRoute,
         private userService: UserService,
         private backend: BackendService,
         private errorToast: MatSnackBar,
-        private dark: DarkThemeService
+        protected dark: DarkThemeService,
+        protected auth: AuthService
     ) {}
 
     ngOnInit() {
@@ -48,6 +51,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             // Merge posts arrays without duplicates
             this.posts = _.union(this.posts, data);
         });
+
+        this.dark.isDarkMode()
+        .subscribe((mode: boolean) => {
+            this.isDark = mode;
+        });
     }
 
     ngAfterViewInit(): void {
@@ -63,17 +71,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         return this.profile.id === this.userService.profile.id;
     }
 
-    editProfile() {}
+    editProfile() {
+        // TODO:
+    }
 
     followUser(id: number) {
         this.userService.profile.following.push(id);
-    }
-
-    isDarkMode() {
-        // TODO:
-    }
-
-    logout() {
-        // TODO:
     }
 }

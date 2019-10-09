@@ -32,6 +32,10 @@ html, body {
 .dark-theme .logo {
     background-image: url("assets/images/logo-white.png");
 }
+.text-black,
+.icon-black {
+    color: rgba(0, 0, 0, 0.87);
+}
 .mat-dialog-container {
     padding: 0px !important;
 }

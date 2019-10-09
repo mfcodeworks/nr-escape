@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Profile } from '../_models/profile';
+import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 
 declare const _: any;
 
@@ -12,9 +13,11 @@ declare const _: any;
 })
 export class RecommendationsComponent implements OnInit {
     recommendations: Profile[] = [];
+    isDark: boolean;
 
     constructor(
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private dark: DarkThemeService
     ) {}
 
     ngOnInit() {
@@ -26,6 +29,11 @@ export class RecommendationsComponent implements OnInit {
             } else {
                 // TODO: Handle error
             }
+        });
+
+        this.dark.isDarkMode()
+        .subscribe((mode: boolean) => {
+            this.isDark = mode;
         });
     }
 }

@@ -29,6 +29,7 @@ export class UserService {
         this.email = null;
         this.token = null;
         this.profile = null;
+        this.loggedIn.next(false);
     }
 
     public toJson(): any {

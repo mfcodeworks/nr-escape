@@ -8,21 +8,15 @@ import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
     styleUrls: ['./top-bar.component.css'],
 })
 export class TopBarComponent implements OnInit {
-    isDark;
+    isDark: boolean;
 
     constructor(private dark: DarkThemeService) { }
 
     ngOnInit() {
         console.log(this.dark);
-        this.dark.isDarkMode().subscribe(
-            (darkMode: any) => {
-                console.log('Dark', darkMode);
-                this.isDark = darkMode;
-            }, (error: any) => {
-                console.error('Dark mode error', error);
-            }, () => {
-                console.log('Dark mode complete');
-            }
-        );
+        this.dark.isDarkMode()
+        .subscribe((darkMode: any) => {
+            this.isDark = darkMode;
+        });
     }
 }

@@ -1,7 +1,7 @@
 <!-- App Top Bar -->
-<mat-toolbar class="top-bar mat-elevation-z2" color="primary">
+<mat-toolbar class="top-bar mat-elevation-z2" [class.app-background-color]="!isDark" color="primary">
     <div class="top-bar-logo logo mx-a w-100"></div>
-    <i class="ti-menu mr-3" (click)="sidenav.toggle()"></i>
+    <i class="ti-menu mr-3" [class.icon-black]="!isDark" (click)="sidenav.toggle()"></i>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container" hasBackdrop="false">
@@ -41,13 +41,13 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
 
-                    <mat-slide-toggle [checked]="isDarkMode()">Dark Mode</mat-slide-toggle>
+                    <mat-slide-toggle [checked]="isDark" (change)="dark.setDarkTheme(!isDark)">Dark Mode</mat-slide-toggle>
 
                 </mat-expansion-panel>
             </mat-accordion>
 
             <!-- Logout -->
-            <p class="mt-3" (click)="logout()">Logout</p>
+            <p class="mt-3" (click)="auth.doSignOut()">Logout</p>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -79,7 +79,7 @@
                 </p>
 
                 <!-- Profile Interaction -->
-                <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
+                <button mat-stroked-button class="profile-button" (click)="editing = true" *ngIf="isMe()">Edit Profile</button>
                 <button mat-raised-button class="profile-button" color="accent" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
                 <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
                     <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
