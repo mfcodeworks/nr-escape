@@ -15,6 +15,8 @@ export class FeedComponent implements OnInit {
     posts: Post[] = null;
     userId: number;
 
+    // TODO: Add infinite scroll for posts
+
     constructor(
         private route: ActivatedRoute,
         private errorToast: MatSnackBar

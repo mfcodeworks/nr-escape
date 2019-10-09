@@ -21,6 +21,8 @@ declare const $: any;
 export class AppComponent implements OnInit {
     loading = false;
 
+    // TODO: Pull to refresh page
+
     constructor(
         private router: Router,
         private push: PushService,

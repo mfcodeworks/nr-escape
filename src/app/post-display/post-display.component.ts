@@ -19,6 +19,7 @@ export class PostDisplayComponent implements OnInit {
     @Output() report: EventEmitter<any> = new EventEmitter();
 
     // TODO: On hold copy post caption
+    // TODO: On dblclick play overlapping heart gif
 
     constructor() {}
 

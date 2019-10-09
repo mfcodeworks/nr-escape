@@ -15,6 +15,8 @@ export class RecommendationsComponent implements OnInit {
     recommendations: Profile[] = [];
     isDark: boolean;
 
+    // TODO: Add infinite scroll for posts
+
     constructor(
         private route: ActivatedRoute,
         private dark: DarkThemeService
