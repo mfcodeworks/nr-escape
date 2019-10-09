@@ -10,23 +10,16 @@ export class DarkThemeService {
     isDark: Subject<boolean> = new Subject<boolean>();
 
     constructor() {
+        // Set dark theme
+        localStorage.setItem('dark-mode', 'true');
+
+        // Begin switching dark theme
+        this.switchDarkMode();
+
         // Check for dark theme
-        const darkTheme = localStorage.getItem('dark-mode');
+        const darkTheme = JSON.parse(localStorage.getItem('dark-mode'));
         console.log('Dark mode', darkTheme);
-
-        if (darkTheme) {
-            // Set dark mode true
-            this.isDark.next(true);
-
-            // Set dark theme
-            $('body').addClass('dark-theme');
-        } else {
-            // Set dark mode to false
-            this.isDark.next(false);
-
-            // Set dark theme
-            $('body').removeClass('dark-theme');
-        }
+        darkTheme ? this.isDark.next(darkTheme) : this.isDark.next(false);
     }
 
     setDarkTheme(dark: boolean) {
@@ -36,5 +29,22 @@ export class DarkThemeService {
 
     isDarkMode() {
         return this.isDark.asObservable();
+    }
+
+    switchDarkMode() {
+        this.isDarkMode().subscribe(mode => {
+            console.log('Switching dark mode:', mode);
+            switch (mode) {
+                case true:
+                    // Set dark theme
+                    $('body').addClass('dark-theme');
+                    break;
+
+                case false:
+                    // Set dark theme
+                    $('body').removeClass('dark-theme');
+                    break;
+            }
+        });
     }
 }
