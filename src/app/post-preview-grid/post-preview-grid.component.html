@@ -1,6 +1,6 @@
 <!-- Posts grid -->
-<mat-grid-list cols="3" class="my-2" gutterSize="3px" *ngIf="posts.length">
-    <mat-grid-tile *ngFor="let post of posts" class="tile-border d-flex" [class.text-tile-container]="post.type.startsWith('text')">
+<mat-grid-list cols="3" class="my-2" gutterSize="4px" *ngIf="posts.length">
+    <mat-grid-tile *ngFor="let post of posts" class="mat-elevation-z4 d-flex" [class.text-tile-container]="post.type.startsWith('text')">
         <!-- Preview for video and URL posts -->
         <video [routerLink]="['/post', post.id]"
             [src]="post.media"

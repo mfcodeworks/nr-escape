@@ -12,16 +12,22 @@
 }
 .text-post-container {
     display: flex;
+    -webkit-box-orient: vertical;
     flex-direction: column;
     justify-content: center;
-    height: 250px;
+	min-height: 200px;
+	height: auto;
     text-align: center;
 }
 .text-post {
     display: -webkit-box;
-    -webkit-line-clamp: 6;
+    /* autoprefixer: off */
     -webkit-box-orient: vertical;
     margin: auto;
     overflow: hidden;
+    text-overflow: ellipsis;
     font-size: x-large;
+}
+.text-post-concat {
+    -webkit-line-clamp: 5;
 }

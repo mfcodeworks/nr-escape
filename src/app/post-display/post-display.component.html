@@ -43,7 +43,7 @@
     <mat-divider></mat-divider>
     <!-- Caption as Post -->
     <mat-list-item class="text-post-container" (dblclick)="likePost(post)" >
-        <span class="text-post">{{post.caption}}</span>
+        <span class="text-post my-3" [class.text-post-concat]="post.concat" (click)="post.concat = !post.concat">{{post.caption}}</span>
     </mat-list-item>
     <mat-divider></mat-divider>
 </span>

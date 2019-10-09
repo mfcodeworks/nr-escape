@@ -9,7 +9,6 @@ import {
 } from '@angular/router';
 
 import { PushService } from './_services/push/push.service';
-import { DarkThemeService } from './_services/dark-theme/dark-theme.service';
 
 declare const $: any;
 
@@ -23,31 +22,27 @@ export class AppComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private push: PushService,
-        private darkTheme: DarkThemeService
+        private push: PushService
     ) {
         this.router.events.subscribe((event: Event) => {
             switch (true) {
-                case event instanceof NavigationStart: {
+                case event instanceof NavigationStart:
                     this.loading = true;
                     break;
-                }
 
                 case event instanceof NavigationEnd:
                 case event instanceof NavigationCancel:
-                case event instanceof NavigationError: {
+                case event instanceof NavigationError:
                     this.loading = false;
                     break;
-                }
-                default: {
+
+                default:
                     break;
-                }
             }
         });
     }
 
     ngOnInit() {
-        localStorage.setItem('dark-mode', JSON.stringify(true));
         // On Cordova 'deviceready' event, or html 'load' event; init push services
         document.addEventListener(
             window.hasOwnProperty('cordova') ? 'deviceready' : 'load',

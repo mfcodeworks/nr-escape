@@ -4,7 +4,7 @@
 @include mat-core();
 
 $primary: mat-palette($mat-deep-purple);
-$accent: mat-palette($mat-deep-purple, 500, 900, A100);
+$accent: mat-palette($mat-deep-purple, 500, 300, 900);
 $warn: mat-palette($mat-pink);
 $theme: mat-light-theme($primary, $accent, $warn);
 
@@ -12,7 +12,13 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include component-themes($theme);
 
 .dark-theme {
+    $background-color: #000;
+    $primary: mat-palette($mat-grey, 800);
     $dark-theme: mat-dark-theme($primary, $accent, $warn);
+
+    $background: map-get($dark-theme, background);
+    $background: map_merge($background, (background: $background-color));
+    $dark-theme: map_merge($dark-theme, (background: $background));
 
     @include angular-material-theme($dark-theme);
     @include component-themes($dark-theme);

@@ -12,6 +12,8 @@ export class Post {
     repostOf: Post;
     comments: Comment[];
     likes: any[];
+    // Custom attribute for display
+    concat = true;
 
     constructor(values: any = {}) {
         Object.assign(this, values);

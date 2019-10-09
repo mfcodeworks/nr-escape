@@ -7,6 +7,7 @@ import { BackendService } from '../_services/backend/backend.service';
 import { Profile } from '../_models/profile';
 import { Post } from '../_models/post';
 import { UserService } from '../_services/user/user.service';
+import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 
 declare const $: any;
 
@@ -19,12 +20,14 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     profile: Profile = null;
     posts: Post[] = [];
     topBarHeight = 56;
+    isDark: boolean;
 
     constructor(
         private route: ActivatedRoute,
         private userService: UserService,
         private backend: BackendService,
-        private errorToast: MatSnackBar
+        private errorToast: MatSnackBar,
+        private dark: DarkThemeService
     ) {}
 
     ngOnInit() {

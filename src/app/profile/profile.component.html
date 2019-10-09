@@ -80,7 +80,7 @@
 
                 <!-- Profile Interaction -->
                 <button mat-stroked-button class="profile-button" (click)="editProfile()" *ngIf="isMe()">Edit Profile</button>
-                <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
+                <button mat-raised-button class="profile-button" color="accent" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
                 <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
                     <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
                     <a color="primary" [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>

@@ -18,6 +18,8 @@ export class PostDisplayComponent implements OnInit {
     @Output() delete: EventEmitter<any> = new EventEmitter();
     @Output() report: EventEmitter<any> = new EventEmitter();
 
+    // TODO: On hold copy post caption
+
     constructor() {}
 
     ngOnInit() {
