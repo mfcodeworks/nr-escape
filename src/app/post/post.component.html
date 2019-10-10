@@ -14,12 +14,19 @@
     <div #commentForm class="app-background-color comment-form w-100 px-2">
         <mat-form-field appearance="standard" class="w-100" style="top: -8px;">
             <mat-label>Comment&hellip;</mat-label>
+            <ng-template #mentionListTemplate let-item="item" class="app-background-text">
+                <strong>{{item.label}}</strong>
+            </ng-template>
             <textarea matInput
                 cdkTextareaAutosize
                 #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="2"
                 #comment
-                cdkAutosizeMinRows="1"
-                [disabled]="sending"></textarea>
+                [disabled]="sending"
+                [mentionConfig]="mentionConfig | async"
+                [mentionListTemplate]="mentionListTemplate"
+                (searchTerm)='mention($event)'></textarea>
             <!-- Send comment to server -->
             <mat-icon matSuffix (click)="sending ? null: postComment()">
                 <i #commentButton

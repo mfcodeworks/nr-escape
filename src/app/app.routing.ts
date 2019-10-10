@@ -52,7 +52,7 @@ export const routes: Routes = [
                 resolve: { notifications: NotificationsResolver }
             },
             {
-                path: 'profile/:profileId',
+                path: 'profile/:profile',
                 component: ProfileComponent,
                 resolve: { profile: ProfileResolver }
             },

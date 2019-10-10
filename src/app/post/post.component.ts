@@ -7,8 +7,10 @@ import { Post } from '../_models/post';
 import { Comment } from '../_models/comment';
 import { BackendService } from '../_services/backend/backend.service';
 import { UserService } from '../_services/user/user.service';
+import { BehaviorSubject } from 'rxjs';
 
 declare const $: any;
+declare const _: any;
 
 @Component({
     selector: 'app-post',
@@ -21,6 +23,25 @@ export class PostComponent implements OnInit, AfterViewInit {
     post: Post = null;
     comments: Comment[] = [];
     sending = false;
+    mentionConfig: BehaviorSubject<any> = new BehaviorSubject<any>(
+        {
+            mentions: [
+                {
+                    items: [],
+                    triggerChar: '#',
+                    dropUp: true,
+                    disableSearch: true,
+                },
+                {
+                    items: [],
+                    labelKey: 'username',
+                    triggerChar: '@',
+                    dropUp: true,
+                    disableSearch: true,
+                }
+            ]
+        }
+    );
 
     constructor(
         private route: ActivatedRoute,
@@ -58,6 +79,33 @@ export class PostComponent implements OnInit, AfterViewInit {
                 $(element).addClass('highlight');
             }
         }
+    }
+
+    mention(search: string) {
+        console.log('Mention trigger', search);
+        this.backend.search(search).subscribe(
+            (result: any) => {
+                const config = {
+                    mentions: [
+                        {
+                            items: result.hashtags,
+                            triggerChar: '#',
+                            dropUp: true,
+                            disableSearch: true,
+                            mentionSelect: (item: any) => `${item.label} `
+                        },
+                        {
+                            items: result.users.map(user => `@${user.username}`),
+                            triggerChar: '@',
+                            dropUp: true,
+                            disableSearch: true,
+                            mentionSelect: (item: any) => `${item.label} `
+                        }
+                    ]
+                };
+                this.mentionConfig.next(config);
+            }
+        );
     }
 
     // Post comment to server

@@ -6,8 +6,8 @@
 <div class="min-h-100">
     <mat-list>
         <mat-list-item>
-            <img matListAvatar [src]="user.profile.profilePic" class="avatar"  [routerLink]="['/profile', user.profile.id]"/>
-            <h3 matLine><span [routerLink]="['/profile', user.profile.id]" class="mat-h3 font-weight-bold">{{user.profile.username}}</span></h3>
+            <img matListAvatar [src]="user.profile.profilePic" class="avatar"  [routerLink]="['/profile', user.profile.username]"/>
+            <h3 matLine><span [routerLink]="['/profile', user.profile.username]" class="mat-h3 font-weight-bold">{{user.profile.username}}</span></h3>
             <span><button mat-raised-button color="primary" (click)="submit()" [disabled]="loading">Post</button></span>
         </mat-list-item>
     </mat-list>

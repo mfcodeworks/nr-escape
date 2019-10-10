@@ -14,7 +14,7 @@ export class ProfileResolver implements Resolve<Observable<Profile>> {
 
     resolve(route: ActivatedRouteSnapshot) {
         return this.backend.getProfile(
-            parseInt(route.paramMap.get('profileId'), 10)
+            route.paramMap.get('profile')
         ).pipe(
             catchError((error) => {
                 return of(error);

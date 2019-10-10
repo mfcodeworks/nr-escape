@@ -1,8 +1,8 @@
 <!-- Profile Row -->
 <mat-list-item>
-    <img matListAvatar [src]="post.author.profilePic" class="avatar"  [routerLink]="['/profile', post.author.id]"/>
+    <img matListAvatar [src]="post.author.profilePic" class="avatar"  [routerLink]="['/profile', post.author.username]"/>
     <h3 matLine>
-        <span [routerLink]="['/profile', post.author.id]" class="post-username-text mat-h3">{{post.author.username}}</span>
+        <span [routerLink]="['/profile', post.author.username]" class="post-username-text mat-h3">{{post.author.username}}</span>
         <!-- Update to check if user following author -->
         <a mat-button color="accent" (click)="followUser(post.author.id)" *ngIf="!isFollowed">Follow</a>
     </h3>
@@ -30,7 +30,7 @@
 <span *ngIf="post.type.startsWith('video')">
     <!-- Caption Row -->
     <mat-list-item *ngIf="post.caption">
-        <p class="mat-body">{{post.caption}}</p>
+        <p class="mat-body"><span [innerHTML]="post.caption | tag" appRouteTransformer></span></p>
     </mat-list-item>
 
     <!-- Post Media -->
@@ -43,7 +43,7 @@
     <mat-divider></mat-divider>
     <!-- Caption as Post -->
     <mat-list-item class="text-post-container" (dblclick)="likePost(post)" >
-        <span class="text-post my-3" [class.text-post-concat]="post.concat" (click)="post.concat = !post.concat">{{post.caption}}</span>
+        <span class="text-post my-3" [class.text-post-concat]="post.concat" (click)="post.concat = !post.concat"[innerHTML]="post.caption | tag" appRouteTransformer></span>
     </mat-list-item>
     <mat-divider></mat-divider>
 </span>

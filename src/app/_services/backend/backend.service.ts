@@ -99,8 +99,8 @@ export class BackendService {
     }
 
     // Get Profile
-    getProfile(id: number): Observable<Profile> {
-        return this.api.getProfile(id);
+    getProfile(username: string): Observable<Profile> {
+        return this.api.getProfile(username);
     }
 
     // Get Profile Posts

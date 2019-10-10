@@ -201,9 +201,9 @@ export class ApiService {
     }
 
     // API: Get Profile
-    getProfile(id: number): Observable<Profile> {
+    getProfile(username: string): Observable<Profile> {
         return this.http
-        .get<Profile>(`${API_URL}/profile/${id}`, this.getRequestHeaders())
+        .get<Profile>(`${API_URL}/profile/${username}`, this.getRequestHeaders())
         .pipe(
             retry(3),
             catchError(this.handleError),

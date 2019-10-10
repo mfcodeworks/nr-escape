@@ -6,7 +6,7 @@
     <mat-list class="pt-0">
         <mat-list-item *ngFor="let notification of notifications">
             <mat-divider></mat-divider>
-            <img matListAvatar [src]="notification.from.profilePic" class="avatar" [routerLink]="['/profile', notification.from.id]"/>
+            <img matListAvatar [src]="notification.from.profilePic" class="avatar" [routerLink]="['/profile', notification.from.username]"/>
             <h3 matLine *ngIf="notification.type === 'liked'" [routerLink]="['/post', notification.postId]">
                 <span class="mat-h3 font-weight-bold">{{ notification.from.username }}</span> liked your post
             </h3>

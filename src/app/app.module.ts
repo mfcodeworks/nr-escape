@@ -27,8 +27,10 @@ import {
     MatSidenavModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule
 } from '@angular/material';
+import { MentionModule } from 'angular-mentions';
 import { environment } from '../environments/environment';
 
 import { Routing } from './app.routing';
@@ -61,9 +63,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { DateDiffPipe } from './_helpers/date-diff.pipe';
 import { SearchComponent } from './search/search.component';
 import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.component';
+import { RouteTransformerDirective } from './_helpers/route-transformer.directive';
+import { TagPipe } from './_helpers/tag.pipe';
 
 @NgModule({
     imports: [
+        MentionModule,
+        MatAutocompleteModule,
         AuthenticationModule,
         OverlayModule,
         BrowserModule,
@@ -115,7 +121,9 @@ import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.compo
         DateDiffPipe,
         SearchComponent,
         PostViewComponent,
-        HashtagListingComponent
+        HashtagListingComponent,
+        RouteTransformerDirective,
+        TagPipe
     ],
     entryComponents: [
         CommentDialogComponent,

@@ -4,7 +4,7 @@ export class Comment {
     id: number;
     author: Profile;
     createdAt: number;
-    text: string;
+    text: any;
     media: string;
     replyTo: number;
 

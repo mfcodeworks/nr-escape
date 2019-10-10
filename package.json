@@ -28,6 +28,7 @@
     "@angular/router": "~9.0.0-next.9",
     "@angular/service-worker": "~9.0.0-next.9",
     "@types/electron": "^1.6.10",
+    "angular-mentions": "^1.0.4",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
     "firebase": "^6.6.1",

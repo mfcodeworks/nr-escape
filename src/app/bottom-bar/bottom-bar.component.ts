@@ -9,7 +9,7 @@ import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
     styleUrls: ['./bottom-bar.component.css'],
 })
 export class BottomBarComponent implements OnInit {
-    userId: number;
+    username: string;
     isDark: boolean;
 
     constructor(private user: UserService, private dark: DarkThemeService) {
@@ -20,6 +20,6 @@ export class BottomBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userId = this.user.profile.id;
+        this.username = this.user.profile.username;
     }
 }

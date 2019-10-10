@@ -6,6 +6,8 @@
     flex: 0 1 auto;
     flex-direction: column;
     align-content: flex-start;
+    overflow-wrap: break-word;
+    max-width: 82%;
 }
 
 .comment-container > p,
