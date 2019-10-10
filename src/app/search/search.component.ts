@@ -11,6 +11,8 @@ import { Profile } from '../_models/profile';
 import { BackendService } from '../_services/backend/backend.service';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 
+declare const _: any;
+
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
@@ -19,7 +21,8 @@ import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 export class SearchComponent implements AfterViewInit  {
 
     @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
-    results: Profile[] = [];
+    profiles: Profile[] = [];
+    hashtags: [] = [];
     loading = false;
     isDark: boolean;
 
@@ -55,10 +58,17 @@ export class SearchComponent implements AfterViewInit  {
 
             // Get profile results
             this.backend.search(search).subscribe(
-                (result: Profile[]) => {
+                (result: any) => {
                     // Reference results
-                    this.results = result;
-                    console.log(this.results);
+                    this.profiles = result.users;
+                    // Order hashtags as shortest (closest match) first
+                    this.hashtags = _.orderBy(
+                        result.hashtags,
+                        (hashtag: string) => {
+                            return hashtag.length;
+                        }, ['asc']
+                    );
+                    console.log(result);
                 }, (error: any) => {
                     console.warn(error);
                 }, () => {

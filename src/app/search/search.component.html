@@ -11,18 +11,25 @@
 
 <div class="min-h-100">
     <!-- Display search results -->
-    <span *ngIf="!results.length">
+    <span *ngIf="!profiles.length && !hashtags.length">
         <p class="mat-body error-placeholder mt-4">
             Haven't found anything yet&hellip;
         </p>
     </span>
-    <mat-list *ngIf="results.length">
-        <mat-list-item *ngFor="let result of results">
+    <mat-list *ngIf="profiles.length" class="mb-2">
+        <h3 mat-subheader>Users</h3>
+        <mat-list-item *ngFor="let result of profiles">
             <mat-divider></mat-divider>
             <img matListAvatar [src]="result.profilePic" class="avatar"  [routerLink]="['/profile', result.id]"/>
             <h3 matLine><span [routerLink]="['/profile', result.id]" class="mat-h3 font-weight-bold">{{result.username}}</span></h3>
         </mat-list-item>
-        <mat-divider></mat-divider>
+    </mat-list>
+    <mat-list *ngIf="hashtags.length">
+        <h3 mat-subheader>Hashtags</h3>
+        <mat-list-item *ngFor="let result of hashtags" [routerLink]="['/hashtag', result.substring(1, result.length)]" >
+            <mat-divider></mat-divider>
+            <h3 matLine><span class="mat-h3 font-weight-bold">{{result}}</span></h3>
+        </mat-list-item>
     </mat-list>
 </div>
 

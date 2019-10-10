@@ -4,6 +4,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { FeedResolver } from './_helpers/feed.resolver';
 import { RecommendationsResolver } from './_helpers/recommendations.resolver';
+import { HashtagResolver } from './_helpers/hashtag.resolver';
 import { NotificationsResolver } from './_helpers/notifications.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
@@ -15,6 +16,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SearchComponent } from './search/search.component';
+import { HashLocationStrategy } from '@angular/common';
+import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.component';
 
 export const routes: Routes = [
     {
@@ -32,6 +35,11 @@ export const routes: Routes = [
                 resolve: { recommendations: RecommendationsResolver }
             },
             { path: 'search', component: SearchComponent },
+            {
+                path: 'hashtag/:hashtag',
+                component: HashtagListingComponent,
+                resolve: { posts: HashtagResolver }
+            },
             { path: 'new-post', component: NewPostComponent },
             {
                 path: 'post/:postId',

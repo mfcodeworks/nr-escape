@@ -1,0 +1,20 @@
+<!-- App Top Bar -->
+<mat-toolbar class="top-bar mat-elevation-z2" [class.app-background-color]="!isDark" color="primary">
+    <span class="ml-3 mr-2" [class.text-black]="!isDark">#{{hashtag}}</span>
+    <div class="top-bar-logo logo mr-0"></div>
+</mat-toolbar>
+
+<div class="min-h-100">
+    <!-- Recommendations grid -->
+    <mat-tab-group>
+        <mat-tab label="Recent">
+            <app-post-preview-grid [posts]=posts.recent></app-post-preview-grid>
+        </mat-tab>
+        <mat-tab label="Top">
+            <app-post-preview-grid [posts]=posts.top></app-post-preview-grid>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+<!-- App Botttom Bar -->
+<app-bottom-bar></app-bottom-bar>

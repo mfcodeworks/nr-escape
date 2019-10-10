@@ -26,7 +26,8 @@ import {
     MatMenuModule,
     MatSidenavModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTabsModule
 } from '@angular/material';
 import { environment } from '../environments/environment';
 
@@ -35,6 +36,7 @@ import { SignedInGuard } from './_helpers/signed-in.guard';
 import { FeedResolver } from './_helpers/feed.resolver';
 import { RecommendationsResolver } from './_helpers/recommendations.resolver';
 import { NotificationsResolver } from './_helpers/notifications.resolver';
+import { HashtagResolver } from './_helpers/hashtag.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
 import { AppComponent } from './app.component';
@@ -58,6 +60,7 @@ import {
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DateDiffPipe } from './_helpers/date-diff.pipe';
 import { SearchComponent } from './search/search.component';
+import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.component';
 
 @NgModule({
     imports: [
@@ -73,6 +76,7 @@ import { SearchComponent } from './search/search.component';
         MatIconModule,
         MatGridListModule,
         MatToolbarModule,
+        MatTabsModule,
         MatInputModule,
         MatSnackBarModule,
         MatFormFieldModule,
@@ -110,7 +114,8 @@ import { SearchComponent } from './search/search.component';
         SettingsComponent,
         DateDiffPipe,
         SearchComponent,
-        PostViewComponent
+        PostViewComponent,
+        HashtagListingComponent
     ],
     entryComponents: [
         CommentDialogComponent,
@@ -124,6 +129,7 @@ import { SearchComponent } from './search/search.component';
         NotificationsResolver,
         ProfileResolver,
         PostResolver,
+        HashtagResolver
     ],
     bootstrap: [
         AppComponent

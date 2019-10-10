@@ -69,8 +69,8 @@ export class BackendService {
     }
 
     // User search
-    search(query: string): Observable<Profile[]> {
-        return this.api.search(query);
+    search(query: string, type: string = null): Observable<any[]> {
+        return this.api.search(query, type);
     }
 
     // Get User Feed

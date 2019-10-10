@@ -132,15 +132,12 @@ export class ApiService {
     }
 
     // API: User search
-    search(query: string): Observable<Profile[]> {
+    search(query: string, type: string): Observable<any[]> {
         return this.http
-        .get<Profile[]>(`${API_URL}/search?query=${query}`, this.getRequestHeaders())
+        .get<any[]>(`${API_URL}/search?query=${query}${type ? `&type=${type}` : ``}`, this.getRequestHeaders())
         .pipe(
             retry(3),
-            catchError(this.handleError),
-            map((response) => response.map(
-                profile => new Profile(profile)
-            ))
+            catchError(this.handleError)
         );
     }
 
