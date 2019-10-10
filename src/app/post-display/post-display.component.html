@@ -34,7 +34,7 @@
     </mat-list-item>
 
     <!-- Post Media -->
-    <video class="post-image" (dblclick)="likePost()" playsinline loop controls controlsList="nofullscreen nodownload" preload="metadata">
+    <video class="post-image" (dblclick)="likePost()" playsinline loop controls disablePictureInPicture controlsList="nofullscreen nodownload" preload="metadata">
         <source class="post-image" [src]="post.media" [type]="post.type"/>
     </video>
 </span>
