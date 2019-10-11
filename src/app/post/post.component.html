@@ -14,7 +14,7 @@
     <div #commentForm class="app-background-color comment-form w-100 px-2">
         <mat-form-field appearance="standard" class="w-100" style="top: -8px;">
             <mat-label>Comment&hellip;</mat-label>
-            <ng-template #mentionListTemplate let-item="item" class="app-background-text">
+            <ng-template #mentionListTemplate let-item="item">
                 <strong>{{item.label}}</strong>
             </ng-template>
             <textarea matInput

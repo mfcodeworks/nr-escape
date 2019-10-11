@@ -13,13 +13,13 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 .dark-theme {
     $background-color: #000;
-    $primary: mat-palette($mat-grey, 800, 200, 900);
+    $primary: mat-palette($mat-grey, 800, A200, 900);
     $dark-theme: mat-dark-theme($primary, $accent, $warn);
 
     $background: map-get($dark-theme, background);
     $background: map_merge($background, (background: $background-color));
     $dark-theme: map_merge($dark-theme, (background: $background));
 
-    @include angular-material-theme($dark-theme);
     @include component-themes($dark-theme);
+    @include angular-material-theme($dark-theme);
 }

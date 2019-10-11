@@ -34,7 +34,6 @@ export class PostComponent implements OnInit, AfterViewInit {
                 },
                 {
                     items: [],
-                    labelKey: 'username',
                     triggerChar: '@',
                     dropUp: true,
                     disableSearch: true,
@@ -82,9 +81,30 @@ export class PostComponent implements OnInit, AfterViewInit {
     }
 
     mention(search: string) {
+        if (!search) {
+            this.mentionConfig.next({
+                mentions: [
+                    {
+                        items: [],
+                        triggerChar: '#',
+                        dropUp: true,
+                        disableSearch: true
+                    },
+                    {
+                        items: [],
+                        triggerChar: '@',
+                        dropUp: true,
+                        disableSearch: true
+                    }
+                ]
+            });
+            return;
+        }
+
         console.log('Mention trigger', search);
         this.backend.search(search).subscribe(
             (result: any) => {
+                console.log(result);
                 const config = {
                     mentions: [
                         {
@@ -102,9 +122,12 @@ export class PostComponent implements OnInit, AfterViewInit {
                             mentionSelect: (item: any) => `${item.label} `
                         }
                     ]
-                };
+                }
+                console.log(config);
                 this.mentionConfig.next(config);
-            }
+            },
+            (error) => console.warn(error),
+            () => console.log('Mentions loaded')
         );
     }
 
