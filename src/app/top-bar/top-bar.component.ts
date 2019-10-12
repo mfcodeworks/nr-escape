@@ -13,7 +13,6 @@ export class TopBarComponent implements OnInit {
     constructor(private dark: DarkThemeService) { }
 
     ngOnInit() {
-        console.log(this.dark);
         this.dark.isDarkMode()
         .subscribe((darkMode: any) => {
             this.isDark = darkMode;

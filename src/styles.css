@@ -32,6 +32,14 @@ html, body {
 .dark-theme .logo {
     background-image: url("assets/images/logo-white.png");
 }
+.ptr--icon,
+.ptr--text {
+    color: rgba(0, 0, 0, 0.87) !important;
+}
+.dark-theme .ptr--icon,
+.dark-theme .ptr--text {
+    color: rgba(250, 250, 250, 0.87) !important;
+}
 .text-black,
 .icon-black {
     color: rgba(0, 0, 0, 0.87);

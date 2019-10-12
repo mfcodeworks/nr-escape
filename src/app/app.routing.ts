@@ -28,49 +28,75 @@ export const routes: Routes = [
                 path: '',
                 component: FeedComponent,
                 resolve: { posts: FeedResolver },
+                runGuardsAndResolvers: 'always'
             },
             {
                 path: 'recommendations',
                 component: RecommendationsComponent,
-                resolve: { recommendations: RecommendationsResolver }
+                resolve: { recommendations: RecommendationsResolver },
+                runGuardsAndResolvers: 'always'
             },
-            { path: 'search', component: SearchComponent },
+            {
+                path: 'search',
+                component: SearchComponent,
+                runGuardsAndResolvers: 'always'
+            },
             {
                 path: 'hashtag/:hashtag',
                 component: HashtagListingComponent,
-                resolve: { posts: HashtagResolver }
+                resolve: { posts: HashtagResolver },
+                runGuardsAndResolvers: 'always'
             },
-            { path: 'new-post', component: NewPostComponent },
+            {
+                path: 'new-post',
+                component: NewPostComponent,
+                runGuardsAndResolvers: 'always'
+            },
             {
                 path: 'post/:postId',
                 component: PostComponent,
-                resolve: { post: PostResolver }
+                resolve: { post: PostResolver },
+                runGuardsAndResolvers: 'always'
             },
             {
                 path: 'notifications',
                 component: NotificationsComponent,
-                resolve: { notifications: NotificationsResolver }
+                resolve: { notifications: NotificationsResolver },
+                runGuardsAndResolvers: 'always'
             },
             {
                 path: 'profile/:profile',
                 component: ProfileComponent,
-                resolve: { profile: ProfileResolver }
+                resolve: { profile: ProfileResolver },
+                runGuardsAndResolvers: 'always'
             },
-            { path: 'settings', component: SettingsComponent }
-        ]
+            {
+                path: 'settings',
+                component: SettingsComponent,
+                runGuardsAndResolvers: 'always'
+            }
+        ],
+        runGuardsAndResolvers: 'always'
     },
-    { path: 'sign-in', loadChildren: './_modules/authentication/authentication.module#AuthenticationModule' },
+    {
+        path: 'sign-in',
+        loadChildren: './_modules/authentication/authentication.module#AuthenticationModule'
+    },
     {
         path: 'login',
         redirectTo: '/sign-in',
         pathMatch: 'full'
     },
-    { path: '**', component: NotFound404Component }
+    {
+        path: '**',
+        component: NotFound404Component
+    }
 ];
 const options: ExtraOptions = {
     useHash: false,
     scrollPositionRestoration: 'enabled',
-    anchorScrolling: 'enabled'
+    anchorScrolling: 'enabled',
+    onSameUrlNavigation: 'reload'
 };
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(routes, options);

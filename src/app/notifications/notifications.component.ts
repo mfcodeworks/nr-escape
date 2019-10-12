@@ -27,7 +27,7 @@ export class NotificationsComponent implements OnInit {
                 console.log(this.notifications);
             } else {
                 // Handle error
-                console.warn(error);
+                console.warn(data);
             }
         });
     }

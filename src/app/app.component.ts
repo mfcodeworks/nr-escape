@@ -7,11 +7,10 @@ import {
     NavigationStart,
     Router
 } from '@angular/router';
+import * as PullToRefresh from 'pulltorefreshjs';
 
 import { PushService } from './_services/push/push.service';
-import { DarkThemeService } from './_services/dark-theme/dark-theme.service';
-
-declare const $: any;
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
     selector: 'app-root',
@@ -24,9 +23,8 @@ export class AppComponent implements OnInit {
     // TODO: Pull to refresh page
 
     constructor(
-        private router: Router,
-        private push: PushService,
-        private dark: DarkThemeService
+        public router: Router,
+        private push: PushService
     ) {
         this.router.events.subscribe((event: Event) => {
             switch (true) {
@@ -52,5 +50,13 @@ export class AppComponent implements OnInit {
             window.hasOwnProperty('cordova') ? 'deviceready' : 'load',
             () => { this.push.init(); }
         );
+
+        const url = this.router;
+        PullToRefresh.init({
+            mainElement: 'body',
+            onRefresh() {
+                url.navigate([window.location.pathname]);
+            }
+        });
     }
 }

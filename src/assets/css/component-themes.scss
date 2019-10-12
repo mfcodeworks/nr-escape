@@ -5,14 +5,14 @@
     $background: map-get($theme, background);
     $background-color: map-get($background, background);
 
-    .app-background-color {
-        background-color: $background-color !important;
-    }
-
     $primary: mat-palette($mat-grey, 800, 500, 900);
     $primaryColor: mat-color($primary, default);
     $primaryColorLight: mat-color($primary, lighter);
     $textColor: mat-color($background, card);
+
+    .app-background-color {
+        background-color: $background-color !important;
+    }
 
     .dropdown-menu {
         width: 95vw;
