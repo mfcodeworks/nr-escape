@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject  } from 'rxjs';
+import { CacheService } from '../cache/cache.service';
 
 declare const $: any;
 
@@ -9,9 +10,11 @@ declare const $: any;
 export class DarkThemeService {
     isDark: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-    constructor() {
+    constructor(
+        private cache: CacheService
+    ) {
         // Check for dark theme
-        const darkTheme = JSON.parse(localStorage.getItem('dark-mode'));
+        const darkTheme = this.cache.get('dark-mode');
         console.log('Dark mode', darkTheme);
         darkTheme ? this.isDark.next(darkTheme) : this.isDark.next(false);
 
@@ -20,7 +23,7 @@ export class DarkThemeService {
     }
 
     setDarkTheme(dark: boolean) {
-        localStorage.setItem('dark-mode', JSON.stringify(dark));
+        this.cache.store('dark-mode', dark);
         this.isDark.next(dark);
     }
 

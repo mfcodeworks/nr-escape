@@ -16,8 +16,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SearchComponent } from './search/search.component';
-import { HashLocationStrategy } from '@angular/common';
 import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.component';
+import { NotFound404Component } from './not-found404/not-found404.component';
 
 export const routes: Routes = [
     {
@@ -56,7 +56,7 @@ export const routes: Routes = [
                 component: ProfileComponent,
                 resolve: { profile: ProfileResolver }
             },
-            { path: 'settings', component: SettingsComponent },
+            { path: 'settings', component: SettingsComponent }
         ]
     },
     { path: 'sign-in', loadChildren: './_modules/authentication/authentication.module#AuthenticationModule' },
@@ -64,7 +64,8 @@ export const routes: Routes = [
         path: 'login',
         redirectTo: '/sign-in',
         pathMatch: 'full'
-    }
+    },
+    { path: '**', component: NotFound404Component }
 ];
 const options: ExtraOptions = {
     useHash: false,

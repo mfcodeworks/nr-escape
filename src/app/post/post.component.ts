@@ -1,13 +1,13 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
 
 import { Post } from '../_models/post';
 import { Comment } from '../_models/comment';
 import { BackendService } from '../_services/backend/backend.service';
 import { UserService } from '../_services/user/user.service';
 import { BehaviorSubject } from 'rxjs';
+import { CacheService } from '../_services/cache/cache.service';
 
 declare const $: any;
 declare const _: any;
@@ -45,21 +45,21 @@ export class PostComponent implements OnInit, AfterViewInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private errorToast: MatSnackBar,
         private backend: BackendService,
         private user: UserService,
-        protected location: Location
+        protected location: Location,
+        private cache: CacheService
     ) {}
 
     ngOnInit() {
         this.route.data.subscribe((data) => {
             if (data.post instanceof Object) {
                 this.post = data.post;
+                this.cache.store(`post-${data.post.id}`, data.post);
                 this.comments = this.post.comments;
             } else {
-                this.errorToast.open(data.post, 'close', {
-                    duration: 3000
-                });
+                // Handle error
+                console.warn(data);
             }
         });
     }
@@ -150,7 +150,7 @@ export class PostComponent implements OnInit, AfterViewInit {
             this.post.comments.push(response);
             $('html, body').animate({ scrollTop: $(document).height() }, 1000);
         }, (error: any) => {
-            // TODO: Handle Error
+            // Handle Error
             console.warn(error);
         }, () => {
             this.sending = false;

@@ -2,8 +2,9 @@
 <app-top-bar></app-top-bar>
 
 <div class="min-h-100">
+    <p *ngIf="!notifications.length" class="mat-body error-placeholder mt-4">We couldn't find anything for you</p>
     <!-- Display notifications -->
-    <mat-list class="pt-0">
+    <mat-list *ngIf="notifications.length" class="pt-0">
         <mat-list-item *ngFor="let notification of notifications">
             <mat-divider></mat-divider>
             <img matListAvatar [src]="notification.from.profilePic" class="avatar" [routerLink]="['/profile', notification.from.username]"/>

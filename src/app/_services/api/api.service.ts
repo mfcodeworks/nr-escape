@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
@@ -17,7 +18,12 @@ const API_URL = environment.apiUrl;
 })
 export class ApiService {
 
-    constructor(private http: HttpClient, private userService: UserService) {}
+    constructor(
+        private http: HttpClient,
+        private userService: UserService,
+        public errorToast: MatSnackBar,
+        private zone: NgZone
+    ) {}
 
     // API: Sign Up User
     signUp(username: string, password: string, email: string): any {
@@ -28,7 +34,7 @@ export class ApiService {
             email
         }, this.getRequestHeaders())
         .pipe(
-            catchError(this.handleError)
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -40,7 +46,7 @@ export class ApiService {
             password
         }, this.getRequestHeaders())
         .pipe(
-            catchError(this.handleError)
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -51,7 +57,7 @@ export class ApiService {
             email
         }, this.getRequestHeaders())
         .pipe(
-            catchError(this.handleError)
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -65,7 +71,7 @@ export class ApiService {
             password_confirmation: passwordConfirmation
         }, this.getRequestHeaders())
         .pipe(
-            catchError(this.handleError)
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -74,8 +80,8 @@ export class ApiService {
         return this.http
         .get<Profile>(`${API_URL}/me`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -86,8 +92,8 @@ export class ApiService {
             user,
             this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -96,8 +102,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/me/deactivate`, null, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -106,8 +112,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/me/fcm/token`, { token }, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -116,8 +122,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/me/fcm/subscribe/${topic}`, { token }, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -126,8 +132,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/me/fcm/unsubscribe/${topic}`, { token }, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -136,8 +142,8 @@ export class ApiService {
         return this.http
         .get<any[]>(`${API_URL}/search?query=${query}${type ? `&type=${type}` : ``}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -146,8 +152,8 @@ export class ApiService {
         return this.http
         .get<Post[]>(`${API_URL}/me/feed`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError),
+            retry(1),
+            catchError((error) => this.handleError(error)),
             map((response) => response.map(
                 post => new Post(post)
             ))
@@ -159,8 +165,8 @@ export class ApiService {
         return this.http
         .get<any[]>(`${API_URL}/me/recommendations`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError),
+            retry(1),
+            catchError((error) => this.handleError(error)),
             map((response) => response[0].map(
                 recommendation => new Post(recommendation)
             ))
@@ -172,8 +178,8 @@ export class ApiService {
         return this.http
         .get(`${API_URL}/me/engagement`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -182,8 +188,8 @@ export class ApiService {
         return this.http
         .get<Notification[]>(`${API_URL}/me/notifications`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError),
+            retry(1),
+            catchError((error) => this.handleError(error)),
             map((response) => response.map(
                 notification => new Notification(notification)
             ))
@@ -195,8 +201,8 @@ export class ApiService {
         return this.http
         .get<Notification>(`${API_URL}/notification/${id}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -205,8 +211,8 @@ export class ApiService {
         return this.http
         .get<Profile>(`${API_URL}/profile/${username}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError),
+            retry(1),
+            catchError((error) => this.handleError(error)),
             map(profile =>
                 new Profile(profile)
             )
@@ -218,8 +224,8 @@ export class ApiService {
         return this.http
         .get<Post[]>(`${API_URL}/profile/${id}/posts?offset=${offset}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError),
+            retry(1),
+            catchError((error) => this.handleError(error)),
             map((response) => response.map(
                 post => new Post(post)
             ))
@@ -231,8 +237,8 @@ export class ApiService {
         return this.http
         .get<Post>(`${API_URL}/post/${id}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -241,8 +247,8 @@ export class ApiService {
         return this.http
         .post<Post>(`${API_URL}/post`, post, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError),
+            retry(1),
+            catchError((error) => this.handleError(error)),
             map((response) => new Post(response))
         );
     }
@@ -252,8 +258,8 @@ export class ApiService {
         return this.http
         .put<Post>(`${API_URL}/post/${id}`, post, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -262,8 +268,8 @@ export class ApiService {
         return this.http
         .delete(`${API_URL}/post/${id}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -272,8 +278,8 @@ export class ApiService {
         return this.http
         .get<Comment>(`${API_URL}/comment/${id}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -282,8 +288,8 @@ export class ApiService {
         return this.http
         .post<Comment>(`${API_URL}/comment`, comment, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -292,8 +298,8 @@ export class ApiService {
         return this.http
         .put<Comment>(`${API_URL}/comment/${id}`, comment, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -302,8 +308,8 @@ export class ApiService {
         return this.http
         .delete(`${API_URL}/comment/${id}`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -312,8 +318,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/profile/${id}/follow`, null, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -322,8 +328,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/profile/${id}/unfollow`, null, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -332,8 +338,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/post/${id}/like`, null, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -342,8 +348,8 @@ export class ApiService {
         return this.http
         .delete(`${API_URL}/post/${id}/like`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -352,8 +358,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/profile/${id}/block`, null, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -362,8 +368,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/profile/${id}/unblock`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -372,8 +378,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/profile/${id}/report`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -382,8 +388,8 @@ export class ApiService {
         return this.http
         .post(`${API_URL}/post/${id}/report`, this.getRequestHeaders())
         .pipe(
-            retry(3),
-            catchError(this.handleError)
+            retry(1),
+            catchError((error) => this.handleError(error))
         );
     }
 
@@ -392,15 +398,17 @@ export class ApiService {
         // DEBUG:
         console.warn(error);
 
-        // Instantiate error message
-        let errorMessage: any;
-
         // Set error message
-        if (error instanceof HttpErrorResponse) {
-            errorMessage = (error.error) ? error : `(${error.status}) Message: ${error.statusText}`;
-        } else {
-            errorMessage = `(${error.status}) Message: ${error.error}`;
-        }
+        const errorMessage = (error instanceof HttpErrorResponse)
+            ? `(${error.name}) Message: ${error.statusText}`
+            : `(${error.status}) Message: ${error.error}`;
+
+        // Open error snackbar
+        this.errorToast.open(errorMessage, 'close', {
+            duration: 3000
+        });
+
+
         return throwError(errorMessage);
     }
 

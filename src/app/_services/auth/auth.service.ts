@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    constructor(private user: UserService, private router: Router) {}
+    constructor(
+        private user: UserService,
+        private router: Router,
+        private cache: CacheService
+    ) {}
 
     public isSignedIn(): boolean {
         return !!this.user.token;
@@ -15,7 +20,7 @@ export class AuthService {
     public doSignOut(): void {
         this.user.destroy();
         this.user.loggedIn.next(false);
-        localStorage.removeItem('login');
+        this.cache.clear();
         this.router.navigate(['/login']);
     }
 
@@ -25,6 +30,6 @@ export class AuthService {
         Object.assign(this.user, {token, profile, email, settings});
         this.user.loggedIn.next(!!token);
         // Save user object
-        localStorage.setItem(`login`, JSON.stringify(this.user.toJson()));
+        this.cache.store('login', this.user.toJson());
     }
 }

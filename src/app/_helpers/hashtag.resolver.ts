@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -8,7 +8,10 @@ import { BackendService } from '../_services/backend/backend.service';
 @Injectable()
 export class HashtagResolver implements Resolve<Observable<any[]>> {
 
-    constructor(private backend: BackendService) { }
+    constructor(
+        private backend: BackendService,
+        private router: Router
+    ) { }
 
     resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
         return this.backend.search(
@@ -16,6 +19,7 @@ export class HashtagResolver implements Resolve<Observable<any[]>> {
             'hashtag'
         ).pipe(
             catchError((error) => {
+                this.router.navigate(['/404']);
                 return of(error);
             })
         );

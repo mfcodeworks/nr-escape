@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Profile } from '../_models/profile';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
+import { CacheService } from '../_services/cache/cache.service';
 
 declare const _: any;
 
@@ -19,7 +20,8 @@ export class RecommendationsComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private dark: DarkThemeService
+        private dark: DarkThemeService,
+        private cache: CacheService
     ) {}
 
     ngOnInit() {
@@ -27,9 +29,11 @@ export class RecommendationsComponent implements OnInit {
         this.route.data.subscribe((data) => {
             if (data.recommendations instanceof Array) {
                 this.recommendations = _.shuffle(data.recommendations);
+                this.cache.store('recommendations', data.recommendations);
                 console.log(this.recommendations);
             } else {
-                // TODO: Handle error
+                // Handle error
+                console.warn(data);
             }
         });
 

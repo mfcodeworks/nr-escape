@@ -10,6 +10,7 @@ import {
 import { Profile } from '../_models/profile';
 import { BackendService } from '../_services/backend/backend.service';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
+import { CacheService } from '../_services/cache/cache.service';
 
 declare const _: any;
 
@@ -29,7 +30,8 @@ export class SearchComponent implements AfterViewInit  {
     constructor(
         private backend: BackendService,
         private cd: ChangeDetectorRef,
-        private dark: DarkThemeService
+        private dark: DarkThemeService,
+        private cache: CacheService
     ) {}
 
     ngAfterViewInit() {
@@ -59,6 +61,7 @@ export class SearchComponent implements AfterViewInit  {
             // Get profile results
             this.backend.search(search).subscribe(
                 (result: any) => {
+                    this.cache.store(`search-${search}`, result);
                     // Reference results
                     this.profiles = result.users;
                     // Order hashtags as shortest (closest match) first

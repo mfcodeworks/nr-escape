@@ -6,7 +6,8 @@
 
 <div class="min-h-100">
     <!-- Recommendations grid -->
-    <app-post-preview-grid [posts]=recommendations></app-post-preview-grid>
+    <app-post-preview-grid *ngIf="recommendations.length" [posts]=recommendations></app-post-preview-grid>
+    <p *ngIf="!recommendations.length" class="mat-body error-placeholder mt-4">We couldn't find anything, is this thing turned on?</p>
 </div>
 
 <!-- App Botttom Bar -->

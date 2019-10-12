@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Notification } from '../_models/notification';
+import { CacheService } from '../_services/cache/cache.service';
 
 @Component({
     selector: 'app-notifications',
@@ -10,10 +11,11 @@ import { Notification } from '../_models/notification';
 })
 export class NotificationsComponent implements OnInit {
 
-    notifications: Notification[];
+    notifications: Notification[] = [];
 
     constructor(
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private cache: CacheService
     ) {}
 
     ngOnInit() {
@@ -21,6 +23,7 @@ export class NotificationsComponent implements OnInit {
         this.route.data.subscribe((data) => {
             if (data.notifications instanceof Array) {
                 this.notifications = data.notifications;
+                this.cache.store('notifications', data.notifications);
                 console.log(this.notifications);
             } else {
                 // TODO: Handle error

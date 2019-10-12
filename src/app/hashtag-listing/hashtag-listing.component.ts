@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 import { ActivatedRoute } from '@angular/router';
+import { CacheService } from '../_services/cache/cache.service';
 
 @Component({
     selector: 'app-hashtag-listing',
@@ -14,7 +15,8 @@ export class HashtagListingComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private dark: DarkThemeService
+        private dark: DarkThemeService,
+        private cache: CacheService
     ) { }
 
     ngOnInit() {
@@ -26,6 +28,7 @@ export class HashtagListingComponent implements OnInit {
         // Get posts from route resolver data
         this.route.data.subscribe((data) => {
             this.posts = data.posts;
+            this.cache.store(`hashtag-${this.hashtag}`, data.posts);
             console.log(this.posts);
         });
 

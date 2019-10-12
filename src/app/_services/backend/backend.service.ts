@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { ApiService } from '../api/api.service';
 import { Profile } from '../../_models/profile';
 import { Post } from '../../_models/post';
 import { Comment } from '../../_models/comment';
 import { Notification } from '../../_models/notification';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,10 @@ export class BackendService {
     comments: Comment[] = [];
     notifications: Notification[] = [];
 
-    constructor(private api: ApiService) {}
+    constructor(
+        private api: ApiService,
+        private cache: CacheService
+    ) {}
 
     // Sign Up User
     signUp(username: string, password: string, email: string): any {
@@ -40,7 +45,12 @@ export class BackendService {
 
     // Get User Profile
     getUser(): Observable<Profile> {
-        return this.api.getUser();
+        return this.api.getUser().pipe(
+            catchError((error) => {
+                // TODO: Return from localStorage
+                return of(this.cache.get(`login`).profile);
+            })
+        );
     }
 
     // Update User Profile
@@ -70,17 +80,35 @@ export class BackendService {
 
     // User search
     search(query: string, type: string = null): Observable<any[]> {
-        return this.api.search(query, type);
+        return this.api.search(query, type).pipe(
+            catchError((error) => {
+                // Return from localStorage
+                if (type === 'hashtag') {
+                    return of(this.cache.get(`hashtag-${query}`));
+                }
+                return of(this.cache.get(`search-${query}`));
+            })
+        );
     }
 
     // Get User Feed
     getUserFeed(): Observable<Post[]> {
-        return this.api.getUserFeed();
+        return this.api.getUserFeed().pipe(
+            catchError((error) => {
+                // Return from localStorage
+                return of(this.cache.get('feed'));
+            })
+        );
     }
 
     // Get Recommended Users
     getRecommendations(): Observable<Post[]> {
-        return this.api.getRecommendations();
+        return this.api.getRecommendations().pipe(
+            catchError((error) => {
+                // Return from localStorage
+                return of(this.cache.get('recommendations'));
+            })
+        );
     }
 
     // Get User Engagement Score
@@ -90,7 +118,12 @@ export class BackendService {
 
     // Get User Notifications
     getUserNotifications(): Observable<Notification[]> {
-        return this.api.getUserNotifications();
+        return this.api.getUserNotifications().pipe(
+            catchError((error) => {
+                // Return from localStorage
+                return of(this.cache.get('notifications'));
+            })
+        );
     }
 
     // Get Notification
@@ -100,17 +133,32 @@ export class BackendService {
 
     // Get Profile
     getProfile(username: string): Observable<Profile> {
-        return this.api.getProfile(username);
+        return this.api.getProfile(username).pipe(
+            catchError((error) => {
+                // Return from localStorage
+                return of(this.cache.get(`profile-${username}`));
+            })
+        );
     }
 
     // Get Profile Posts
     getProfilePosts(id: number, offset = 0): Observable<Post[]> {
-        return this.api.getProfilePosts(id, offset);
+        return this.api.getProfilePosts(id, offset).pipe(
+            catchError((error) => {
+                // Return from localStorage
+                return of(this.cache.get(`profile-${id}-posts`));
+            })
+        );
     }
 
     // Get Post
     getPost(id: number): Observable<Post> {
-        return this.api.getPost(id);
+        return this.api.getPost(id).pipe(
+            catchError((error) => {
+                // Return from localStorage
+                return of(this.cache.get(`post-${id}`));
+            })
+        );
     }
 
     // Create Post

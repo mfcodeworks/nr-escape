@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 
 import { Post } from '../_models/post';
+import { CacheService } from '../_services/cache/cache.service';
 
 declare const _: any;
 
@@ -19,7 +19,7 @@ export class FeedComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private errorToast: MatSnackBar
+        private cache: CacheService
     ) {}
 
     public ngOnInit() {
@@ -27,12 +27,10 @@ export class FeedComponent implements OnInit {
         this.route.data.subscribe((data) => {
             if (data.posts instanceof Array) {
                 this.posts = data.posts;
+                this.cache.store('feed', data.posts);
                 console.log(this.posts);
             } else {
                 console.error(data.posts);
-                this.errorToast.open(data.posts, 'close', {
-                    duration: 3000
-                });
             }
         });
     }

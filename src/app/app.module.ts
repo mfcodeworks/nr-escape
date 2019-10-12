@@ -65,6 +65,7 @@ import { SearchComponent } from './search/search.component';
 import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.component';
 import { RouteTransformerDirective } from './_helpers/route-transformer.directive';
 import { TagPipe } from './_helpers/tag.pipe';
+import { NotFound404Component } from './not-found404/not-found404.component';
 
 @NgModule({
     imports: [
@@ -123,7 +124,8 @@ import { TagPipe } from './_helpers/tag.pipe';
         PostViewComponent,
         HashtagListingComponent,
         RouteTransformerDirective,
-        TagPipe
+        TagPipe,
+        NotFound404Component
     ],
     entryComponents: [
         CommentDialogComponent,
