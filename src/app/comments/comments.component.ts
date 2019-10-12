@@ -110,7 +110,7 @@ export class CommentsComponent implements OnInit {
                 return parseInt(c.id, 10) === comment.id;
             });
         }, (error: any) => {
-            // TODO: Handle error
+            // Handle error
             console.warn(error);
         });
     }

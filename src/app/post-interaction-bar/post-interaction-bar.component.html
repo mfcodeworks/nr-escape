@@ -1,7 +1,7 @@
 <!-- Interaction Button Row -->
 <mat-list-item>
     <span>
-        <!-- TODO: implement repost popup -->
+        <!-- TODO: implement repost redirect -->
         <mat-icon mat-list-icon class="ti-heart" [class.icon-red]="isLiked" (dblclick)="likePost()"></mat-icon>
         <mat-icon mat-list-icon class="ti-comment ml-2" [routerLink]="['/post', post.id]"></mat-icon>
         <mat-icon mat-list-icon class="ti-reload ml-2" (click)="doRepost()"></mat-icon>

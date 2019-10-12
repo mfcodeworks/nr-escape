@@ -47,7 +47,7 @@ export class BackendService {
     getUser(): Observable<Profile> {
         return this.api.getUser().pipe(
             catchError((error) => {
-                // TODO: Return from localStorage
+                // Return from localStorage
                 return of(this.cache.get(`login`).profile);
             })
         );

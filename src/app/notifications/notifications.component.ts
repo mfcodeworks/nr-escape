@@ -26,7 +26,8 @@ export class NotificationsComponent implements OnInit {
                 this.cache.store('notifications', data.notifications);
                 console.log(this.notifications);
             } else {
-                // TODO: Handle error
+                // Handle error
+                console.warn(error);
             }
         });
     }

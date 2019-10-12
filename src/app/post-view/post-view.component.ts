@@ -31,7 +31,7 @@ export class PostViewComponent implements OnInit {
                 this.backend.likePost(this.post.id).subscribe((response: any) => {
                     // Success
                 }, (error: any) => {
-                    // TODO: Handle Error
+                    // Handle Error
                     console.warn(error);
                     this.removeLike();
                 });
@@ -43,7 +43,7 @@ export class PostViewComponent implements OnInit {
                 this.backend.unlikePost(this.post.id).subscribe((response: any) => {
                     // Success
                 }, (error: any) => {
-                    // TODO: Handle Error
+                    // Handle Error
                     console.warn(error);
                     this.addLike();
                 });

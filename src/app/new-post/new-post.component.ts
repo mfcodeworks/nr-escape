@@ -192,12 +192,11 @@ export class NewPostComponent implements OnInit {
 
         this.backend.addPost(formData).subscribe(response => {
             console.log(response);
-            this.loading = false;
             this.router.navigate(['']);
         }, error => {
-            console.error(error);
+            console.warn(error);
+        }, () => {
             this.loading = false;
-            // TODO: Display error somewhere
         });
     }
 
