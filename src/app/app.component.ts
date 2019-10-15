@@ -20,8 +20,6 @@ import { ResourceLoader } from '@angular/compiler';
 export class AppComponent implements OnInit {
     loading = false;
 
-    // TODO: Pull to refresh page
-
     constructor(
         public router: Router,
         private push: PushService

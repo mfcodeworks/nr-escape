@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { Post } from '../_models/post';
+import { Post } from '../../../_models/post';
 
 @Component({
     selector: 'app-post-interaction-bar',

@@ -5,17 +5,17 @@ import { catchError } from 'rxjs/operators';
 
 import { BackendService } from '../_services/backend/backend.service';
 
-import { Profile } from '../_models/profile';
+import { Post } from '../_models/post';
 
 @Injectable()
-export class RecommendationsResolver implements Resolve<Observable<Profile[]>> {
+export class RecommendationsResolver implements Resolve<Observable<Post[]>> {
 
     constructor(
         private backend: BackendService,
         private router: Router
     ) { }
 
-    resolve(): Observable<Profile[]> {
+    resolve(): Observable<Post[]> {
         return this.backend.getRecommendations().pipe(
             catchError((error) => {
                 // this.router.navigate(['/404']);

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { Post } from '../_models/post';
-import { Profile } from '../_models/profile';
+import { Post } from '../../../_models/post';
+import { Profile } from '../../../_models/profile';
 
 @Component({
     selector: 'app-post-display',

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Post } from '../_models/post';
-import { Profile } from '../_models/profile';
-import { Comment } from '../_models/comment';
-import { BackendService } from '../_services/backend/backend.service';
+import { Post } from '../../../_models/post';
+import { Profile } from '../../../_models/profile';
+import { Comment } from '../../../_models/comment';
+import { BackendService } from '../../../_services/backend/backend.service';
 
 declare const _: any;
 
@@ -34,11 +34,11 @@ export class CommentDialogComponent {
 }
 
 @Component({
-    selector: 'app-comments',
+    selector: 'app-post-comments',
     templateUrl: './comments.component.html',
     styleUrls: ['./comments.component.css'],
 })
-export class CommentsComponent implements OnInit {
+export class PostCommentsComponent implements OnInit {
     @Input() post: Post;
     @Input() user: Profile;
     @Input() preview = false;

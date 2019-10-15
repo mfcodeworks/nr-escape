@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Post } from '../_models/post';
-import { BackendService } from '../_services/backend/backend.service';
-import { UserService } from '../_services/user/user.service';
+import { Post } from '../../_models/post';
+import { BackendService } from '../../_services/backend/backend.service';
+import { UserService } from '../../_services/user/user.service';
 
 declare const _: any;
 
