@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Post } from '../_models/post';
 import { CacheService } from '../_services/cache/cache.service';
+import { BackendService } from '../_services/backend/backend.service';
+import { database } from 'firebase';
 
 declare const _: any;
 
@@ -14,12 +16,12 @@ declare const _: any;
 export class FeedComponent implements OnInit {
     posts: Post[] = null;
     userId: number;
-
-    // TODO: Add infinite scroll for posts
+    fetchedAllPosts = false;
 
     constructor(
         private route: ActivatedRoute,
-        private cache: CacheService
+        private cache: CacheService,
+        private backend: BackendService
     ) {}
 
     public ngOnInit() {
@@ -28,14 +30,27 @@ export class FeedComponent implements OnInit {
             if (data.posts instanceof Array) {
                 this.posts = data.posts;
                 this.cache.store('feed', data.posts);
-                console.log(this.posts);
+                console.log(data.posts);
             } else {
                 console.error(data.posts);
             }
         });
     }
 
-    removePost(id: number) {
+    fetchMorePosts(): void {
+        console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
+        this.backend.getUserFeed(this.posts[this.posts.length - 1].id).subscribe(posts => {
+            console.log(posts);
+            if (!posts.length) {
+                this.fetchedAllPosts = true;
+                return;
+            }
+            this.posts = _.union(this.posts, posts);
+            this.cache.store('feed', this.posts);
+        });
+    }
+
+    removePost(id: number): void {
         // Remove post from feed array
         _.remove(this.posts, (p: any) => {
             return parseInt(p.id, 10) === id;

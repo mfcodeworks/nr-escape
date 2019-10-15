@@ -4,7 +4,11 @@
     <div class="top-bar-logo logo mr-0"></div>
 </mat-toolbar>
 
-<div class="min-h-100">
+<div class="min-h-100"
+    infiniteScroll
+    infiniteScrollThrottle="800"
+    [infiniteScrollDisabled]="fetchedAll"
+    (scrolled)="fetchMoreResults()">
     <!-- Recommendations grid -->
     <mat-tab-group>
         <mat-tab label="Recent">

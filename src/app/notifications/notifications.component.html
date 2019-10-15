@@ -1,7 +1,11 @@
 <!-- App Top Bar -->
 <app-top-bar></app-top-bar>
 
-<div class="min-h-100">
+<div class="min-h-100"
+    infiniteScroll
+    infiniteScrollThrottle="800"
+    [infiniteScrollDisabled]="fetchedAllNotifications"
+    (scrolled)="fetchMoreNotifications()">
     <p *ngIf="!notifications.length" class="mat-body error-placeholder mt-4">We couldn't find anything for you</p>
     <!-- Display notifications -->
     <mat-list *ngIf="notifications.length" class="pt-0">

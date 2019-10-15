@@ -88,7 +88,12 @@
                 <mat-divider class="my-3"></mat-divider>
 
                 <!-- Posts grid -->
-                <app-post-preview-grid [posts]=posts></app-post-preview-grid>
+                <app-post-preview-grid
+                    infiniteScroll
+                    infiniteScrollThrottle="800"
+                    [infiniteScrollDisabled]="fetchedAllPosts"
+                    (scrolled)="fetchMorePosts()"
+                    [posts]=posts></app-post-preview-grid>
 
                 <span *ngIf="!posts.length">
                     <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>

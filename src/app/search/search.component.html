@@ -16,7 +16,8 @@
             Haven't found anything yet&hellip;
         </p>
     </span>
-    <mat-list *ngIf="profiles.length" class="mb-2">
+    <mat-list *ngIf="profiles.length"
+        class="mb-2">
         <h3 mat-subheader>Users</h3>
         <mat-list-item *ngFor="let result of profiles">
             <mat-divider></mat-divider>
@@ -24,7 +25,8 @@
             <h3 matLine><span [routerLink]="['/profile', result.username]" class="mat-h3 font-weight-bold">{{result.username}}</span></h3>
         </mat-list-item>
     </mat-list>
-    <mat-list *ngIf="hashtags.length">
+    <mat-list *ngIf="hashtags.length"
+        class="mb-2">
         <h3 mat-subheader>Hashtags</h3>
         <mat-list-item *ngFor="let result of hashtags" [routerLink]="['/hashtag', result.substring(1, result.length)]" >
             <mat-divider></mat-divider>

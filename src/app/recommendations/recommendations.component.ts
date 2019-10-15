@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Profile } from '../_models/profile';
+import { Post } from '../_models/post';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 import { CacheService } from '../_services/cache/cache.service';
+import { BackendService } from '../_services/backend/backend.service';
 
 declare const _: any;
 
@@ -13,15 +14,15 @@ declare const _: any;
     styleUrls: ['./recommendations.component.css'],
 })
 export class RecommendationsComponent implements OnInit {
-    recommendations: Profile[] = [];
+    fetchedAllrecommendations = false;
+    recommendations: Post[] = [];
     isDark: boolean;
-
-    // TODO: Add infinite scroll for posts
 
     constructor(
         private route: ActivatedRoute,
         private dark: DarkThemeService,
-        private cache: CacheService
+        private cache: CacheService,
+        private backend: BackendService
     ) {}
 
     ngOnInit() {
@@ -40,6 +41,20 @@ export class RecommendationsComponent implements OnInit {
         this.dark.isDarkMode()
         .subscribe((mode: boolean) => {
             this.isDark = mode;
+        });
+    }
+
+    fetchMoreRecommendations(): void {
+        const notIn = this.recommendations.map(r => r.id);
+        console.log('Fetching more posts now, excluding id\'s:', notIn);
+        this.backend.getRecommendations(notIn).subscribe(recommendations => {
+            if (!recommendations.length) {
+                this.fetchedAllrecommendations = true;
+                return;
+            }
+            this.recommendations = _.union(this.recommendations, _.shuffle(recommendations));
+            this.cache.store('recommendations', this.recommendations);
+            console.log(this.recommendations);
         });
     }
 }

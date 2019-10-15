@@ -79,7 +79,7 @@ export class BackendService {
     }
 
     // User search
-    search(query: string, type: string = null): Observable<any[]> {
+    search(query: string, type: string = null, topNotIn?: number[], recentNotIn?: number[]): Observable<any[]> {
         return this.api.search(query, type).pipe(
             catchError((error) => {
                 // Return from localStorage
@@ -92,8 +92,8 @@ export class BackendService {
     }
 
     // Get User Feed
-    getUserFeed(): Observable<Post[]> {
-        return this.api.getUserFeed().pipe(
+    getUserFeed(offset?: number): Observable<Post[]> {
+        return this.api.getUserFeed(offset).pipe(
             catchError((error) => {
                 // Return from localStorage
                 return of(this.cache.get('feed'));
@@ -102,8 +102,8 @@ export class BackendService {
     }
 
     // Get Recommended Users
-    getRecommendations(): Observable<Post[]> {
-        return this.api.getRecommendations().pipe(
+    getRecommendations(notIn?: number[]): Observable<Post[]> {
+        return this.api.getRecommendations(notIn).pipe(
             catchError((error) => {
                 // Return from localStorage
                 return of(this.cache.get('recommendations'));
@@ -117,8 +117,8 @@ export class BackendService {
     }
 
     // Get User Notifications
-    getUserNotifications(): Observable<Notification[]> {
-        return this.api.getUserNotifications().pipe(
+    getUserNotifications(offset?: number): Observable<Notification[]> {
+        return this.api.getUserNotifications(offset).pipe(
             catchError((error) => {
                 // Return from localStorage
                 return of(this.cache.get('notifications'));
@@ -142,7 +142,7 @@ export class BackendService {
     }
 
     // Get Profile Posts
-    getProfilePosts(id: number, offset = 0): Observable<Post[]> {
+    getProfilePosts(id: number, offset?: number): Observable<Post[]> {
         return this.api.getProfilePosts(id, offset).pipe(
             catchError((error) => {
                 // Return from localStorage

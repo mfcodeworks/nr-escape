@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Notification } from '../_models/notification';
 import { CacheService } from '../_services/cache/cache.service';
+import { BackendService } from '../_services/backend/backend.service';
+
+declare const _: any;
 
 @Component({
     selector: 'app-notifications',
@@ -10,12 +13,13 @@ import { CacheService } from '../_services/cache/cache.service';
     styleUrls: ['./notifications.component.css'],
 })
 export class NotificationsComponent implements OnInit {
-
+    fetchedAllNotifications = false;
     notifications: Notification[] = [];
 
     constructor(
         private route: ActivatedRoute,
-        private cache: CacheService
+        private cache: CacheService,
+        private backend: BackendService
     ) {}
 
     ngOnInit() {
@@ -29,6 +33,15 @@ export class NotificationsComponent implements OnInit {
                 // Handle error
                 console.warn(data);
             }
+        });
+    }
+
+    fetchMoreNotifications(): void {
+        console.log('Fetching more notifications now, offset id:', this.notifications[this.notifications.length - 1].id);
+        this.backend.getUserNotifications(this.notifications[this.notifications.length - 1].id).subscribe(notifications => {
+            console.log(notifications);
+            this.notifications = _.union(this.notifications, notifications);
+            this.cache.store('notifications', this.notifications);
         });
     }
 }

@@ -1,7 +1,10 @@
 <!-- App Top Bar -->
 <app-top-bar></app-top-bar>
 
-<div class="min-h-100">
+<div class="min-h-100"
+    infiniteScroll
+    [infiniteScrollDisabled]="fetchedAllPosts"
+    (scrolled)="fetchMorePosts()">
     <mat-list *ngFor="let post of posts">
         <!-- Posts -->
         <app-post-view

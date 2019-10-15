@@ -138,9 +138,18 @@ export class ApiService {
     }
 
     // API: User search
-    search(query: string, type: string): Observable<any[]> {
+    search(query: string, type: string, topNotIn?: number[], recentNotIn?: number[]): Observable<any[]> {
         return this.http
-        .get<any[]>(`${API_URL}/search?query=${query}${type ? `&type=${type}` : ``}`, this.getRequestHeaders())
+        .get<any[]>(
+            `${API_URL}/search?query=${query}${type
+                ? `&type=${type}`
+                : ``}${topNotIn
+                ? `&topNotIn=${JSON.stringify(topNotIn)}`
+                : ''}${recentNotIn
+                ? `&recentNotIn=${JSON.stringify(recentNotIn)}`
+                : ''}`,
+            this.getRequestHeaders()
+        )
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error))
@@ -148,9 +157,9 @@ export class ApiService {
     }
 
     // API: Get User Feed
-    getUserFeed(): Observable<Post[]> {
+    getUserFeed(offset?: number): Observable<Post[]> {
         return this.http
-        .get<Post[]>(`${API_URL}/me/feed`, this.getRequestHeaders())
+        .get<Post[]>(`${API_URL}/me/feed?${offset ? `offset=${offset}` : ''}`, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error)),
@@ -161,13 +170,13 @@ export class ApiService {
     }
 
     // API: Get Recommended Users
-    getRecommendations(): Observable<Post[]> {
+    getRecommendations(notIn?: number[]): Observable<Post[]> {
         return this.http
-        .get<any[]>(`${API_URL}/me/recommendations`, this.getRequestHeaders())
+        .get<any[]>(`${API_URL}/me/recommendations?${notIn ? `notIn=${JSON.stringify(notIn)}` : ''}`, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error)),
-            map((response) => response[0].map(
+            map((response) => response.map(
                 recommendation => new Post(recommendation)
             ))
         );
@@ -184,9 +193,9 @@ export class ApiService {
     }
 
     // API: Get User Notifications
-    getUserNotifications(): Observable<Notification[]> {
+    getUserNotifications(offset?: number): Observable<Notification[]> {
         return this.http
-        .get<Notification[]>(`${API_URL}/me/notifications`, this.getRequestHeaders())
+        .get<Notification[]>(`${API_URL}/me/notifications?${offset ? `offset=${offset}` : ''}`, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error)),
@@ -220,9 +229,9 @@ export class ApiService {
     }
 
     // API: Get User Posts
-    getProfilePosts(id: number, offset: number): Observable<Post[]> {
+    getProfilePosts(id: number, offset?: number): Observable<Post[]> {
         return this.http
-        .get<Post[]>(`${API_URL}/profile/${id}/posts?offset=${offset}`, this.getRequestHeaders())
+        .get<Post[]>(`${API_URL}/profile/${id}/posts?${offset ? `offset=${offset}` : ''}`, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error)),

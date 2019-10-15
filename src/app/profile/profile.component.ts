@@ -23,6 +23,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     topBarHeight = 56;
     isDark: boolean;
     editing = false;
+    fetchingPosts = false;
+    fetchedAllPosts = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -34,7 +36,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {
-        // Set profile data TODO: Sort posts newest to oldest
+        // Set profile data
         this.route.data.subscribe((data) => {
             if (data.profile instanceof Object) {
                 this.profile = data.profile;
@@ -78,5 +80,19 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     followUser(id: number) {
         this.userService.profile.following.push(id);
+    }
+
+    fetchMorePosts(): void {
+        console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
+
+        this.backend.getProfilePosts(this.profile.id, this.posts[this.posts.length - 1].id).subscribe(posts => {
+            if (!posts.length) {
+                this.fetchedAllPosts = true;
+                return;
+            }
+            this.posts = _.union(this.posts, posts);
+            this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
+            console.log(this.posts);
+        });
     }
 }
