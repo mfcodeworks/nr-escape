@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ApiService } from '../api/api.service';
@@ -45,12 +45,7 @@ export class BackendService {
 
     // Get User Profile
     getUser(): Observable<Profile> {
-        return this.api.getUser().pipe(
-            catchError((error) => {
-                // Return from localStorage
-                return of(this.cache.get(`login`).profile);
-            })
-        );
+        return this.api.getUser();
     }
 
     // Update User Profile
@@ -204,6 +199,21 @@ export class BackendService {
     // Unfollow user
     unfollowUser(id: number): any {
         return this.api.unfollowUser(id);
+    }
+
+    // Get follow requests
+    getFollowRequests(): Observable<any[]> {
+        return this.api.getFollowRequests();
+    }
+
+    // Approve follow request
+    approveFollower(id: number): any {
+        return this.api.approveFollower(id);
+    }
+
+    // Decline follow request
+    declineFollower(id: number): any {
+        return this.api.declineFollower(id);
     }
 
     // Like Post

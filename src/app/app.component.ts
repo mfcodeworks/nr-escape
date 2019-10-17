@@ -10,7 +10,7 @@ import {
 import * as PullToRefresh from 'pulltorefreshjs';
 
 import { PushService } from './_services/push/push.service';
-import { ResourceLoader } from '@angular/compiler';
+import { AuthService } from './_services/auth/auth.service';
 
 @Component({
     selector: 'app-root',
@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
 
     constructor(
         public router: Router,
-        private push: PushService
+        private push: PushService,
+        private auth: AuthService
     ) {
         this.router.events.subscribe((event: Event) => {
             switch (true) {
@@ -43,6 +44,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        // Update user object as needed
+        this.auth.updateUser();
+
         // On Cordova 'deviceready' event, or html 'load' event; init push services
         document.addEventListener(
             window.hasOwnProperty('cordova') ? 'deviceready' : 'load',

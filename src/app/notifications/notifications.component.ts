@@ -15,6 +15,7 @@ declare const _: any;
 export class NotificationsComponent implements OnInit {
     fetchedAllNotifications = false;
     notifications: Notification[] = [];
+    followRequests: any = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -34,6 +35,39 @@ export class NotificationsComponent implements OnInit {
                 console.warn(data);
             }
         });
+
+        // Get follow requests TODO:
+        this.backend.getFollowRequests().subscribe(
+            requests => this.followRequests = requests,
+            error => console.warn(error),
+            () => console.log(this.followRequests)
+        );
+    }
+
+    approveFollower(id: number): void {
+        console.log('approve', id);
+        const request = this.removeRequest(id);
+        this.backend.approveFollower(id).subscribe(
+            () => console.log('Follower approved:', id),
+            (error: any) => this.followRequests.push(request),
+            () => console.log(this.followRequests)
+        );
+    }
+
+    declineFollower(id: number): void {
+        console.log('decline', id);
+        const request = this.removeRequest(id);
+        this.backend.declineFollower(id).subscribe(
+            () => console.log('Follower declined:', id),
+            (error: any) => this.followRequests.push(request),
+            () => console.log(this.followRequests)
+        );
+    }
+
+    removeRequest(id: number): object {
+        return _.remove(this.followRequests, (r) => {
+            return r.followingUser.id === id;
+        })[0];
     }
 
     fetchMoreNotifications(): void {

@@ -13,6 +13,7 @@ export class Profile {
     following: number[];
     fcmToken: string;
     recentPosts?: Post[];
+    settings: any;
 
     constructor(values: any = {}) {
         Object.assign(this, values);

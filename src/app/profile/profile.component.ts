@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
 
 import { BackendService } from '../_services/backend/backend.service';
 import { Profile } from '../_models/profile';
@@ -9,8 +9,10 @@ import { UserService } from '../_services/user/user.service';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 import { AuthService } from '../_services/auth/auth.service';
 import { CacheService } from '../_services/cache/cache.service';
+import { debounceTime } from 'rxjs/operators';
 
 declare const $: any;
+declare const _: any;
 
 @Component({
     selector: 'app-profile',
@@ -22,17 +24,21 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     posts: Post[] = [];
     topBarHeight = 56;
     isDark: boolean;
+    settings: any = {};
     editing = false;
     fetchingPosts = false;
     fetchedAllPosts = false;
+    displayLikes = new FormControl(this.user.settings.displayLikes);
+    privateAccount = new FormControl(this.user.settings.privateAccount);
+    unknownDevices = new FormControl(this.user.settings.unknownDevices);
 
     constructor(
         private route: ActivatedRoute,
-        private userService: UserService,
+        private user: UserService,
         private backend: BackendService,
         protected dark: DarkThemeService,
         protected auth: AuthService,
-        private cache: CacheService
+        private cache: CacheService,
     ) {}
 
     ngOnInit() {
@@ -55,10 +61,19 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
         });
 
+        // Set dark mode option
         this.dark.isDarkMode()
         .subscribe((mode: boolean) => {
             this.isDark = mode;
         });
+
+        // Change options with debounce to prevent mistakes
+        this.privateAccount.valueChanges
+            .pipe(debounceTime(1200))
+            .subscribe(() => this.updateSettings());
+        this.displayLikes.valueChanges
+            .pipe(debounceTime(1200))
+            .subscribe(() => this.updateSettings());
     }
 
     ngAfterViewInit(): void {
@@ -67,19 +82,43 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     isFollowing(id: number) {
-        return this.userService.profile.following.includes(id);
+        return this.user.profile.following.includes(id);
     }
 
     isMe() {
-        return this.profile.id === this.userService.profile.id;
+        return this.profile.id === this.user.profile.id;
     }
 
     editProfile() {
         // TODO:
     }
 
+    updateSettings() {
+        // TODO:
+        const newSettings = {
+            unknown_devices: this.unknownDevices.value || false,
+            private_account: this.privateAccount.value || false,
+            display_likes: this.displayLikes.value || false
+        };
+        console.log('New settings', newSettings);
+
+        // Set new settings
+        Object.assign(this.user.profile.settings, newSettings);
+        this.backend.updateUser(this.user.profile).subscribe(
+            (user) => {
+                console.log('User updated', user);
+                this.user.settings = user.settings;
+                this.user.profile = user;
+                this.user.cacheUser();
+            },
+            (error) => console.warn(error),
+            () => console.log('Settings updated', this.user.settings)
+        );
+    }
+
     followUser(id: number) {
-        this.userService.profile.following.push(id);
+        // TODO:
+        this.user.profile.following.push(id);
     }
 
     fetchMorePosts(): void {

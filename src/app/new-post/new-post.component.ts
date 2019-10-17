@@ -49,6 +49,8 @@ export class NewPostComponent implements OnInit {
     currentType: string;
     loading = false;
 
+    // TODO: Accept a repost id from route params
+
     constructor(
         private urlPreview: UrlPreviewService,
         private bottomSheet: MatBottomSheet,

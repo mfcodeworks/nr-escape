@@ -342,6 +342,36 @@ export class ApiService {
         );
     }
 
+    // API: Get follow requests
+    getFollowRequests(): Observable<any[]> {
+        return this.http
+        .get<any[]>(`${API_URL}/me/follower/requests`, this.getRequestHeaders())
+        .pipe(
+            retry(1),
+            catchError((error) => this.handleError(error))
+        );
+    }
+
+    // API: Approve follow request
+    approveFollower(id: number) {
+        return this.http
+        .post(`${API_URL}/me/follower/approve/${id}`, null, this.getRequestHeaders())
+        .pipe(
+            retry(1),
+            catchError((error) => this.handleError(error))
+        );
+    }
+
+    // API: Decline follow request
+    declineFollower(id: number) {
+        return this.http
+        .post(`${API_URL}/me/follower/decline/${id}`, null, this.getRequestHeaders())
+        .pipe(
+            retry(1),
+            catchError((error) => this.handleError(error))
+        );
+    }
+
     // API: Like Post
     likePost(id: number): any {
         return this.http
@@ -409,7 +439,7 @@ export class ApiService {
 
         // Set error message
         const errorMessage = (error instanceof HttpErrorResponse)
-            ? `(${error.name}) Message: ${error.statusText}`
+            ? `(${error.status}) Message: ${error.statusText}`
             : `(${error.status}) Message: ${error.error}`;
 
         // Open error snackbar

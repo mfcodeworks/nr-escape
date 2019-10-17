@@ -65,15 +65,7 @@ export class SignUpComponent implements OnInit {
         .signUp(username, password, email)
         .subscribe((response: any) => {
             // Do sign in action
-            this.auth.doSignIn(
-                response.token,
-                response.profile,
-                response.email,
-                response.settings
-            );
-
-            // End processing
-            this.processing = false;
+            this.auth.doSignIn(response);
 
             // Navigate to feed
             this.router.navigate(['']);
@@ -104,8 +96,7 @@ export class SignUpComponent implements OnInit {
                         }).join('') : error.error.error;
                     break;
             }
-
-            // End processing
+        }, () => {
             this.processing = false;
         });
     }

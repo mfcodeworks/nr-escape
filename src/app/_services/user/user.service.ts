@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { Profile } from '../../_models/profile';
+import { CacheService } from '../cache/cache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,9 +14,27 @@ export class UserService {
     public profile: Profile = new Profile();
     public loggedIn: Subject<boolean> = new Subject<boolean>();
 
-    // Get user profile from storage
-    constructor() {
+    /**
+     * Get user profile from storage
+     *
+     * @param cache CacheService
+     */
+    constructor(private cache: CacheService) {
         Object.assign(this, JSON.parse(localStorage.getItem('login')));
+    }
+
+    /**
+     * Build user object
+     *
+     * @param model User Object to build from
+     */
+    public build(model: any): void {
+        // Update user as logged in
+        Object.assign(this, model);
+        this.loggedIn.next(!!model.token);
+
+        // Cache user object
+        this.cacheUser();
     }
 
     // Return logged in observable
@@ -30,6 +49,11 @@ export class UserService {
         this.token = null;
         this.profile = null;
         this.loggedIn.next(false);
+    }
+
+    // Save user object
+    public cacheUser(): void {
+        this.cache.store('login', this.toJson());
     }
 
     public toJson(): any {

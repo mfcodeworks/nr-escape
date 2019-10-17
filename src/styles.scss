@@ -1,3 +1,11 @@
+/* Vendor imports */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "assets/themify-icons.css";
+
+/* Theme Specific Styling */
+@import "assets/css/theme.scss";
+
 ::-webkit-scrollbar {
     width: 0px;
     display: none;

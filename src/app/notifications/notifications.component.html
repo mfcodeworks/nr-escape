@@ -8,7 +8,22 @@
     (scrolled)="fetchMoreNotifications()">
     <p *ngIf="!notifications.length" class="mat-body error-placeholder mt-4">We couldn't find anything for you</p>
     <!-- Display notifications -->
-    <mat-list *ngIf="notifications.length" class="pt-0">
+    <mat-list *ngIf="followRequests.length">
+        <h3 mat-subheader>Follow Requests</h3>
+        <mat-list-item *ngFor="let request of followRequests">
+            <mat-divider></mat-divider>
+            <img matListAvatar [src]="request.author.profilePic" class="avatar" [routerLink]="['/profile', request.author.username]"/>
+            <h3 matLine [routerLink]="['/profile', request.author.username]">
+                <span class="mat-h3 font-weight-bold">{{ request.author.username }}</span>
+            </h3>
+            <i class="ti-check mr-2"
+                (click)="approveFollower(request.author.id)"></i>|
+            <i class="ti-close ml-2"
+                (click)="declineFollower(request.author.id)"></i>
+        </mat-list-item>
+    </mat-list>
+    <mat-list *ngIf="notifications.length" class="mt-2">
+        <h3 mat-subheader>Notifications</h3>
         <mat-list-item *ngFor="let notification of notifications">
             <mat-divider></mat-divider>
             <img matListAvatar [src]="notification.from.profilePic" class="avatar" [routerLink]="['/profile', notification.from.username]"/>
@@ -20,6 +35,9 @@
             </h3>
             <h3 matLine *ngIf="notification.type === 'commented on'" [routerLink]="['/post', notification.postId]" fragment="comment{{notification.commentId}}">
                 <span class="mat-h3 font-weight-bold">{{ notification.from.username }}</span> commented on your post: {{ notification?.comment.text }}
+            </h3>
+            <h3 matLine *ngIf="notification.type === 'followed'" [routerLink]="['/profile', notification.from.username]">
+                <span class="mat-h3 font-weight-bold">{{ notification.from.username }}</span> followed you
             </h3>
             <p matLine matSmall class="datetime">{{ notification.createdAt | dateDiff }}</p>
         </mat-list-item>

@@ -16,25 +16,27 @@
 
         <div>
             <mat-accordion>
-                <!-- TODO: Account Settings Panel -->
-                <mat-expansion-panel class="z-elevation-0 w-100">
+                <!-- Account Settings Panel -->
+                <mat-expansion-panel class="w-100">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             Account Settings
                         </mat-panel-title>
                     </mat-expansion-panel-header>
 
-                    <mat-form-field>
-                        <input matInput placeholder="First name">
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <input matInput placeholder="Age">
-                    </mat-form-field>
+                    <span class="d-flex flex-column ml-2 mb-3">
+                        <mat-slide-toggle
+                            [formControl]="privateAccount">Private Account</mat-slide-toggle>
+                        <mat-slide-toggle
+                            [formControl]="displayLikes">Display Likes</mat-slide-toggle>
+                        <mat-slide-toggle
+                            [formControl]="unknownDevices"
+                            hidden>Unknown Devices</mat-slide-toggle>
+                    </span>
                 </mat-expansion-panel>
 
                 <!-- App Settings Panel -->
-                <mat-expansion-panel class="z-elevation-0">
+                <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             App Settings
@@ -81,6 +83,8 @@
                 <!-- Profile Interaction -->
                 <button mat-stroked-button class="profile-button" (click)="editing = true" *ngIf="isMe()">Edit Profile</button>
                 <button mat-raised-button class="profile-button" color="accent" (click)="followUser(profile.id)" *ngIf="!isMe() && !isFollowing(profile.id)">Follow</button>
+                <button mat-raised-button class="profile-button" color="primary" (click)="followUser(profile.id)" *ngIf="!isMe() && isFollowing(profile.id)">Unfollow</button>
+
                 <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
                     <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
                     <a color="primary" [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
