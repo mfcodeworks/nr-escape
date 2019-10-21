@@ -12,6 +12,8 @@ export class BottomBarComponent implements OnInit {
     username: string;
     isDark: boolean;
 
+    // TODO: Highlight navbutton when active
+
     constructor(private user: UserService, private dark: DarkThemeService) {
         this.dark.isDarkMode()
         .subscribe((darkMode: any) => {

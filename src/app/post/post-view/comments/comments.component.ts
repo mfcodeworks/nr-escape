@@ -18,6 +18,7 @@ export interface DialogData {
     templateUrl: 'comment-dialog.component.html',
 })
 export class CommentDialogComponent {
+    // TODO: Include longpress for comments dialog on mobile
 
     constructor(
         public dialogRef: MatDialogRef<CommentDialogComponent>,
@@ -55,22 +56,32 @@ export class PostCommentsComponent implements OnInit {
 
     startOnHold(comment: Comment) {
         this.onHoldTimeout = setTimeout(() => {
-            console.log('Held for popup', comment);
+            console.log(
+                'Held for popup',
+                JSON.stringify(comment)
+            );
             this.openDialog(comment);
             clearTimeout(this.onHoldTimeout);
             this.onHoldTimeout = null;
-        }, 600);
+        }, 300);
     }
 
     endOnHold(comment: Comment) {
         if (this.onHoldTimeout) {
-            console.log('Closing before popup', comment);
+            console.log(
+                'Closing before popup',
+                JSON.stringify(comment)
+            );
             clearTimeout(this.onHoldTimeout);
             this.onHoldTimeout = null;
         }
     }
 
     openDialog(comment: Comment): void {
+        console.log(
+            'Opening comment dialog',
+            JSON.stringify(comment)
+        );
         const dialogRef = this.dialog.open(CommentDialogComponent, {
             width: '90%',
             data: {

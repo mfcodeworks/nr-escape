@@ -19,7 +19,11 @@
     </span>
 
     <span *ngIf="post.comments.length">
-        <div *ngFor="let comment of post.comments" class="d-flex comment-container my-3" id="comment{{comment.id}}" (mousedown)="startOnHold(comment)" (mouseup)="endOnHold(comment)">
+        <div *ngFor="let comment of post.comments"
+            class="d-flex comment-container my-3"
+            id="comment{{comment.id}}"
+            (mousedown)="startOnHold(comment)"
+            (mouseup)="endOnHold(comment)">
             <img [src]="comment.author.profilePic" [routerLink]="['/profile', comment.author.username]" matAvatar class="avatar mx-2" />
             <span class="d-flex comment-text-container w-100">
                 <p class="mb-0"><b [routerLink]="['/profile', comment.author.username]">{{comment.author.username}}</b>&nbsp;<span [innerHTML]="comment.text | tag" appRouteTransformer></span></p>

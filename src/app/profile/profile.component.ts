@@ -32,6 +32,20 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     privateAccount = new FormControl(this.user.settings.privateAccount);
     unknownDevices = new FormControl(this.user.settings.unknownDevices);
 
+    /**
+     * TODO:
+     * - Only display sidenav if isMe
+     * - Update to display based on request status if active
+     * - Block User Option
+     * - View Blocked
+     * - Unblock
+     * - Deactivate account & logout
+     * - Link following/followers to list view
+     * - Edit Profile view
+     * - Change password
+     * - Follow user
+     */
+
     constructor(
         private route: ActivatedRoute,
         private user: UserService,
@@ -90,11 +104,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     editProfile() {
-        // TODO:
     }
 
     updateSettings() {
-        // TODO:
         const newSettings = {
             unknown_devices: this.unknownDevices.value || false,
             private_account: this.privateAccount.value || false,
@@ -117,7 +129,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     followUser(id: number) {
-        // TODO:
         this.user.profile.following.push(id);
     }
 
