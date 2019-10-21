@@ -5,8 +5,9 @@
 export const environment = {
     production: false,
 
-    // API: Mock Server URL
+    // API: Server URL
     apiUrl: 'http://api.escape.nygmarosebeauty.com/api/v1',
+    appUrl: 'http://escape.nygmarosebeauty.com',
 
     // API: Firbase Services
     firebase: {

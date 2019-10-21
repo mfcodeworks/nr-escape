@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Post } from '../../_models/post';
 import { BackendService } from '../../_services/backend/backend.service';
 import { UserService } from '../../_services/user/user.service';
+import { environment } from 'src/environments/environment';
 
 declare const _: any;
 
@@ -15,13 +16,18 @@ export class PostViewComponent implements OnInit {
     @Input() preview = false;
     @Input() post: Post = null;
     @Output() deleted: EventEmitter<any> = new EventEmitter();
+    appUrl = environment.appUrl;
+    postUrl: string;
 
     constructor(
         private backend: BackendService,
         protected user: UserService
     ) { }
 
-    ngOnInit() {}
+    ngOnInit() {
+        // Set post URL for copying
+        this.postUrl = `/post/${this.post.id}`;
+    }
 
     likePost(): void {
         switch (this.isLiked()) {
@@ -108,6 +114,22 @@ export class PostViewComponent implements OnInit {
     // TODO: Repost this.post
     repost() {
         console.log('Repost', this.post);
+    }
+
+    copyURL() {
+        console.log('Copying', this.postUrl);
+        const $text = document.createElement('textarea');
+        $text.style.position = 'fixed';
+        $text.style.left = '0';
+        $text.style.top = '0';
+        $text.style.opacity = '0';
+        $text.value = `${this.appUrl}${this.postUrl}`;
+        document.body.appendChild($text);
+        $text.focus();
+        $text.select();
+        document.execCommand('copy');
+        console.log($text.value);
+        document.body.removeChild($text);
     }
 
 }

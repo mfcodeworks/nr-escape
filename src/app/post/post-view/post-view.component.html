@@ -3,6 +3,7 @@
     [post]="post"
     [isFollowed]="isFollowed()"
     [user]="user.profile"
+    (copyUrl)="copyURL()"
     (liked)="likePost()"
     (follow)="followUser($event)"
     (delete)="deletePost()"
