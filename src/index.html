@@ -10,24 +10,20 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script>
     // Append cordova.js if not served over https (Most likely Cordova)
-    (function() {
-      if (document.location.protocol !== 'https:') {
-        window.addEventListener = function () {
-          EventTarget.prototype.addEventListener.apply(this, arguments);
-        };
-        window.removeEventListener = function () {
-          EventTarget.prototype.removeEventListener.apply(this, arguments);
-        };
-        document.addEventListener = function () {
-          EventTarget.prototype.addEventListener.apply(this, arguments);
-        };
-        document.removeEventListener = function () {
-          EventTarget.prototype.removeEventListener.apply(this, arguments);
-        };
-        document.write('<script type="text/javascript" src="cordova.js"><\/script>');
-      }
-    })();
+    window.addEventListener = function () {
+      EventTarget.prototype.addEventListener.apply(this, arguments);
+    };
+    window.removeEventListener = function () {
+      EventTarget.prototype.removeEventListener.apply(this, arguments);
+    };
+    document.addEventListener = function () {
+      EventTarget.prototype.addEventListener.apply(this, arguments);
+    };
+    document.removeEventListener = function () {
+      EventTarget.prototype.removeEventListener.apply(this, arguments);
+    };
   </script>
+  <script type="text/javascript" src="cordova.js"></script>
   <script>
     // If loaded via Electron load jquery as a module
     if ( typeof module === "object" && typeof module.exports === "object" ) {

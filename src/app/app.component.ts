@@ -53,11 +53,10 @@ export class AppComponent implements OnInit {
             () => { this.push.init(); }
         );
 
-        const url = this.router;
         PullToRefresh.init({
             mainElement: 'body',
-            onRefresh() {
-                url.navigate([window.location.pathname]);
+            onRefresh: () => {
+                this.router.navigateByUrl(this.router.url);
             }
         });
     }
