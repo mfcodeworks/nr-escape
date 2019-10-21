@@ -6,35 +6,13 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
-import {
-    MatButtonModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatInputModule,
-    MatSnackBar,
-    MatProgressBarModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatCardModule,
-    MatBottomSheetModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatExpansionModule,
-    MatSlideToggleModule,
-    MatTabsModule,
-    MatAutocompleteModule
-} from '@angular/material';
 import { MentionModule } from 'angular-mentions';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
 
 import { Routing } from './app.routing';
+import { AuthenticationModule } from './_modules/authentication/authentication.module';
+import { MaterialModule } from './_modules/material/material.module';
 import { SignedInGuard } from './_helpers/signed-in.guard';
 import { FeedResolver } from './_helpers/feed.resolver';
 import { RecommendationsResolver } from './_helpers/recommendations.resolver';
@@ -57,9 +35,6 @@ import { PostViewComponent } from './post/post-view/post-view.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
-import {
-    AuthenticationModule
-} from './_modules/authentication/authentication.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DateDiffPipe } from './_helpers/date-diff.pipe';
 import { SearchComponent } from './search/search.component';
@@ -67,38 +42,19 @@ import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.compo
 import { RouteTransformerDirective } from './_helpers/route-transformer.directive';
 import { TagPipe } from './_helpers/tag.pipe';
 import { NotFound404Component } from './not-found404/not-found404.component';
+import { PostLikesComponent } from './post/post-view/post-likes/post-likes.component';
 
 @NgModule({
     imports: [
+        MaterialModule,
         InfiniteScrollModule,
         MentionModule,
-        MatAutocompleteModule,
         AuthenticationModule,
         OverlayModule,
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
         ReactiveFormsModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatListModule,
-        MatIconModule,
-        MatGridListModule,
-        MatToolbarModule,
-        MatTabsModule,
-        MatInputModule,
-        MatSnackBarModule,
-        MatFormFieldModule,
-        MatProgressBarModule,
-        MatStepperModule,
-        MatSelectModule,
-        MatCardModule,
-        MatDialogModule,
-        MatMenuModule,
-        MatBottomSheetModule,
-        MatSidenavModule,
-        MatExpansionModule,
-        MatSlideToggleModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         Routing,
@@ -127,14 +83,14 @@ import { NotFound404Component } from './not-found404/not-found404.component';
         HashtagListingComponent,
         RouteTransformerDirective,
         TagPipe,
-        NotFound404Component
+        NotFound404Component,
+        PostLikesComponent
     ],
     entryComponents: [
         CommentDialogComponent,
         PostBottomSheetComponent
     ],
     providers: [
-        MatSnackBar,
         SignedInGuard,
         FeedResolver,
         RecommendationsResolver,

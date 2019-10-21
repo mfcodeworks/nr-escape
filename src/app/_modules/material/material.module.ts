@@ -1,0 +1,85 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
+    MatSnackBar,
+    MatTooltipModule,
+    MatProgressBarModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatStepperModule,
+    MatCardModule,
+    MatBottomSheetModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatSlideToggleModule,
+    MatTabsModule,
+    MatAutocompleteModule
+} from '@angular/material';
+
+@NgModule({
+    declarations: [],
+    imports: [
+        CommonModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatIconModule,
+        MatGridListModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatProgressBarModule,
+        MatStepperModule,
+        MatSelectModule,
+        MatCardModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatBottomSheetModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        MatSlideToggleModule,
+    ],
+    providers: [
+        MatSnackBar
+    ],
+    exports: [
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatIconModule,
+        MatGridListModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatProgressBarModule,
+        MatStepperModule,
+        MatSelectModule,
+        MatCardModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatBottomSheetModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        MatSlideToggleModule
+    ]
+})
+export class MaterialModule { }
