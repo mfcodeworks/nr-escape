@@ -15,6 +15,10 @@
     (liked)="likePost()"
     (repost)="repost()"></app-post-interaction-bar>
 
+<app-post-likes
+    [post]=post
+    [user]="user.profile"></app-post-likes>
+
 <mat-divider *ngIf="!preview"></mat-divider>
 
 <!-- Comment Display -->
