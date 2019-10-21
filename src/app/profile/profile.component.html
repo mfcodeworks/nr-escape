@@ -4,16 +4,17 @@
     <i class="ti-menu mr-3" [class.icon-black]="!isDark" (click)="sidenav.toggle()"></i>
 </mat-toolbar>
 
-<mat-sidenav-container class="sidenav-container" hasBackdrop="false">
+<mat-sidenav-container class="sidenav-container" hasBackdrop="false" (backdropClick)="sidenav.close()">
     <mat-sidenav
         class="sidenav ta-c"
         #sidenav
+        autoFocus="false"
+        disableClose="false"
         mode="over"
         position="end"
-        autoFocus="false"
         fixedInViewport="true"
-        [fixedTopGap]="topBarHeight">
-
+        [fixedTopGap]="topBarHeight"
+        [fixedBottomGap]="topBarHeight">
         <div>
             <mat-accordion>
                 <!-- Account Settings Panel -->
@@ -56,7 +57,7 @@
         <div class="profile-container min-h-100">
             <section *ngIf="profile">
                 <!-- Profile Info -->
-                <mat-list class="profile-info px-1">
+                <mat-list class="profile-info pl-1 pr-2">
                     <mat-list-item class="profile-row">
                         <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
                     </mat-list-item>
@@ -93,13 +94,18 @@
 
                 <!-- Posts grid -->
                 <app-post-preview-grid
+                    *ngIf="isMe() || !profile.settings.privateAccount || isFollowing()"
                     infiniteScroll
                     infiniteScrollThrottle="800"
                     [infiniteScrollDisabled]="fetchedAllPosts"
                     (scrolled)="fetchMorePosts()"
                     [posts]=posts></app-post-preview-grid>
 
-                <span *ngIf="!posts.length">
+                <span *ngIf="!isMe() && profile.settings.privateAccount && !isFollowing()">
+                    <p class="mat-body error-placeholder mt-4">Follow this user to see their posts</p>
+                </span>
+
+                <span *ngIf="!posts.length && (!profile.settings.privateAccount || isFollowing())">
                     <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>
                 </span>
             </section>

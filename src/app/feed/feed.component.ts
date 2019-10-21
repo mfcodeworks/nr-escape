@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Post } from '../_models/post';
 import { CacheService } from '../_services/cache/cache.service';
 import { BackendService } from '../_services/backend/backend.service';
-import { database } from 'firebase';
 
 declare const _: any;
 
@@ -30,7 +29,6 @@ export class FeedComponent implements OnInit {
             if (data.posts instanceof Array) {
                 this.posts = data.posts;
                 this.cache.store('feed', data.posts);
-                console.log(data.posts);
             } else {
                 console.error(data.posts);
             }
@@ -40,7 +38,6 @@ export class FeedComponent implements OnInit {
     fetchMorePosts(): void {
         console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
         this.backend.getUserFeed(this.posts[this.posts.length - 1].id).subscribe(posts => {
-            console.log(posts);
             if (!posts.length) {
                 this.fetchedAllPosts = true;
                 return;

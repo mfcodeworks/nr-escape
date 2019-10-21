@@ -1,5 +1,5 @@
 <div class="ml-2 mb-2" *ngIf="post.likes.length && post.author.settings.displayLikes || isMe()">
-    <strong>{{ post.likes.length }} likes</strong>
+    <strong>{{ post.likes.length | number }} likes</strong>
     <i *ngIf="isMe() && !user.settings.displayLikes"
         class="ml-2 fas fa-info-circle"
         #tooltip="matTooltip"
