@@ -201,6 +201,11 @@ export class BackendService {
         return this.api.unfollowUser(id);
     }
 
+    // Check follow requested
+    checkFollowRequested(id: number): Observable<boolean> {
+        return this.api.checkFollowRequested(id);
+    }
+
     // Get follow requests
     getFollowRequests(): Observable<any[]> {
         return this.api.getFollowRequests();

@@ -342,6 +342,16 @@ export class ApiService {
         );
     }
 
+    // API: Check follow requested
+    checkFollowRequested(id: number): Observable<boolean> {
+        return this.http
+        .get<boolean>(`${API_URL}/profile/${id}/requested`, this.getRequestHeaders())
+        .pipe(
+            retry(3),
+            catchError((error) => this.handleError(error))
+        );
+    }
+
     // API: Get follow requests
     getFollowRequests(): Observable<any[]> {
         return this.http
