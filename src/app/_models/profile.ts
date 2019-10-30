@@ -5,17 +5,26 @@ export class Profile {
     username: string;
     profilePic: string;
     bio: string;
-    postsCount: number;
-    followingCount: number;
-    followersCount: number;
-    contactInfo: any;
-    followers: number[];
-    following: number[];
-    fcmToken: string;
+    postsCount?: number | string;
+    followingCount?: number | string;
+    followersCount?: number | string;
+    contactInfo?: any;
+    followers?: number[];
+    following?: number[];
+    fcmToken?: string;
     recentPosts?: Post[];
     settings: any;
 
     constructor(values: any = {}) {
         Object.assign(this, values);
+        if (!values.hasOwnProperty('postsCount')) {
+            this.postsCount = '?';
+        }
+        if (!values.hasOwnProperty('followersCount')) {
+            this.followersCount = '?';
+        }
+        if (!values.hasOwnProperty('followingCount')) {
+            this.followingCount = '?';
+        }
     }
 }
