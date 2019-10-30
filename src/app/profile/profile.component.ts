@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     posts: Post[] = [];
     topBarHeight = 56;
     isDark: boolean;
+    isRequested = false;
     settings: any = {};
     editing = false;
     fetchingPosts = false;
@@ -33,9 +34,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     unknownDevices = new FormControl(this.user.settings.unknownDevices);
 
     /**
+     * DEBUG:
+     * - Navigating directly between profiles (Other user to bottom right profile button) not reloading page
+     * 
      * TODO:
-     * - Only display sidenav if isMe
-     * - Update to display based on request status if active
      * - Block User Option
      * - View Blocked
      * - Unblock
@@ -80,6 +82,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         .subscribe((mode: boolean) => {
             this.isDark = mode;
         });
+
+        // Set is requested
+        this.backend.checkFollowRequested(this.profile.id)
+        .subscribe(res => this.isRequested = res);
 
         // Change options with debounce to prevent mistakes
         this.privateAccount.valueChanges

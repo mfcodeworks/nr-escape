@@ -1,0 +1,61 @@
+<div class="profile-container min-h-100">
+    <section *ngIf="profile">
+        <!-- Profile Info -->
+        <mat-list class="profile-info pl-1 pr-2">
+            <mat-list-item class="profile-row">
+                <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
+            </mat-list-item>
+            <mat-list-item class="profile-row">
+                <h4 mat-line>{{profile.postsCount}}</h4>
+                <p mat-line>Posts</p>
+            </mat-list-item>
+            <mat-list-item class="profile-row">
+                <h4 mat-line>{{profile.followersCount}}</h4>
+                <p mat-line>Followers</p>
+            </mat-list-item>
+            <mat-list-item class="profile-row">
+                <h4 mat-line>{{profile.followingCount}}</h4>
+                <p mat-line>Followings</p>
+            </mat-list-item>
+        </mat-list>
+
+        <!-- Profile Bio -->
+        <p class="mat-body profile-text-container my-3">
+            <span class="profile-username-text">{{profile.username}}</span><br>
+            {{profile.bio}}
+        </p>
+
+        <!-- Profile Interaction -->
+        <button mat-stroked-button class="profile-button" (click)="editing = true" *ngIf="isMe">Edit Profile</button>
+        <button mat-raised-button class="profile-button" color="accent" *ngIf="!isMe && isRequested" disabled>Requested</button>
+        <button mat-raised-button class="profile-button" color="accent" (click)="doFollowUser(profile.id)" *ngIf="!isMe && !isFollowing && !isRequested">Follow</button>
+        <button mat-raised-button class="profile-button" color="primary" (click)="doFollowUser(profile.id)" *ngIf="!isMe && isFollowing">Unfollow</button>
+
+        <span class="profile-contact-button-row" *ngIf="profile.contactInfo">
+            <a color="primary" [href]="profile.contactInfo.website" target="_blank" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.website">Website</a>
+            <a color="primary" [href]="profile.contactInfo.email" mat-raised-button class="profile-contact-button" *ngIf="profile.contactInfo.email">Email</a>
+        </span>
+        <mat-divider class="my-3"></mat-divider>
+
+        <!-- Posts grid -->
+        <app-post-preview-grid
+            *ngIf="isMe || !profile.settings.privateAccount || isFollowing"
+            infiniteScroll
+            infiniteScrollThrottle="800"
+            [infiniteScrollDisabled]="fetchedAllPosts"
+            (scrolled)="doFetchMorePosts()"
+            [posts]=posts></app-post-preview-grid>
+
+        <span *ngIf="!isMe && profile.settings.privateAccount && !isFollowing">
+            <p class="mat-body error-placeholder mt-4">Follow this user to see their posts</p>
+        </span>
+
+        <span *ngIf="!posts.length && (!profile.settings.privateAccount || isFollowing)">
+            <p class="mat-body error-placeholder mt-4">It doesn't look like they posted anything</p>
+        </span>
+    </section>
+
+    <span *ngIf="!profile">
+        <p class="mat-body error-placeholder mt-5">Sorry, I really don't know who that is</p>
+    </span>
+</div>

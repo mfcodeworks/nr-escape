@@ -43,6 +43,7 @@ import { RouteTransformerDirective } from './_helpers/route-transformer.directiv
 import { TagPipe } from './_helpers/tag.pipe';
 import { NotFound404Component } from './not-found404/not-found404.component';
 import { PostLikesComponent } from './post/post-view/post-likes/post-likes.component';
+import { ProfileDisplayComponent } from './profile//profile-display/profile-display.component';
 
 @NgModule({
     imports: [
@@ -84,7 +85,8 @@ import { PostLikesComponent } from './post/post-view/post-likes/post-likes.compo
         RouteTransformerDirective,
         TagPipe,
         NotFound404Component,
-        PostLikesComponent
+        PostLikesComponent,
+        ProfileDisplayComponent
     ],
     entryComponents: [
         CommentDialogComponent,

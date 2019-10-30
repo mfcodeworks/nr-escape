@@ -1,0 +1,50 @@
+.top-bar {
+    position: sticky;
+    position: -webkit-sticky;
+    display: flex;
+    top: 0;
+    z-index: 1000;
+}
+.top-bar-logo {
+    height: 34px;
+}
+.ti-menu {
+    position: absolute;
+    right: 0;
+}
+.sidenav {
+    width: 65%;
+}
+h4 {
+    font-weight: bold !important;
+}
+.profile-button {
+    margin: 6px 8px;
+    width: -webkit-fill-available;
+}
+.profile-text-container {
+    padding-left: 16px;
+}
+.profile-username-text {
+    font-weight: bold;
+}
+.profile-info {
+    margin-top: 30px;
+    display: flex;
+    text-align: center;
+}
+.profile-container {
+    margin: 0 5px 0 5px;
+    margin-top: -10px;
+}
+.profile-contact-button-row {
+    margin: 0 8px 8px 8px;
+    display: flex;
+}
+.profile-row, .profile-contact-button {
+    flex: 1 1 auto;
+}
+.profile-avatar {
+    height: 80px !important;
+    width: 80px !important;
+}
