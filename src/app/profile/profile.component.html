@@ -55,7 +55,6 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <app-profile-display
-            *ngIf="isMe()"
             [profile]="profile"
             [posts]="posts"
             [isRequested]="isRequested"
@@ -66,17 +65,6 @@
             (followUser)="followUser($event)"></app-profile-display>
     </mat-sidenav-content>
 </mat-sidenav-container>
-
-<app-profile-display
-    *ngIf="!isMe()"
-    [profile]="profile"
-    [posts]="posts"
-    [isRequested]="isRequested"
-    [isMe]="isMe()"
-    [isFollowing]="isFollowing()"
-    [fetchedAllPosts]="fetchedAllPosts"
-    (fetchMorePosts)="fetchMorePosts()"
-    (followUser)="followUser($event)"></app-profile-display>
 
 <!-- App Botttom Bar -->
 <app-bottom-bar></app-bottom-bar>
