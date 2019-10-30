@@ -33,6 +33,7 @@
     "angular-mentions": "^1.0.4",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
+    "electron-push-receiver": "^2.1.3",
     "firebase": "^6.6.1",
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
