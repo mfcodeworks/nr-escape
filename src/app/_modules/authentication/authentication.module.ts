@@ -1,16 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-    MatButtonModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatGridListModule
-} from '@angular/material';
+import { MaterialModule } from '../material/material.module';
 
 import { Routing } from './app.routing';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -29,14 +20,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     Routing,
     CommonModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatGridListModule
+    MaterialModule
   ],
   exports: [
     SignInComponent,
