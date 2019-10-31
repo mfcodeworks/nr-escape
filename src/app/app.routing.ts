@@ -13,6 +13,7 @@ import { NewPostComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostComponent } from './post/post.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SearchComponent } from './search/search.component';
@@ -67,6 +68,12 @@ export const routes: Routes = [
             {
                 path: 'profile/:profile',
                 component: ProfileComponent,
+                resolve: { profile: ProfileResolver },
+                runGuardsAndResolvers: 'always'
+            },
+            {
+                path: 'profile/:profile/edit',
+                component: ProfileEditComponent,
                 resolve: { profile: ProfileResolver },
                 runGuardsAndResolvers: 'always'
             },

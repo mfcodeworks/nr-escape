@@ -1,0 +1,28 @@
+<div class="col-12">
+    <form [formGroup]="profileForm">
+        <mat-list-item>
+            <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
+        </mat-list-item>
+
+        <mat-form-field class="form-group mx-auto">
+            <input matInput formControlName="username" placeholder="Username" />
+            <span matPrefix><i class="ti-user form-input-prefix"></i></span>
+            <mat-error *ngIf="profileForm.controls['username'].invalid">{{ getErrors('username') }}</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field class="form-group mx-auto">
+            <input matInput formControlName="email" type="email" placeholder="Email" email/>
+            <span matPrefix><i class="ti-email form-input-prefix"></i></span>
+            <mat-error *ngIf="profileForm.controls['email'].invalid">{{ getErrors('email') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-group mx-auto">
+            <mat-label>Bio</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="2"></textarea>
+        </mat-form-field>
+    </form>
+</div>

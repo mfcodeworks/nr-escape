@@ -38,7 +38,7 @@ export class SignUpComponent implements OnInit {
 
     ngOnInit() {}
 
-    getErrors(control: string) {
+    getErrors(control: string): string {
         switch (true) {
             case this.registerForm.get(control).hasError('required'):
                 return `${this.prettyCapitalize(control.replace(/[0-9]/g, ''))} is required`;
@@ -120,7 +120,7 @@ export class SignUpComponent implements OnInit {
         };
     }
 
-    prettyCapitalize(text: string) {
+    prettyCapitalize(text: string): string {
         return text[0].toUpperCase() + text.substring(1);
     }
 }

@@ -44,6 +44,7 @@ import { TagPipe } from './_helpers/tag.pipe';
 import { NotFound404Component } from './not-found404/not-found404.component';
 import { PostLikesComponent } from './post/post-view/post-likes/post-likes.component';
 import { ProfileDisplayComponent } from './profile//profile-display/profile-display.component';
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 
 @NgModule({
     imports: [
@@ -86,7 +87,8 @@ import { ProfileDisplayComponent } from './profile//profile-display/profile-disp
         TagPipe,
         NotFound404Component,
         PostLikesComponent,
-        ProfileDisplayComponent
+        ProfileDisplayComponent,
+        ProfileEditComponent
     ],
     entryComponents: [
         CommentDialogComponent,

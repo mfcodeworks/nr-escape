@@ -3,6 +3,7 @@ import { Post } from './post';
 export class Profile {
     id: number;
     username: string;
+    email?: string;
     profilePic: string;
     bio: string;
     postsCount?: number | string;
