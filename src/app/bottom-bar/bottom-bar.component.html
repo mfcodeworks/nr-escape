@@ -1,17 +1,32 @@
 <mat-toolbar class="bottom-bar mat-elevation-z2" [class.app-background-color]="!isDark" color="primary">
     <span class="bottom-bar-icon">
-        <i [routerLink]="['/']" [class.icon-black]="!isDark" class="ti-home"></i>
+        <i [routerLink]="['/']"
+            [class.active]="activeNav === 'feed'"
+            [class.icon-black]="!isDark"
+            class="ti-home"></i>
     </span>
     <span class="bottom-bar-icon">
-        <i [routerLink]="['/recommendations']" [class.icon-black]="!isDark" class="ti-search"></i>
+        <i [routerLink]="['/recommendations']"
+            [class.active]="activeNav === 'search'"
+            [class.icon-black]="!isDark"
+            class="ti-search"></i>
     </span>
     <span class="bottom-bar-icon">
-        <i [routerLink]="['/new-post']" [class.icon-black]="!isDark" class="ti-plus"></i>
+        <i [routerLink]="['/new-post']"
+            [class.active]="activeNav === 'new'"
+            [class.icon-black]="!isDark"
+            class="ti-plus"></i>
     </span>
     <span class="bottom-bar-icon">
-        <i [routerLink]="['/notifications']" [class.icon-black]="!isDark" class="ti-heart"></i>
+        <i [routerLink]="['/notifications']"
+            [class.active]="activeNav === 'notifications'"
+            [class.icon-black]="!isDark"
+            class="ti-heart"></i>
     </span>
     <span>
-        <i [routerLink]="['/profile', username]" [class.icon-black]="!isDark" class="ti-user"></i>
+        <i [routerLink]="['/profile', username]"
+            [class.active]="activeNav === 'user'"
+            [class.icon-black]="!isDark"
+            class="ti-user"></i>
     </span>
 </mat-toolbar>
