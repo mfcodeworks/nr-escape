@@ -33,6 +33,8 @@
               "node_modules/moment/min/moment.min.js",
               "node_modules/lodash/lodash.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/crypto-js/index.js",
+              "node_modules/localforage/dist/localforage.min.js",
               "src/assets/js/boot.js"
             ]
           },

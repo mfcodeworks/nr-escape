@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 declare const CryptoJS: any;
+declare const localforage: any;
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class CacheService {
     constructor() { }
 
     // Store item
-    store(key: string, data: any, passphrase?: string) {
+    store(key: string, data: any, passphrase?: string): void {
         let dataString: string;
         let ciphertext: string;
 
@@ -49,12 +50,12 @@ export class CacheService {
     }
 
     // Delete item
-    delete(key: string) {
+    delete(key: string): void {
         localStorage.removeItem(key);
     }
 
     // Clear cache
-    clear() {
+    clear(): void {
         localStorage.clear();
     }
 }
