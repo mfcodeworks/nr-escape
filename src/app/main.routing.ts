@@ -73,7 +73,6 @@ export const routes: Routes = [
             {
                 path: 'profile/:profile/edit',
                 component: ProfileEditComponent,
-                resolve: { profile: ProfileResolver },
                 runGuardsAndResolvers: 'always'
             },
             {

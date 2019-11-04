@@ -1,0 +1,20 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+}
+.form-container .form-group {
+    width: 80%;
+}
+tr, td, .col {
+    width: 100%;
+}
+
+.avatar-container {
+    display: 'flex';
+    place-content: center;
+}
+.profile-avatar {
+    max-width: 250px;
+    max-height: 250px;
+}

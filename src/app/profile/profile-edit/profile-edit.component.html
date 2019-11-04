@@ -1,19 +1,19 @@
 <div class="col-12">
-    <form [formGroup]="profileForm">
-        <mat-list-item>
+    <form [formGroup]="profileForm" class="form-container mt-4">
+        <div class="avatar-container mx-auto my-3">
             <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
-        </mat-list-item>
+        </div>
 
         <mat-form-field class="form-group mx-auto">
             <input matInput formControlName="username" placeholder="Username" />
-            <span matPrefix><i class="ti-user form-input-prefix"></i></span>
+            <span matPrefix class="mx-3"><i class="ti-user form-input-prefix"></i></span>
             <mat-error *ngIf="profileForm.controls['username'].invalid">{{ getErrors('username') }}</mat-error>
         </mat-form-field>
 
 
         <mat-form-field class="form-group mx-auto">
             <input matInput formControlName="email" type="email" placeholder="Email" email/>
-            <span matPrefix><i class="ti-email form-input-prefix"></i></span>
+            <span matPrefix class="mx-3"><i class="ti-email form-input-prefix"></i></span>
             <mat-error *ngIf="profileForm.controls['email'].invalid">{{ getErrors('email') }}</mat-error>
         </mat-form-field>
 
@@ -22,7 +22,29 @@
             <textarea matInput
                 cdkTextareaAutosize
                 #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="2"></textarea>
+                cdkAutosizeMinRows="1"
+                formControlName="bio" ></textarea>
+            <span matPrefix class="mx-3"><i class="ti-align-left form-input-prefix"></i></span>
         </mat-form-field>
+
+        <div formGroupName="contactInfo" class="form-container">
+            <mat-form-field class="form-group mx-auto">
+                <input matInput formControlName="contactWebsite" type="text" placeholder="Website"/>
+                <span matPrefix class="mx-3"><i class="ti-link form-input-prefix"></i></span>
+                <mat-error *ngIf="profileForm.controls['contactInfo'].invalid">{{ getErrors('contactInfo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-group mx-auto">
+                <input matInput formControlName="contactEmail" type="email" placeholder="Contact Email" email/>
+                <span matPrefix class="mx-3"><i class="ti-email form-input-prefix"></i></span>
+                <mat-error *ngIf="profileForm.controls['contactInfo'].invalid">{{ getErrors('contactInfo') }}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="justify-content-center d-flex form-group mx-auto">
+            <button mat-raised-button color="primary" type="submit" [disabled]="processing">
+                Save <i *ngIf="processing" class="ml-2 fas fa-spin fa-spinner"></i>
+            </button>
+        </div>
     </form>
 </div>

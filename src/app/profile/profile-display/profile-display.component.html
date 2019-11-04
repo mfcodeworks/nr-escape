@@ -26,7 +26,7 @@
         </p>
 
         <!-- Profile Interaction -->
-        <button mat-stroked-button class="profile-button" (click)="editing = true" *ngIf="isMe">Edit Profile</button>
+        <button mat-stroked-button class="profile-button" (click)="editing = true" *ngIf="isMe" [routerLink]="['/profile', profile.username, 'edit']">Edit Profile</button>
         <button mat-raised-button class="profile-button" color="accent" *ngIf="!isMe && isRequested" disabled>Requested</button>
         <button mat-raised-button class="profile-button" color="accent" (click)="doFollowUser(profile.id)" *ngIf="!isMe && !isFollowing && !isRequested">Follow</button>
         <button mat-raised-button class="profile-button" color="primary" (click)="doFollowUser(profile.id)" *ngIf="!isMe && isFollowing">Unfollow</button>
