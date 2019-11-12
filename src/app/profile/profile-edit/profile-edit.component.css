@@ -11,7 +11,8 @@ tr, td, .col {
 }
 
 .avatar-container {
-    display: 'flex';
+    display: flex;
+    flex-direction: column;
     place-content: center;
 }
 .profile-avatar {

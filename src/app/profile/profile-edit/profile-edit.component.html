@@ -1,7 +1,9 @@
 <div class="col-12">
     <form [formGroup]="profileForm" class="form-container mt-4">
-        <div class="avatar-container mx-auto my-3">
+        <div class="avatar-container mx-auto my-3" (dblclick)="profilePic.click()">
             <img matListAvatar [src]="profile.profilePic" class="profile-avatar"/>
+            <caption class="ta-c">Double click to change</caption>
+            <input type="file" class="d-none" (change)="onFileChange($event)" accept="image/*" #profilePic>
         </div>
 
         <mat-form-field class="form-group mx-auto">
@@ -42,7 +44,7 @@
         </div>
 
         <div class="justify-content-center d-flex form-group mx-auto">
-            <button mat-raised-button color="primary" type="submit" [disabled]="processing">
+            <button mat-raised-button color="primary" type="submit" (click)="updateProfile()" [disabled]="processing">
                 Save <i *ngIf="processing" class="ml-2 fas fa-spin fa-spinner"></i>
             </button>
         </div>

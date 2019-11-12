@@ -192,14 +192,13 @@ export class NewPostComponent implements OnInit {
         formData.append('caption', caption);
         formData.append('repost', 'false');
 
-        this.backend.addPost(formData).subscribe(response => {
+        this.backend.addPost(formData)
+        .subscribe(response => {
             console.log(response);
             this.router.navigate(['']);
-        }, error => {
-            console.warn(error);
-        }, () => {
-            this.loading = false;
-        });
+        },
+        console.warn,
+        () => this.loading = false);
     }
 
     nullMedia() {

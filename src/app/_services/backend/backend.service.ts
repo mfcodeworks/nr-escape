@@ -49,7 +49,7 @@ export class BackendService {
     }
 
     // Update User Profile
-    updateUser(user: Profile): Observable<Profile> {
+    updateUser(user: Profile | FormData): Observable<Profile> {
         return this.api.updateUser(user);
     }
 

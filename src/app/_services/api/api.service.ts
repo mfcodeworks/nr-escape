@@ -86,7 +86,7 @@ export class ApiService {
     }
 
     // API: Update User Profile
-    updateUser(user: Profile): Observable<Profile> {
+    updateUser(user: Profile | FormData): Observable<Profile> {
         return this.http
         .put<Profile>(`${API_URL}/me/update`,
             user,
