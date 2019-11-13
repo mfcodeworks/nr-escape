@@ -68,7 +68,7 @@ export class ProfileEditComponent implements OnInit {
         form.append('media', input.target.files[0]);
         console.log(form.get('media'));
 
-        // DEBUG: Send new picture to server
+        // Send new picture to server
         this.backend.updateUser(form)
         .subscribe(
             response => {

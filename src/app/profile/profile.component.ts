@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     /**
      * DEBUG:
      * - Navigating directly between profiles (Other user to bottom right profile button) not reloading page
-     * 
+     *
      * TODO:
      * - Block User Option
      * - View Blocked
@@ -107,9 +107,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     isMe() {
         return this.profile.id === this.user.profile.id;
-    }
-
-    editProfile() {
     }
 
     updateSettings() {

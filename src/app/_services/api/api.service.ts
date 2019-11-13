@@ -87,8 +87,13 @@ export class ApiService {
 
     // API: Update User Profile
     updateUser(user: Profile | FormData): Observable<Profile> {
+        // DEBUG: Fix for PHP not accepting files to PUT
+        (user instanceof FormData) ?
+            user.append('_method', 'PUT') :
+            Object.assign(user, { _method: 'PUT' });
+
         return this.http
-        .put<Profile>(`${API_URL}/me/update`,
+        .post<Profile>(`${API_URL}/me/update`,
             user,
             this.getRequestHeaders())
         .pipe(
