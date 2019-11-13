@@ -36,6 +36,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     /**
      * DEBUG:
      * - Navigating directly between profiles (Other user to bottom right profile button) not reloading page
+     * - User profile pic sometimes cached incorrectly when changed on other device
      *
      * TODO:
      * - Block User Option
