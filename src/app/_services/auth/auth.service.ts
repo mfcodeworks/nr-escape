@@ -17,9 +17,10 @@ export class AuthService {
 
     // Update user object if signed in
     public updateUser() {
+        console.log('Refreshing user', this.isSignedIn());
         if (this.isSignedIn()) {
             this.backend.getUser().subscribe(
-                (response) => this.user.build(response),
+                (data) => this.user.build(data),
                 (error) => console.warn(error),
                 () => console.log('User updated')
             );

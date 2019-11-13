@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { Profile } from '../../_models/profile';
 import { CacheService } from '../cache/cache.service';
@@ -12,7 +12,7 @@ export class UserService {
     public email: string;
     public token: string;
     public profile: Profile = new Profile();
-    public loggedIn: Subject<boolean> = new Subject<boolean>();
+    public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject(!!this.token);
 
     /**
      * Get user profile from storage
@@ -21,6 +21,7 @@ export class UserService {
      */
     constructor(private cache: CacheService) {
         Object.assign(this, JSON.parse(localStorage.getItem('login')));
+        this.loggedIn.next(!!this.token);
     }
 
     /**
@@ -29,12 +30,14 @@ export class UserService {
      * @param model User Object to build from
      */
     public build(model: any): void {
+        console.log('Building user service');
         // Update user as logged in
         Object.assign(this, model);
         this.loggedIn.next(!!model.token);
 
         // Cache user object
         this.cacheUser();
+        console.log('Built user service', this.toJson());
     }
 
     // Return logged in observable
