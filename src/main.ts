@@ -13,7 +13,7 @@ const bootstrap = () => {
     .catch(err => console.error(err));
 };
 
-// If running over Cordova (file:) wait for device ready to access native resources
-document.location.protocol === 'file:'
+// If running Cordova wait for device ready to access native resources
+!!(window.cordova || window.Cordova)
   ? document.addEventListener('deviceready', bootstrap, false)
   : bootstrap();

@@ -9,7 +9,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script>
-    // Append cordova.js if not served over https (Most likely Cordova)
+    // Fix Angular overriding of event handlers
     window.addEventListener = function () {
       EventTarget.prototype.addEventListener.apply(this, arguments);
     };
