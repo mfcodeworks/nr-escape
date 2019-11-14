@@ -18,5 +18,5 @@ tr, td, .col {
 .profile-avatar {
     max-width: 250px;
     max-height: 250px;
-    border-radius: 50%;
+    border-radius: 100%;
 }

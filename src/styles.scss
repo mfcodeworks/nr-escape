@@ -16,6 +16,12 @@
     -webkit-box-shadow: none;
     -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-tap-highlight-color: transparent !important;
+    /* -webkit-user-select: none; */
+    -webkit-user-select: text;
+    -webkit-overflow-scrolling: touch;
+    /* iOS Specific Webkit CSS */
+    -webkit-appearance: none;
+    -webkit-touch-callout: none;
 }
 html, body {
     height: 100%;
