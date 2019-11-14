@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MentionModule } from 'angular-mentions';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -46,7 +45,6 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
         InfiniteScrollModule,
         MentionModule,
         OverlayModule,
-        BrowserAnimationsModule,
         HttpClientModule,
         ReactiveFormsModule,
         Routing
