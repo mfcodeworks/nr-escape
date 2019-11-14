@@ -25,11 +25,6 @@ export class PostDisplayComponent implements OnInit {
 
     ngOnInit() {}
 
-    popup(ev: any) {
-        console.warn('Popup', ev);
-        alert(JSON.stringify(ev));
-    }
-
     likePost() {
         this.liked.emit(this.post);
     }

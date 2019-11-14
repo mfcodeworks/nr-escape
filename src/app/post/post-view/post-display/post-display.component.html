@@ -1,6 +1,6 @@
 <!-- Profile Row -->
 <mat-list-item>
-    <img matListAvatar [src]="post.author.profilePic" class="avatar" (press)="popup($event)" [routerLink]="['/profile', post.author.username]"/>
+    <img matListAvatar [src]="post.author.profilePic" class="avatar" [routerLink]="['/profile', post.author.username]"/>
     <h3 matLine>
         <span [routerLink]="['/profile', post.author.username]" class="post-username-text mat-h3">{{post.author.username}}</span>
         <!-- Update to check if user following author -->

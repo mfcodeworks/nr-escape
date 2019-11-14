@@ -7,16 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-/* HammerJS Config */
-import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { GestureConfig } from '@angular/material';
-
 import { Routing } from './app.routing';
 import { MainModule } from './main.module';
 import { AuthenticationModule } from './_modules/authentication/authentication.module';
 import { AppComponent } from './app.component';
 import { NotFound404Component } from './not-found404/not-found404.component';
-
 
 @NgModule({
     imports: [
@@ -36,10 +31,6 @@ import { NotFound404Component } from './not-found404/not-found404.component';
     ],
     bootstrap: [
         AppComponent
-    ],
-    providers: [{
-        provide: HAMMER_GESTURE_CONFIG,
-        useClass: GestureConfig
-    }]
+    ]
 })
 export class AppModule { }
