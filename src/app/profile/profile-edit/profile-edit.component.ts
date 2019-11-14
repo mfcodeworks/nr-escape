@@ -12,8 +12,6 @@ import { AuthService } from 'src/app/_services/auth/auth.service';
     styleUrls: ['./profile-edit.component.css']
 })
 export class ProfileEditComponent implements OnInit {
-    // TODO: Submit info to update user
-
     processing = false;
     profile: Profile;
     profileForm = this.fb.group({

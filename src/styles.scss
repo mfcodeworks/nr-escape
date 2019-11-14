@@ -11,12 +11,15 @@
     display: none;
 }
 *, *:focus, *:active {
+    /* Remove accessibility outline */
     outline: none !important;
     box-shadow: none;
     -webkit-box-shadow: none;
     -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-tap-highlight-color: transparent !important;
-
+    /* Set better text rendering */
+    text-rendering: optimizeLegibility;
+    /* Optimize mobile scrolling and longpress */
     -webkit-overflow-scrolling: touch;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
