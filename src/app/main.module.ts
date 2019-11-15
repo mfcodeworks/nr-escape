@@ -37,6 +37,7 @@ import { TagPipe } from './_helpers/tag.pipe';
 import { PostLikesComponent } from './post/post-view/post-likes/post-likes.component';
 import { ProfileDisplayComponent } from './profile//profile-display/profile-display.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
+import { LongholdDirective } from './_helpers/longhold.directive';
 
 @NgModule({
     imports: [
@@ -73,7 +74,8 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
         TagPipe,
         PostLikesComponent,
         ProfileDisplayComponent,
-        ProfileEditComponent
+        ProfileEditComponent,
+        LongholdDirective
     ],
     entryComponents: [
         CommentDialogComponent,

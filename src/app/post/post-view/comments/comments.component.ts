@@ -43,7 +43,6 @@ export class PostCommentsComponent implements OnInit {
     @Input() post: Post;
     @Input() user: Profile;
     @Input() preview = false;
-    onHoldTimeout: any = null;
 
     constructor(
         private backend: BackendService,
@@ -52,29 +51,6 @@ export class PostCommentsComponent implements OnInit {
 
     ngOnInit() {
         console.log(this.post);
-    }
-
-    startOnHold(comment: Comment) {
-        this.onHoldTimeout = setTimeout(() => {
-            console.log(
-                'Held for popup',
-                JSON.stringify(comment)
-            );
-            this.openDialog(comment);
-            clearTimeout(this.onHoldTimeout);
-            this.onHoldTimeout = null;
-        }, 300);
-    }
-
-    endOnHold(comment: Comment) {
-        if (this.onHoldTimeout) {
-            console.log(
-                'Closing before popup',
-                JSON.stringify(comment)
-            );
-            clearTimeout(this.onHoldTimeout);
-            this.onHoldTimeout = null;
-        }
     }
 
     openDialog(comment: Comment): void {
