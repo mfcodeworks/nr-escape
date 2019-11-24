@@ -8,6 +8,7 @@ import { HashtagResolver } from './_helpers/hashtag.resolver';
 import { NotificationsResolver } from './_helpers/notifications.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
+import { NewPostResolver } from './_helpers/new-post.resolver';
 import { FeedComponent } from './feed/feed.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
@@ -50,6 +51,7 @@ export const routes: Routes = [
             {
                 path: 'new-post',
                 component: NewPostComponent,
+                resolve: { repost: NewPostResolver },
                 runGuardsAndResolvers: 'always'
             },
             {

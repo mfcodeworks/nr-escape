@@ -15,6 +15,7 @@ import { NotificationsResolver } from './_helpers/notifications.resolver';
 import { HashtagResolver } from './_helpers/hashtag.resolver';
 import { ProfileResolver } from './_helpers/profile.resolver';
 import { PostResolver } from './_helpers/post.resolver';
+import { NewPostResolver } from './_helpers/new-post.resolver';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
 import { PostDisplayComponent } from './post/post-view/post-display/post-display.component';
@@ -86,7 +87,8 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
         NotificationsResolver,
         ProfileResolver,
         PostResolver,
-        HashtagResolver
+        HashtagResolver,
+        NewPostResolver
     ],
     exports: [
         TopBarComponent,
