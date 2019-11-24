@@ -1,5 +1,5 @@
 import { Component, NgZone, ElementRef, ViewChild, Inject, OnInit  } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
@@ -47,9 +47,8 @@ export class NewPostComponent implements OnInit {
     type = new Subject<string>();
     typeObs = this.type.asObservable();
     currentType: string;
+    repostOf: Post;
     loading = false;
-
-    // TODO: Accept a repost id from route params
 
     constructor(
         private urlPreview: UrlPreviewService,
@@ -57,16 +56,25 @@ export class NewPostComponent implements OnInit {
         protected user: UserService,
         private ngZone: NgZone,
         private backend: BackendService,
+        private route: ActivatedRoute,
         private router: Router
     ) {}
 
     triggerResize() {
-      // Wait for changes to be applied, then trigger textarea resize.
-      this.ngZone.onStable.pipe(take(1))
-          .subscribe(() => this.autosize.resizeToFitContent(true));
+        // Wait for changes to be applied, then trigger textarea resize.
+        this.ngZone.onStable.pipe(take(1))
+            .subscribe(() => this.autosize.resizeToFitContent(true));
     }
 
     ngOnInit() {
+        // Subscribe to route to get repost
+        this.route.data.subscribe((data) => {
+            if (data.repost) {
+                this.repostOf = data.repost;
+                console.warn(data);
+            }
+        });
+
         // Subscribe to type observer
         this.typeObs.subscribe(type => {
             this.nullMedia();
@@ -137,7 +145,7 @@ export class NewPostComponent implements OnInit {
         });
     }
 
-    saveMedia(input: any) {
+    saveMedia(input: any): void {
         console.log(input);
         if (!input.length) {
             return;
@@ -167,6 +175,7 @@ export class NewPostComponent implements OnInit {
             this.loading = false;
             return;
         }
+
         if (this.media) {
             switch (this.currentType) {
                 case 'Photo':
@@ -190,7 +199,7 @@ export class NewPostComponent implements OnInit {
         formData.append('author', this.user.profile.id.toString());
         formData.append('type', type);
         formData.append('caption', caption);
-        formData.append('repost', 'false');
+        formData.append('repost_of', this.repostOf.id.toString());
 
         this.backend.addPost(formData)
         .subscribe(response => {

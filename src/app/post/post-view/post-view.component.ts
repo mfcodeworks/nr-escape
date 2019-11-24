@@ -4,6 +4,7 @@ import { Post } from '../../_models/post';
 import { BackendService } from '../../_services/backend/backend.service';
 import { UserService } from '../../_services/user/user.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 declare const _: any;
 
@@ -21,7 +22,8 @@ export class PostViewComponent implements OnInit {
 
     constructor(
         private backend: BackendService,
-        protected user: UserService
+        protected user: UserService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -111,9 +113,10 @@ export class PostViewComponent implements OnInit {
         });
     }
 
-    // TODO: Repost this.post
+    // Repost this.post
     repost() {
         console.log('Repost', this.post);
+        this.router.navigate(['/new-post'], { queryParams: { postId: this.post.id } });
     }
 
     copyURL() {
