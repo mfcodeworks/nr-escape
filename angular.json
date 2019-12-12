@@ -133,6 +133,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "nr-social-hub"
+    }
+  },
+  "defaultProject": "nr-social-hub",
+  "cli": {
+    "analytics": "42267208-8a49-4491-a449-15fdb4ea5b61"
+  }
 }
