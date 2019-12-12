@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 
 import { Routing } from './app.routing';
 import { MainModule } from './main.module';
+import { MaterialModule } from './_modules/material/material.module';
 import { AuthenticationModule } from './_modules/authentication/authentication.module';
 import { AppComponent } from './app.component';
 import { NotFound404Component } from './not-found404/not-found404.component';
@@ -18,6 +19,7 @@ import { NotFound404Component } from './not-found404/not-found404.component';
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+        MaterialModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         Routing,
