@@ -48,6 +48,11 @@ export class BackendService {
         return this.api.getUser();
     }
 
+    // Get User Blocked Profiles
+    getUserBlocks(): Observable<Profile[]> {
+        return this.api.getUserBlocks();
+    }
+
     // Update User Profile
     updateUser(user: Profile | FormData): Observable<Profile> {
         return this.api.updateUser(user);

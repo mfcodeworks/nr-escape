@@ -19,6 +19,10 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
 import { SettingsComponent } from './settings/settings.component';
 import { SearchComponent } from './search/search.component';
 import { HashtagListingComponent } from './hashtag-listing/hashtag-listing.component';
+import { ProfileListComponent } from './profile-list/profile-list.component';
+import { FollowersResolver } from './_helpers/followers.resolver';
+import { FollowingResolver } from './_helpers/following.resolver';
+import { BlockedProfilesResolver } from './_helpers/blocked-profiles.resolver';
 
 export const routes: Routes = [
     {
@@ -78,8 +82,38 @@ export const routes: Routes = [
                 runGuardsAndResolvers: 'always'
             },
             {
+                path: 'profile/:profile/following',
+                component: ProfileListComponent,
+                resolve: { profiles: FollowingResolver },
+                runGuardsAndResolvers: 'always'
+            },
+            {
+                path: 'profile/:profile/followers',
+                component: ProfileListComponent,
+                resolve: { profiles: FollowersResolver },
+                runGuardsAndResolvers: 'always'
+            },
+            {
                 path: 'settings',
                 component: SettingsComponent,
+                runGuardsAndResolvers: 'always'
+            },
+            {
+                path: 'following',
+                component: ProfileListComponent,
+                resolve: { profiles: FollowingResolver },
+                runGuardsAndResolvers: 'always'
+            },
+            {
+                path: 'followers',
+                component: ProfileListComponent,
+                resolve: { profiles: FollowersResolver },
+                runGuardsAndResolvers: 'always'
+            },
+            {
+                path: 'blocked',
+                component: ProfileListComponent,
+                resolve: { profiles: BlockedProfilesResolver },
                 runGuardsAndResolvers: 'always'
             }
         ],

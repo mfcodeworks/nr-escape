@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, retry, catchError, tap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { UserService } from '../user/user.service';
@@ -85,6 +85,17 @@ export class ApiService {
         );
     }
 
+    // API: Get User blocked Profiles
+    getUserBlocks(): Observable<Profile[]> {
+        return this.http
+        .get<any>(`${API_URL}/me/blocked`, this.getRequestHeaders())
+        .pipe(
+            retry(1),
+            map(l => l.map(b => b.blockedUser)),
+            catchError((error) => this.handleError(error))
+        );
+    }
+
     // API: Update User Profile
     updateUser(user: Profile | FormData): Observable<Profile> {
         // DEBUG: Fix for PHP not accepting files to PUT
@@ -93,9 +104,7 @@ export class ApiService {
             Object.assign(user, { _method: 'PUT' });
 
         return this.http
-        .post<Profile>(`${API_URL}/me/update`,
-            user,
-            this.getRequestHeaders())
+        .post<Profile>(`${API_URL}/me/update`, user, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error))
@@ -420,7 +429,7 @@ export class ApiService {
     // API: Unblock User
     unblockUser(id: number): any {
         return this.http
-        .post(`${API_URL}/profile/${id}/unblock`, this.getRequestHeaders())
+        .post(`${API_URL}/profile/${id}/unblock`, null, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error))
@@ -430,21 +439,39 @@ export class ApiService {
     // API: Report User
     reportUser(id: number): any {
         return this.http
-        .post(`${API_URL}/profile/${id}/report`, this.getRequestHeaders())
+        .post(`${API_URL}/profile/${id}/report`, null, this.getRequestHeaders())
         .pipe(
             retry(1),
-            catchError((error) => this.handleError(error))
+            catchError((error) => this.handleError(error)),
+            tap(_ => {
+                console.log(_);
+                this.handleSuccess('Profile successfully reported');
+            })
         );
     }
 
     // API: Report Post
     reportPost(id: number): any {
         return this.http
-        .post(`${API_URL}/post/${id}/report`, this.getRequestHeaders())
+        .post(`${API_URL}/post/${id}/report`, null, this.getRequestHeaders())
         .pipe(
             retry(1),
-            catchError((error) => this.handleError(error))
+            tap((evt: HttpResponse<any>) => {
+                console.log(evt);
+                if(evt.body && evt.body.success) {
+                    this.handleSuccess('Post successfully reported');
+                }
+            }),
+            catchError((error) => this.handleError(error)),
         );
+    }
+
+    // Success handling
+    handleSuccess(message: string) {
+        // Open snackbar
+        this.errorToast.open(message, 'close', {
+            duration: 3000
+        });
     }
 
     // Error handling
@@ -453,15 +480,15 @@ export class ApiService {
         console.warn(error);
 
         // Set error message
-        const errorMessage = (error instanceof HttpErrorResponse)
-            ? `(${error.status}) Message: ${error.statusText}`
-            : `(${error.status}) Message: ${error.error}`;
+        let errorMessage;
+        if (!!error.error.error) errorMessage = `${error.error.error}`;
+        else if (!!error.error) errorMessage = `(${error.status}) Message: ${error.error}`;
+        else errorMessage = `(${error.status}) Message: ${error.statusText}`
 
         // Open error snackbar
         this.errorToast.open(errorMessage, 'close', {
             duration: 3000
         });
-
 
         return throwError(errorMessage);
     }
