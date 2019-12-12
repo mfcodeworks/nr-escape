@@ -47,7 +47,7 @@ export class PostComponent implements OnInit, AfterViewInit {
         private router: Router,
         private backend: BackendService,
         private user: UserService,
-        protected location: Location,
+        public location: Location,
         private cache: CacheService
     ) {}
 

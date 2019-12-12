@@ -53,7 +53,7 @@ export class NewPostComponent implements OnInit {
     constructor(
         private urlPreview: UrlPreviewService,
         private bottomSheet: MatBottomSheet,
-        protected user: UserService,
+        public user: UserService,
         private ngZone: NgZone,
         private backend: BackendService,
         private route: ActivatedRoute,
