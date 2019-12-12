@@ -30,9 +30,7 @@ export class ProfileDialogComponent {
     ) {}
 
     close(action?: string): void {
-        this.dialogRef.close({
-            action
-        });
+        this.dialogRef.close({ action });
     }
 }
 
@@ -81,26 +79,18 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         // Set profile data
         this.route.data.subscribe((data) => {
-            if (data.profile instanceof Object) {
-                this.profile = data.profile;
-                this.cache.store(`profile-${data.profile.username}`, data.profile);
+            this.profile = data.profile;
+            this.cache.store(`profile-${data.profile.username}`, data.profile);
 
-                // Get profile posts
-                this.backend.getProfilePosts(this.profile.id).subscribe((data) => {
-                    // Merge posts arrays without duplicates
-                    this.posts = _.union(this.posts, data);
-                    this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
-                });
+            // Merge posts arrays without duplicates
+            this.posts = _.union(this.posts, data.posts);
+            this.cache.store(`profile-${this.profile.username}-posts`, this.posts);
 
-                // Set is requested
-                this.backend.checkFollowRequested(this.profile.id)
-                .subscribe(res => this.isRequested = res);
+            // Set is requested
+            this.backend.checkFollowRequested(this.profile.id)
+            .subscribe(res => this.isRequested = res);
 
-                console.log(this.profile);
-            } else {
-                // Handle error
-                console.warn(data);
-            }
+            console.log(this.profile);
         });
 
         // Set dark mode option
@@ -185,7 +175,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
 
         this.fetchingPosts = true;
-        this.backend.getProfilePosts(this.profile.id, this.posts[this.posts.length - 1].id).subscribe(posts => {
+        this.backend.getProfilePosts(this.profile.username, this.posts[this.posts.length - 1].id).subscribe(posts => {
             if (!posts.length) {
                 this.fetchedAllPosts = true;
                 return;

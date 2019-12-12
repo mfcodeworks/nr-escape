@@ -23,15 +23,11 @@ export class FeedComponent implements OnInit {
         private backend: BackendService
     ) {}
 
-    public ngOnInit() {
+    ngOnInit() {
         // Get posts from route resolver data
         this.route.data.subscribe((data) => {
-            if (data.posts instanceof Array) {
-                this.posts = data.posts;
-                this.cache.store('feed', data.posts);
-            } else {
-                console.error(data.posts);
-            }
+            this.posts = data.posts;
+            this.cache.store('feed', data.posts);
         });
     }
 

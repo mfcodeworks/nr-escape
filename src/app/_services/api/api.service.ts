@@ -243,9 +243,9 @@ export class ApiService {
     }
 
     // API: Get User Posts
-    getProfilePosts(id: number, offset?: number): Observable<Post[]> {
+    getProfilePosts(username: string, offset?: number): Observable<Post[]> {
         return this.http
-        .get<Post[]>(`${API_URL}/profile/${id}/posts?${offset ? `offset=${offset}` : ''}`, this.getRequestHeaders())
+        .get<Post[]>(`${API_URL}/profile/${username}/posts?${offset ? `offset=${offset}` : ''}`, this.getRequestHeaders())
         .pipe(
             retry(1),
             catchError((error) => this.handleError(error)),

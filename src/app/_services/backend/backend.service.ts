@@ -142,11 +142,11 @@ export class BackendService {
     }
 
     // Get Profile Posts
-    getProfilePosts(id: number, offset?: number): Observable<Post[]> {
-        return this.api.getProfilePosts(id, offset).pipe(
+    getProfilePosts(username: string, offset?: number): Observable<Post[]> {
+        return this.api.getProfilePosts(username, offset).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get(`profile-${id}-posts`));
+                return of(this.cache.get(`profile-${username}-posts`));
             })
         );
     }

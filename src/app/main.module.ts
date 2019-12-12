@@ -39,10 +39,11 @@ import { PostLikesComponent } from './post/post-view/post-likes/post-likes.compo
 import { ProfileDisplayComponent } from './profile//profile-display/profile-display.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { LongholdDirective } from './_helpers/longhold.directive';
-import { ProfileListComponent } from './profile-list/profile-list.component';
+import { ProfileListComponent, BlockedDialogComponent } from './profile-list/profile-list.component';
 import { FollowersResolver } from './_helpers/followers.resolver';
 import { FollowingResolver } from './_helpers/following.resolver';
 import { BlockedProfilesResolver } from './_helpers/blocked-profiles.resolver';
+import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
 
 @NgModule({
     imports: [
@@ -100,7 +101,8 @@ import { BlockedProfilesResolver } from './_helpers/blocked-profiles.resolver';
         NewPostResolver,
         FollowersResolver,
         FollowingResolver,
-        BlockedProfilesResolver
+        BlockedProfilesResolver,
+        ProfilePostsResolver
     ],
     exports: [
         TopBarComponent,

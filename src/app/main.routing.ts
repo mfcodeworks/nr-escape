@@ -23,6 +23,7 @@ import { ProfileListComponent } from './profile-list/profile-list.component';
 import { FollowersResolver } from './_helpers/followers.resolver';
 import { FollowingResolver } from './_helpers/following.resolver';
 import { BlockedProfilesResolver } from './_helpers/blocked-profiles.resolver';
+import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
 
 export const routes: Routes = [
     {
@@ -73,7 +74,10 @@ export const routes: Routes = [
             {
                 path: 'profile/:profile',
                 component: ProfileComponent,
-                resolve: { profile: ProfileResolver },
+                resolve: {
+                    profile: ProfileResolver,
+                    posts: ProfilePostsResolver
+                },
                 runGuardsAndResolvers: 'always'
             },
             {
