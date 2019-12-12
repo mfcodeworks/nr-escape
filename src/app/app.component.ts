@@ -5,12 +5,15 @@ import {
     NavigationEnd,
     NavigationError,
     NavigationStart,
-    Router
+    Router,
+    Scroll
 } from '@angular/router';
 import * as PullToRefresh from 'pulltorefreshjs';
 
 import { PushService } from './_services/push/push.service';
 import { AuthService } from './_services/auth/auth.service';
+import { filter, delay } from 'rxjs/operators';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
     selector: 'app-root',
@@ -23,9 +26,13 @@ export class AppComponent implements OnInit {
     constructor(
         public router: Router,
         private push: PushService,
-        private auth: AuthService
+        private auth: AuthService,
+	    private viewportScroller: ViewportScroller,
     ) {
-        this.router.events.subscribe((event: Event) => {
+        this.router.events.pipe(
+			filter((e: any): e is Scroll => e instanceof Scroll),
+			delay(0),
+        ).subscribe((event: any) => {
             switch (true) {
                 case event instanceof NavigationStart:
                     this.loading = true;
@@ -39,6 +46,17 @@ export class AppComponent implements OnInit {
 
                 default:
                     break;
+            }
+
+            if (event.position) {
+                // backward navigation
+                this.viewportScroller.scrollToPosition(event.position);
+            } else if (event.anchor) {
+                // anchor navigation
+                this.viewportScroller.scrollToAnchor(event.anchor);
+            } else {
+                // forward navigation
+                this.viewportScroller.scrollToPosition([0, 0]);
             }
         });
     }

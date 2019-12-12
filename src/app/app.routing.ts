@@ -8,8 +8,7 @@ export const routes: Routes = [
     {
         path: 'feed',
         canActivate: [ SignedInGuard ],
-        loadChildren: () => import('./main.module').then(m => m.MainModule),
-        runGuardsAndResolvers: 'always'
+        loadChildren: () => import('./main.module').then(m => m.MainModule)
     },
     {
         path: 'sign-in',
