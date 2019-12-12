@@ -84,6 +84,9 @@ export class SignInComponent implements OnInit {
                         }).join('') : error.error.error;
                     break;
             }
+            
+            // End processing
+            this.processing = false;
         }, () => {
             // End processing
             this.processing = false;
