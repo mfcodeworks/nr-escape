@@ -27,7 +27,7 @@ import { NewPostComponent, PostBottomSheetComponent } from './new-post/new-post.
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostComponent } from './post/post.component';
 import { PostViewComponent } from './post/post-view/post-view.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent, ProfileDialogComponent } from './profile/profile.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SettingsComponent } from './settings/settings.component';
 import { DateDiffPipe } from './_helpers/date-diff.pipe';
@@ -39,6 +39,10 @@ import { PostLikesComponent } from './post/post-view/post-likes/post-likes.compo
 import { ProfileDisplayComponent } from './profile//profile-display/profile-display.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { LongholdDirective } from './_helpers/longhold.directive';
+import { ProfileListComponent } from './profile-list/profile-list.component';
+import { FollowersResolver } from './_helpers/followers.resolver';
+import { FollowingResolver } from './_helpers/following.resolver';
+import { BlockedProfilesResolver } from './_helpers/blocked-profiles.resolver';
 
 @NgModule({
     imports: [
@@ -58,6 +62,7 @@ import { LongholdDirective } from './_helpers/longhold.directive';
         PostPreviewGridComponent,
         PostInteractionBarComponent,
         CommentDialogComponent,
+        ProfileDialogComponent,
         PostCommentsComponent,
         FeedComponent,
         PostBottomSheetComponent,
@@ -76,10 +81,12 @@ import { LongholdDirective } from './_helpers/longhold.directive';
         PostLikesComponent,
         ProfileDisplayComponent,
         ProfileEditComponent,
-        LongholdDirective
+        LongholdDirective,
+        ProfileListComponent
     ],
     entryComponents: [
         CommentDialogComponent,
+        ProfileDialogComponent,
         PostBottomSheetComponent
     ],
     providers: [
@@ -90,7 +97,10 @@ import { LongholdDirective } from './_helpers/longhold.directive';
         ProfileResolver,
         PostResolver,
         HashtagResolver,
-        NewPostResolver
+        NewPostResolver,
+        FollowersResolver,
+        FollowingResolver,
+        BlockedProfilesResolver
     ],
     exports: [
         TopBarComponent,
@@ -99,6 +109,7 @@ import { LongholdDirective } from './_helpers/longhold.directive';
         PostPreviewGridComponent,
         PostInteractionBarComponent,
         CommentDialogComponent,
+        ProfileDialogComponent,
         PostCommentsComponent,
         FeedComponent,
         PostBottomSheetComponent,

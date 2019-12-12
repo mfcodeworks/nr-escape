@@ -26,8 +26,8 @@ export class ProfileDisplayComponent implements OnInit {
     this.fetchMorePosts.emit();
   }
 
-  doFollowUser(id: number): void {
-    this.followUser.emit(id);
+  doFollowUser(): void {
+    this.followUser.emit();
   }
 
 }

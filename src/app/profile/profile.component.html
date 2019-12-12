@@ -2,6 +2,7 @@
 <mat-toolbar class="top-bar mat-elevation-z2" [class.app-background-color]="!isDark" color="primary">
     <div class="top-bar-logo logo mx-a w-100"></div>
     <i *ngIf="isMe()" class="ti-menu mr-3" [class.icon-black]="!isDark" (click)="sidenav.toggle()"></i>
+    <i *ngIf="!isMe()" class="ti-menu-alt mr-3" [class.icon-black]="!isDark" (click)="openDialog()"></i>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container" hasBackdrop="false" (backdropClick)="sidenav.close()">
@@ -70,7 +71,7 @@
             [isFollowing]="isFollowing()"
             [fetchedAllPosts]="fetchedAllPosts"
             (fetchMorePosts)="fetchMorePosts()"
-            (followUser)="followUser($event)"></app-profile-display>
+            (followUser)="followUser()"></app-profile-display>
     </mat-sidenav-content>
 </mat-sidenav-container>
 

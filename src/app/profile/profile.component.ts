@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 
 import { BackendService } from '../_services/backend/backend.service';
 import { Profile } from '../_models/profile';
@@ -9,10 +11,30 @@ import { UserService } from '../_services/user/user.service';
 import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 import { AuthService } from '../_services/auth/auth.service';
 import { CacheService } from '../_services/cache/cache.service';
-import { debounceTime } from 'rxjs/operators';
 
 declare const $: any;
 declare const _: any;
+
+export interface DialogData {
+    action: string;
+}
+
+@Component({
+    selector: 'app-profile-dialog',
+    templateUrl: 'profile-dialog.component.html',
+})
+export class ProfileDialogComponent {
+    constructor(
+        public dialogRef: MatDialogRef<ProfileDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {}
+
+    close(action?: string): void {
+        this.dialogRef.close({
+            action
+        });
+    }
+}
 
 @Component({
     selector: 'app-profile',
@@ -35,27 +57,25 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     /**
      * DEBUG:
-     * - Navigating directly between profiles (Other user to bottom right profile button) not reloading page
      * - User profile pic sometimes cached incorrectly when changed on other device
      *
      * TODO:
-     * - Block User Option
      * - View Blocked
      * - Unblock
-     * - Deactivate account & logout
+     * - Deactivate account
      * - Link following/followers to list view
-     * - Edit Profile view
      * - Change password
-     * - Follow user
      */
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private user: UserService,
         private backend: BackendService,
-        protected dark: DarkThemeService,
-        protected auth: AuthService,
+        public dark: DarkThemeService,
+        public auth: AuthService,
         private cache: CacheService,
+        public dialog: MatDialog
     ) {}
 
     ngOnInit() {
@@ -64,18 +84,23 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             if (data.profile instanceof Object) {
                 this.profile = data.profile;
                 this.cache.store(`profile-${data.profile.username}`, data.profile);
+
+                // Get profile posts
+                this.backend.getProfilePosts(this.profile.id).subscribe((data) => {
+                    // Merge posts arrays without duplicates
+                    this.posts = _.union(this.posts, data);
+                    this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
+                });
+
+                // Set is requested
+                this.backend.checkFollowRequested(this.profile.id)
+                .subscribe(res => this.isRequested = res);
+
+                console.log(this.profile);
             } else {
                 // Handle error
                 console.warn(data);
             }
-        });
-        console.log(this.profile);
-
-        // Get profile posts
-        this.backend.getProfilePosts(this.profile.id).subscribe((data) => {
-            // Merge posts arrays without duplicates
-            this.posts = _.union(this.posts, data);
-            this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
         });
 
         // Set dark mode option
@@ -83,10 +108,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         .subscribe((mode: boolean) => {
             this.isDark = mode;
         });
-
-        // Set is requested
-        this.backend.checkFollowRequested(this.profile.id)
-        .subscribe(res => this.isRequested = res);
 
         // Change options with debounce to prevent mistakes
         this.privateAccount.valueChanges
@@ -102,8 +123,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.topBarHeight = $('mat-toolbar.top-bar')[0].offsetHeight;
     }
 
-    isFollowing(id: number) {
-        return this.user.profile.following.includes(id);
+    isFollowing() {
+        return this.profile.hasOwnProperty('followers')
+            ? !!this.profile.followers.find(following => following.user === this.user.profile.id)
+            : false;
     }
 
     isMe() {
@@ -132,13 +155,36 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         );
     }
 
-    followUser(id: number) {
-        this.user.profile.following.push(id);
+    followUser(): void {
+        if (this.isFollowing()) {
+            this.profile.followers = this.profile.followers.filter(f => f.user !== this.user.profile.id);
+            this.backend.unfollowUser(this.profile.id).subscribe(
+                () => {
+                    this.profile.followers = this.profile.followers.filter(f => f.user !== this.user.profile.id),
+                    this.profile.postsCount = '?';
+                    this.profile.followersCount = '?';
+                    this.profile.followingCount = '?';
+                },
+                (err: any) => console.warn
+            );
+        } else {
+            this.backend.followUser(this.profile.id).subscribe(
+                () => !!this.profile.settings.privateAccount
+                    ? this.isRequested = true
+                    : this.profile.followers.push({
+                        user: this.user.profile.id,
+                        followingUser: this.profile.id
+                    }),
+                (err: any) => console.warn
+            );
+        }
     }
 
     fetchMorePosts(): void {
+        if (this.fetchingPosts) return;
         console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
 
+        this.fetchingPosts = true;
         this.backend.getProfilePosts(this.profile.id, this.posts[this.posts.length - 1].id).subscribe(posts => {
             if (!posts.length) {
                 this.fetchedAllPosts = true;
@@ -147,6 +193,47 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.posts = _.union(this.posts, posts);
             this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
             console.log(this.posts);
+            this.fetchingPosts = false;
         });
+    }
+
+    openDialog(): void {
+        const profile = this.profile;
+        console.log(
+            'Opening profile dialog',
+            profile
+        );
+        const dialogRef = this.dialog.open(ProfileDialogComponent, {
+            width: '90%',
+            data: { profile }
+        });
+
+        dialogRef.afterClosed()
+        .subscribe((result: string) => {
+            console.log('The dialog was closed, result:', result);
+            if (result) {
+                this.checkDialogAction(result);
+            }
+        });
+    }
+
+    checkDialogAction(result: any) {
+        switch (result.action) {
+            case 'block':
+                // Block profile
+                this.backend.blockUser(this.profile.id).subscribe(
+                    () => this.router.navigate(['/feed']),
+                    () => console.warn
+                )
+                return;
+
+            case 'report':
+                // TODO: Report profile
+                this.backend.reportUser(this.profile.id).subscribe(
+                    () => console.log,
+                    () => console.warn
+                )
+                return;
+        }
     }
 }

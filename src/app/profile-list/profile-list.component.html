@@ -1,0 +1,16 @@
+<app-top-bar></app-top-bar>
+
+<div class="min-h-100">
+    <mat-list *ngIf="profiles.length" class="mb-2">
+        <mat-list-item *ngFor="let result of profiles">
+            <mat-divider></mat-divider>
+            <img matListAvatar [src]="result.profilePic" class="avatar"  [routerLink]="['/profile', result.username]"/>
+            <h3 matLine>
+                <span *ngIf="type !== 'blocked'" [routerLink]="['/profile', result.username]" class="mat-h3 font-weight-bold">{{result.username}}</span>
+                <span *ngIf="type === 'blocked'"  class="mat-h3 font-weight-bold">{{result.username}}</span>
+            </h3>
+        </mat-list-item>
+    </mat-list>
+</div>
+
+<app-bottom-bar></app-bottom-bar>
