@@ -8,12 +8,12 @@ export const routes: Routes = [
     {
         path: 'feed',
         canActivate: [ SignedInGuard ],
-        loadChildren: './main.module#MainModule',
+        loadChildren: () => import('./main.module').then(m => m.MainModule),
         runGuardsAndResolvers: 'always'
     },
     {
         path: 'sign-in',
-        loadChildren: './_modules/authentication/authentication.module#AuthenticationModule'
+        loadChildren: () => import('./_modules/authentication/authentication.module').then(m => m.AuthenticationModule)
     },
     {
         path: 'login',
