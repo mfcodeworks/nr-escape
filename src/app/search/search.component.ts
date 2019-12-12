@@ -20,7 +20,6 @@ declare const _: any;
     styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements AfterViewInit  {
-
     @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
     profiles: Profile[] = [];
     hashtags: [] = [];

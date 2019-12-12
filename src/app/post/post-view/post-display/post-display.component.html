@@ -12,7 +12,7 @@
     <!-- Post Menu -->
     <mat-menu #menu="matMenu" class="mat-elevation-z2">
         <button mat-menu-item *ngIf="post.author.id == user.id" (click)="deletePost()"><i class="ti-trash"></i> Delete</button>
-        <button mat-menu-item *ngIf="post.author.id !== user.id" (click)="reportPost()"><i class="ti-na"></i> Report</button>
+        <button mat-menu-item *ngIf="post.author.id !== user.id" (click)="reportPost()"><i class="ti-flag"></i> Report</button>
         <button mat-menu-item  (click)="copyURL()"><i class="ti-link"></i> Copy Link</button>
     </mat-menu>
 </mat-list-item>
@@ -52,7 +52,7 @@
 <span *ngIf="post.type == 'text' && (!post.repost || !displayRepost)">
     <mat-divider></mat-divider>
     <!-- Caption as Post -->
-    <mat-list-item class="text-post-container" (dblclick)="likePost(post)">
+    <mat-list-item class="text-post-container" (dblclick)="likePost()">
         <span class="text-post my-3"
             [class.text-post-concat]="post.concat"
             (click)="post.concat = !post.concat"
@@ -69,7 +69,7 @@
     </mat-list-item>
 
     <!-- URL Preview -->
-    <a [href]="mediaPreview?.url" target="_blank" (dblclick)="likePost(post)">
+    <a [href]="mediaPreview?.url" target="_blank" (dblclick)="likePost()">
         <mat-card *ngIf="mediaPreview">
             <mat-card-header *ngIf="mediaPreview?.title" class="d-flex">
                 <mat-card-title class="d-flex justify-content-between">{{ mediaPreview?.title }} <i class="d-flex ti-link"></i></mat-card-title>

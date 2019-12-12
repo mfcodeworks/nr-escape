@@ -22,7 +22,7 @@ export class PostViewComponent implements OnInit {
 
     constructor(
         private backend: BackendService,
-        protected user: UserService,
+        public user: UserService,
         private router: Router
     ) { }
 

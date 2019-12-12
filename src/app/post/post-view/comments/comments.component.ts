@@ -18,8 +18,6 @@ export interface DialogData {
     templateUrl: 'comment-dialog.component.html',
 })
 export class CommentDialogComponent {
-    // TODO: Include longpress for comments dialog on mobile
-
     constructor(
         public dialogRef: MatDialogRef<CommentDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
@@ -31,7 +29,6 @@ export class CommentDialogComponent {
             comment: this.data.comment
         });
     }
-
 }
 
 @Component({
