@@ -47,7 +47,7 @@ export class NewPostComponent implements OnInit {
     type = new Subject<string>();
     typeObs = this.type.asObservable();
     currentType: string;
-    repostOf: Post;
+    repostOf: Post = null;
     loading = false;
 
     constructor(
@@ -138,9 +138,9 @@ export class NewPostComponent implements OnInit {
 
         // Get URL preview
         this.urlPreview.fetch(url)
-        .subscribe((preview) => {
+        .subscribe((preview: any) => {
             console.log(preview);
-            this.media = url;
+            this.media = preview.url;
             this.mediaPreview = preview;
         });
     }
@@ -199,7 +199,9 @@ export class NewPostComponent implements OnInit {
         formData.append('author', this.user.profile.id.toString());
         formData.append('type', type);
         formData.append('caption', caption);
-        formData.append('repost_of', this.repostOf.id.toString());
+        if (!!this.repostOf) {
+            formData.append('repost_of', this.repostOf.id.toString());
+        }
 
         this.backend.addPost(formData)
         .subscribe(response => {

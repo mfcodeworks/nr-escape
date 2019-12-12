@@ -46,17 +46,17 @@
 
         <!-- URL Preview -->
         <a [href]="mediaPreview?.url" target="_blank">
-        <mat-card *ngIf="currentType === 'URL' && mediaPreview" class="mb-3 mx-3">
-            <mat-card-header *ngIf="mediaPreview?.title">
-                <mat-card-title class="mb-3">{{ mediaPreview?.title }}</mat-card-title>
-            </mat-card-header>
-            <mat-divider></mat-divider>
-            <img  *ngIf="mediaPreview?.image" mat-card-image [src]="mediaPreview?.image" [alt]="mediaPreview?.title">
-            <mat-divider></mat-divider>
-            <mat-card-content  *ngIf="mediaPreview?.description">
-                <p class="mt-3">{{ mediaPreview?.description }}</p>
-            </mat-card-content>
-        </mat-card>
+            <mat-card *ngIf="currentType === 'URL' && mediaPreview" class="mb-3 mx-3">
+                <mat-card-header *ngIf="mediaPreview?.title">
+                    <mat-card-title class="mb-3">{{ mediaPreview?.title }}</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <img  *ngIf="mediaPreview?.image" mat-card-image [src]="mediaPreview?.image" [alt]="mediaPreview?.title">
+                <mat-divider></mat-divider>
+                <mat-card-content  *ngIf="mediaPreview?.description">
+                    <p class="mt-3">{{ mediaPreview?.description }}</p>
+                </mat-card-content>
+            </mat-card>
         </a>
     </div>
 
