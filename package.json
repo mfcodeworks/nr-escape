@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --base-href . --output-path ../www/",
+    "analyze": "webpack-bundle-analyzer ../www/stats.json",
+    "build": "ng build --statsJson --base-href . --output-path ../www/",
     "prod": "ng build --prod --aot --base-href . --output-path ../www/",
     "test": "ng test",
     "lint": "ng lint",
