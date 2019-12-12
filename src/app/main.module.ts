@@ -63,6 +63,7 @@ import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
         PostPreviewGridComponent,
         PostInteractionBarComponent,
         CommentDialogComponent,
+        BlockedDialogComponent,
         ProfileDialogComponent,
         PostCommentsComponent,
         FeedComponent,
@@ -88,7 +89,8 @@ import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
     entryComponents: [
         CommentDialogComponent,
         ProfileDialogComponent,
-        PostBottomSheetComponent
+        PostBottomSheetComponent,
+        BlockedDialogComponent
     ],
     providers: [
         SignedInGuard,
@@ -115,6 +117,7 @@ import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
         PostCommentsComponent,
         FeedComponent,
         PostBottomSheetComponent,
+        BlockedDialogComponent,
         NewPostComponent,
         NotificationsComponent,
         PostComponent,

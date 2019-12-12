@@ -7,7 +7,7 @@
             <img matListAvatar [src]="result.profilePic" class="avatar"  [routerLink]="['/profile', result.username]"/>
             <h3 matLine>
                 <span *ngIf="type !== 'blocked'" [routerLink]="['/profile', result.username]" class="mat-h3 font-weight-bold">{{result.username}}</span>
-                <span *ngIf="type === 'blocked'"  class="mat-h3 font-weight-bold">{{result.username}}</span>
+                <span *ngIf="type === 'blocked'" (click)="openDialog(result)" class="mat-h3 font-weight-bold">{{result.username}}</span>
             </h3>
         </mat-list-item>
     </mat-list>
