@@ -1,3 +1,12 @@
+/* Repost Scaling */
+.card, .card-body {
+    max-height: 250px;
+}
+.card-body img {
+    object-fit: cover;
+    max-height: 192px;
+}
+/* Main Post Sizing */
 .post-username-text {
     margin-right: 5px;
 }
@@ -27,6 +36,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: x-large;
+}
+.bg-post-repost {
+    background-color: #eee;
 }
 .text-post-concat {
     -webkit-line-clamp: 5;
