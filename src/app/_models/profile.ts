@@ -10,8 +10,8 @@ export class Profile {
     followingCount?: number | string;
     followersCount?: number | string;
     contactInfo?: any;
-    followers?: number[];
-    following?: number[];
+    followers?: any[];
+    following?: any[];
     fcmToken?: string;
     recentPosts?: Post[];
     settings: any;
