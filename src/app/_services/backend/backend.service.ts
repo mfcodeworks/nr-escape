@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ApiService } from '../api/api.service';
@@ -84,9 +84,9 @@ export class BackendService {
             catchError((error) => {
                 // Return from localStorage
                 if (type === 'hashtag') {
-                    return of(this.cache.get(`hashtag-${query}`));
+                    return this.cache.get(`hashtag-${query}`);
                 }
-                return of(this.cache.get(`search-${query}`));
+                return this.cache.get(`search-${query}`);
             })
         );
     }
@@ -96,7 +96,7 @@ export class BackendService {
         return this.api.getUserFeed(offset).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get('feed'));
+                return this.cache.get('feed');
             })
         );
     }
@@ -106,7 +106,7 @@ export class BackendService {
         return this.api.getRecommendations(notIn).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get('recommendations'));
+                return this.cache.get('recommendations');
             })
         );
     }
@@ -121,7 +121,7 @@ export class BackendService {
         return this.api.getUserNotifications(offset).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get('notifications'));
+                return this.cache.get('notifications');
             })
         );
     }
@@ -136,7 +136,7 @@ export class BackendService {
         return this.api.getProfile(username).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get(`profile-${username}`));
+                return this.cache.get(`profile-${username}`);
             })
         );
     }
@@ -146,7 +146,7 @@ export class BackendService {
         return this.api.getProfilePosts(username, offset).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get(`profile-${username}-posts`));
+                return this.cache.get(`profile-${username}-posts`);
             })
         );
     }
@@ -156,7 +156,7 @@ export class BackendService {
         return this.api.getPost(id).pipe(
             catchError((error) => {
                 // Return from localStorage
-                return of(this.cache.get(`post-${id}`));
+                return this.cache.get(`post-${id}`);
             })
         );
     }

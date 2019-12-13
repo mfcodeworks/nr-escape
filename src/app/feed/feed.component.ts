@@ -11,7 +11,7 @@ import { BackendService } from '../_services/backend/backend.service';
     styleUrls: ['./feed.component.css'],
 })
 export class FeedComponent implements OnInit {
-    posts: Post[] = null;
+    posts: Post[] = [];
     userId: number;
     fetchedAllPosts = false;
     fetchingPosts = false;
@@ -25,7 +25,7 @@ export class FeedComponent implements OnInit {
     ngOnInit() {
         // Get posts from route resolver data
         this.route.data.subscribe((data) => {
-            this.posts = data.posts;
+            this.posts = Array.prototype.concat(this.posts, data.posts);
             this.cache.store('feed', data.posts);
         });
     }

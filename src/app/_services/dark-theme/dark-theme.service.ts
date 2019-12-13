@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject  } from 'rxjs';
 import { CacheService } from '../cache/cache.service';
 
-declare const $: any;
-
 @Injectable({
     providedIn: 'root'
 })
@@ -14,12 +12,14 @@ export class DarkThemeService {
         private cache: CacheService
     ) {
         // Check for dark theme
-        const darkTheme = this.cache.get('dark-mode');
-        console.log('Dark mode', darkTheme);
-        darkTheme ? this.isDark.next(darkTheme) : this.isDark.next(false);
+        this.cache.get('dark-mode')
+        .subscribe(darkTheme => {
+            console.log('Dark mode', darkTheme);
+            !!darkTheme ? this.isDark.next(darkTheme) : this.isDark.next(false);
 
-        // Begin switching dark theme
-        this.switchDarkMode();
+            // Begin switching dark theme
+            this.switchDarkMode();
+        });
     }
 
     setDarkTheme(dark: boolean) {
@@ -37,12 +37,12 @@ export class DarkThemeService {
             switch (mode) {
                 case true:
                     // Set dark theme
-                    $('body').addClass('dark-theme');
+                    document.body.classList.add('dark-theme');
                     break;
 
                 case false:
                     // Set dark theme
-                    $('body').removeClass('dark-theme');
+                    document.body.classList.remove('dark-theme');
                     break;
             }
         });

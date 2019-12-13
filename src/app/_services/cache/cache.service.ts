@@ -1,61 +1,62 @@
 import { Injectable } from '@angular/core';
-
-declare const CryptoJS: any;
-declare const localforage: any;
+import { from, Observable } from 'rxjs';
+import * as localforage from 'localforage';
+import { AES } from 'crypto-js';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CacheService {
 
-    constructor() { }
+    constructor() {
+        // Configure local storage
+        localforage.config({
+            name        : 'nrEscape',
+            description : 'NR Escape local cache',
+            storeName   : 'nr_escape_cache'
+        });
+    }
 
     // Store item
-    store(key: string, data: any, passphrase?: string): void {
-        let dataString: string;
+    store(key: string, data: any, passphrase?: string): Observable<any> {
         let ciphertext: string;
-
-        // Stringify string
-        dataString = JSON.stringify(data);
 
         // If passphrase exists, encrypt data
         if (passphrase) {
-            ciphertext = CryptoJS.AES.encrypt(dataString, passphrase);
+            ciphertext = AES.encrypt(JSON.stringify(data), passphrase).toString();
         }
 
         // If passphrase store encrypted text, else store JSON string
-        (passphrase) ? localStorage.setItem(key, ciphertext) : localStorage.setItem(key, dataString);
+        return !!passphrase
+            ? from(localforage.setItem(key, ciphertext))
+            : from(localforage.setItem(key, data));
     }
 
     // Get item
-    get(key: string, passphrase?: string): any {
-        let dataString: string;
-        let dataCipher: any;
-        let item: any;
+    get(key: string, passphrase?: string): Observable<any> {
+        return from(
+            localforage.getItem(key)
+            .then((data: any) => {
+                // If passphrase, decrypt data with passphrase
+                if (passphrase) {
+                    data = JSON.parse(
+                        AES.decrypt(data, passphrase).toString()
+                    );
+                }
 
-        // Get data string
-        dataString = localStorage.getItem(key);
-
-        // If passphrase, decrypt data with passphrase
-        if (passphrase) {
-            dataCipher = CryptoJS.AES.decrypt(dataString, passphrase);
-            dataString = dataCipher.toString(CryptoJS.enc.Utf8);
-        }
-
-        // Parse item text
-        item = JSON.parse(dataString);
-
-        // Return parsed object
-        return item;
+                // Parse item text and return
+                return data;
+            })
+        );
     }
 
     // Delete item
-    delete(key: string): void {
-        localStorage.removeItem(key);
+    delete(key: string): Observable<void> {
+        return from(localforage.removeItem(key));
     }
 
     // Clear cache
-    clear(): void {
-        localStorage.clear();
+    clear(): Observable<void> {
+        return from(localforage.clear());
     }
 }

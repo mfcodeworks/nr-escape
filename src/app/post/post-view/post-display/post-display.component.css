@@ -1,11 +1,16 @@
-/* Repost Scaling */
-.card, .card-body {
+/* Repost Scaling & Colouring */
+.mat-card.repost {
     max-height: 250px;
 }
-.card-body img {
+.mat-card-content img:not(.mat-list-avatar) {
     object-fit: cover;
     max-height: 192px;
+    border-radius: 5px;
 }
+:not(body.dark-theme) .mat-card {
+    background-color: #ccc;
+}
+
 /* Main Post Sizing */
 .post-username-text {
     margin-right: 5px;
@@ -15,7 +20,7 @@
     margin: 0px;
 }
 .post-datetime {
-    color: #888888;
+    color: #888;
     font-size: 14px;
     margin-left: 15px;
 }
@@ -36,9 +41,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: x-large;
-}
-.bg-post-repost {
-    background-color: #eee;
 }
 .text-post-concat {
     -webkit-line-clamp: 5;

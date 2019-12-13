@@ -8,7 +8,7 @@
     </h3>
     <span *ngIf="post.repost"><i class="ti-reload"></i></span>
     <span class="post-datetime">{{ post.createdAt | dateDiff }}</span>
-    <i class="ti-menu-alt ml-3" [matMenuTriggerFor]="menu"></i>
+    <i *ngIf="!post.repost" class="ti-menu-alt ml-3" [matMenuTriggerFor]="menu"></i>
     <!-- Post Menu -->
     <mat-menu #menu="matMenu" class="mat-elevation-z2">
         <button mat-menu-item *ngIf="post.author.id == user.id" (click)="deletePost()"><i class="ti-trash"></i> Delete</button>
@@ -96,8 +96,8 @@
 <div *ngIf="post.repost && displayRepost"
     class="px-3 py-0 my-0"
     [routerLink]="['/post', post.repostOf.id]" >
-    <div class="card">
-        <span class="card-body p-0 bg-post-repost">
+    <div class="mat-card p-0">
+        <span class="mat-card-content repost">
             <app-post-display
                 [post]="post.repostOf"
                 [user]="user"

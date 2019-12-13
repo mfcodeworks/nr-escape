@@ -20,8 +20,10 @@ export class UserService {
      * @param cache CacheService
      */
     constructor(private cache: CacheService) {
-        Object.assign(this, JSON.parse(localStorage.getItem('login')));
-        this.loggedIn.next(!!this.token);
+        cache.get('login').subscribe((user: object) => {
+            Object.assign(this, user);
+            this.loggedIn.next(!!this.token);
+        });
     }
 
     /**

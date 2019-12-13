@@ -9,8 +9,6 @@ import { UserService } from '../_services/user/user.service';
 import { BehaviorSubject } from 'rxjs';
 import { CacheService } from '../_services/cache/cache.service';
 
-declare const $: any;
-
 @Component({
     selector: 'app-post',
     templateUrl: './post.component.html',
@@ -66,7 +64,7 @@ export class PostComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         const tree = this.router.parseUrl(this.router.url);
         if (tree.fragment) {
-            const element = document.querySelector(`#${tree.fragment}`);
+            const element = document.getElementById(`${tree.fragment}`);
             if (element) {
                 const y = element.getBoundingClientRect().top + window.pageYOffset;
                 const offset = 300; // Unsure why this is needed
@@ -74,7 +72,7 @@ export class PostComponent implements OnInit, AfterViewInit {
                     top: y + offset,
                     behavior: 'smooth'
                 });
-                $(element).addClass('highlight');
+                element.classList.add('highlight');
             }
         }
     }
@@ -147,7 +145,11 @@ export class PostComponent implements OnInit, AfterViewInit {
         ).subscribe((response: any) => {
             console.log(response);
             this.post.comments.push(response);
-            $('html, body').animate({ scrollTop: $(document).height() }, 1000);
+
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
         }, (error: any) => {
             // Handle Error
             console.warn(error);
