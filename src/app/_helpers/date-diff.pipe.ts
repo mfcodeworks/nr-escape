@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-declare const moment: any;
+import * as moment from 'moment';
 
 @Pipe({
     name: 'dateDiff'
