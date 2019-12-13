@@ -10,10 +10,8 @@ if (environment.production) {
 
 const bootstrap = () => {
   platformBrowserDynamic().bootstrapModule(AppModule)
-    .catch(err => console.error(err));
+    .catch(console.error);
 };
 
 // If running Cordova wait for device ready to access native resources
-!!(window.cordova || window.Cordova)
-  ? document.addEventListener('deviceready', bootstrap, false)
-  : bootstrap();
+window.cordova || window.Cordova ? document.addEventListener('deviceready', bootstrap, false) : bootstrap();

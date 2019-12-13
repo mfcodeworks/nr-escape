@@ -5,76 +5,78 @@
     <i *ngIf="!isMe()" class="ti-menu-alt mr-3" [class.icon-black]="!isDark" (click)="openDialog()"></i>
 </mat-toolbar>
 
-<mat-sidenav-container class="sidenav-container" hasBackdrop="false" (backdropClick)="sidenav.close()">
-    <mat-sidenav
-        class="sidenav ta-c"
-        #sidenav
-        autoFocus="false"
-        disableClose="false"
-        mode="over"
-        position="end"
-        fixedInViewport="true"
-        [fixedTopGap]="topBarHeight"
-        [fixedBottomGap]="topBarHeight">
-        <div>
-            <mat-accordion>
-                <!-- Account Settings Panel -->
-                <mat-expansion-panel class="w-100">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Account Settings
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
+<div class="min-h-100">
+    <mat-sidenav-container class="sidenav-container" hasBackdrop="false" (backdropClick)="sidenav.close()">
+        <mat-sidenav
+            class="sidenav ta-c"
+            #sidenav
+            autoFocus="false"
+            disableClose="false"
+            mode="over"
+            position="end"
+            fixedInViewport="true"
+            [fixedTopGap]="topBarHeight"
+            [fixedBottomGap]="topBarHeight">
+            <div>
+                <mat-accordion>
+                    <!-- Account Settings Panel -->
+                    <mat-expansion-panel class="w-100">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Account Settings
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
-                    <span class="d-flex flex-column ml-2 mb-3">
-                        <mat-slide-toggle
-                            [formControl]="privateAccount">Private Account</mat-slide-toggle>
-                        <mat-slide-toggle
-                            [formControl]="displayLikes">Display Likes</mat-slide-toggle>
-                        <mat-slide-toggle
-                            [formControl]="unknownDevices"
-                            hidden>Unknown Devices</mat-slide-toggle>
-                    </span>
+                        <span class="d-flex flex-column ml-2 mb-3">
+                            <mat-slide-toggle
+                                [formControl]="privateAccount">Private Account</mat-slide-toggle>
+                            <mat-slide-toggle
+                                [formControl]="displayLikes">Display Likes</mat-slide-toggle>
+                            <mat-slide-toggle
+                                [formControl]="unknownDevices"
+                                hidden>Unknown Devices</mat-slide-toggle>
+                        </span>
 
-                    <button mat-stroked-button
-                        [routerLink]="['/blocked']"
-                        color="secondary"
-                        class="mb-3">Block List</button>
+                        <button mat-stroked-button
+                            [routerLink]="['/blocked']"
+                            color="secondary"
+                            class="mb-3">Block List</button>
 
-                    <button mat-flat-button
-                        color="warn"
-                        class="mt-3 mb-3">Deactivate Account</button>
-                </mat-expansion-panel>
+                        <button mat-flat-button
+                            color="warn"
+                            class="mt-3 mb-3">Deactivate Account</button>
+                    </mat-expansion-panel>
 
-                <!-- App Settings Panel -->
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            App Settings
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
+                    <!-- App Settings Panel -->
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                App Settings
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
-                    <mat-slide-toggle [checked]="isDark" (change)="dark.setDarkTheme(!isDark)">Dark Mode</mat-slide-toggle>
+                        <mat-slide-toggle [checked]="isDark" (change)="dark.setDarkTheme(!isDark)">Dark Mode</mat-slide-toggle>
 
-                </mat-expansion-panel>
-            </mat-accordion>
+                    </mat-expansion-panel>
+                </mat-accordion>
 
-            <!-- Logout -->
-            <p class="mt-3" (click)="auth.doSignOut()">Logout</p>
-        </div>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <app-profile-display
-            [profile]="profile"
-            [posts]="posts"
-            [isRequested]="isRequested"
-            [isMe]="isMe()"
-            [isFollowing]="isFollowing()"
-            [fetchedAllPosts]="fetchedAllPosts"
-            (fetchMorePosts)="fetchMorePosts()"
-            (followUser)="followUser()"></app-profile-display>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+                <!-- Logout -->
+                <p class="mt-3" (click)="auth.doSignOut()">Logout</p>
+            </div>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <app-profile-display
+                [profile]="profile"
+                [posts]="posts"
+                [isRequested]="isRequested"
+                [isMe]="isMe()"
+                [isFollowing]="isFollowing()"
+                [fetchedAllPosts]="fetchedAllPosts"
+                (fetchMorePosts)="fetchMorePosts()"
+                (followUser)="followUser()"></app-profile-display>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
 
 <!-- App Botttom Bar -->
 <app-bottom-bar></app-bottom-bar>

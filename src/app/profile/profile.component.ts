@@ -12,8 +12,6 @@ import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 import { AuthService } from '../_services/auth/auth.service';
 import { CacheService } from '../_services/cache/cache.service';
 
-declare const $: any;
-
 export interface DialogData {
     action: string;
 }
@@ -57,10 +55,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
      * - User profile pic sometimes cached incorrectly when changed on other device
      *
      * TODO:
-     * - View Blocked
-     * - Unblock
      * - Deactivate account
-     * - Link following/followers to list view
+     * - Search in profile lists
      * - Change password
      */
 
@@ -102,6 +98,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.privateAccount.valueChanges
             .pipe(debounceTime(1200))
             .subscribe(() => this.updateSettings());
+
         this.displayLikes.valueChanges
             .pipe(debounceTime(1200))
             .subscribe(() => this.updateSettings());
@@ -109,7 +106,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         // Get toolbar height
-        this.topBarHeight = $('mat-toolbar.top-bar')[0].offsetHeight;
+        const toolbar = <HTMLElement>document.querySelector('mat-toolbar.top-bar');
+        this.topBarHeight = toolbar.offsetHeight;
     }
 
     isFollowing() {

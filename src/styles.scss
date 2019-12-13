@@ -1,7 +1,7 @@
 /* Vendor imports */
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
-@import "assets/themify-icons.css";
+@import "assets/css/themify-icons.css";
 
 /* Theme Specific Styling */
 @import "assets/css/theme.scss";
@@ -32,9 +32,12 @@
 
 html {
     display: flex;
+    scroll-behavior: smooth;
 }
 body {
     flex: 1;
+    max-width: 100%;
+    margin: 0px;
 }
 
 .mat-card-header-text{
@@ -84,7 +87,7 @@ body {
 .error-placeholder {
     text-align: center;
     font-style: italic;
-    color: #888888;
+    color: #888;
 }
 .bottom-bar {
     box-shadow:

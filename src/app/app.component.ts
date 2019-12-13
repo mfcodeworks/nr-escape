@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    Event,
     NavigationCancel,
     NavigationEnd,
     NavigationError,
@@ -59,17 +58,16 @@ export class AppComponent implements OnInit {
                 this.viewportScroller.scrollToPosition([0, 0]);
             }
         });
+
+        // On Cordova 'deviceready' event, or html 'load' event; init push services
+        window.cordova || window.Cordova
+            ? document.addEventListener('deviceready', () => this.push.init())
+            : window.addEventListener('load', () => this.push.init());
     }
 
     ngOnInit() {
         // Update user object as needed
         this.auth.updateUser();
-
-        // On Cordova 'deviceready' event, or html 'load' event; init push services
-        document.addEventListener(
-            window.hasOwnProperty('cordova') ? 'deviceready' : 'load',
-            () => { this.push.init(); }
-        );
 
         PullToRefresh.init({
             mainElement: 'body',

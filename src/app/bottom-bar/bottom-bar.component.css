@@ -1,10 +1,6 @@
-.bottom-bar-icon {
-    flex: 1 1 auto;
-}
 .bottom-bar {
-    position: sticky;
     position: -webkit-sticky;
-    display: flex;
+    position: sticky;
     bottom: 0;
     z-index: 1000;
 }
