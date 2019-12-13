@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirebaseApp } from '@angular/fire';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { filter } from 'rxjs/operators';
+import { filter, mergeMapTo } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { BackendService } from '../backend/backend.service';
@@ -10,10 +9,8 @@ import { IpcService } from '../ipc/ipc.service';
 import * as ipcChannels from 'electron-push-receiver/src/constants';
 import { UserService } from '../user/user.service';
 
-declare const cordova: any;
 declare const device: any;
 declare const PushNotification: any;
-
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +19,8 @@ export class PushService {
     push: any;
     topics = ['test'];
     token: string;
+
+    // DEBUG: Fix backend save token and subscribe topic
 
     constructor(
         private backend: BackendService,
@@ -32,8 +31,10 @@ export class PushService {
     ) {}
 
     init(): void {
+        console.log('Running FCM init');
+
         // Check device
-        if (window.hasOwnProperty('cordova')) {
+        if (window.cordova || window.Cordova) {
             // DEBUG: Log device
             console.log(device);
 
@@ -55,8 +56,9 @@ export class PushService {
                     console.log('Device has no push implementation');
                     return;
             }
+        } else {
+            this.browserInit();
         }
-        this.browserInit();
     }
 
     // Init for Android/iOS
@@ -142,52 +144,63 @@ export class PushService {
 
     // Register push for browser implementation
     browserInit(): void {
-        // Wait for service worker to be ready
-        navigator.serviceWorker.ready.then(registration => {
-            // DEBUG: Log service worker registration
-            console.log(registration);
+        console.log('Called FCM browser init');
 
-            if (!!registration && registration.active.state === 'activated') {
+        // Handle no service worker
+        let noSw = setTimeout(() => this.browserRegisterSw(), 5 * 1000);
+
+        // Wait for service worker to be ready
+        navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
+            clearTimeout(noSw);
+            noSw = null;
+
+            this.browserMessagingRegistration(registration);
+        });
+    }
+
+    browserRegisterSw(): void {
+        console.warn('No active service worker found, not able to get firebase messaging');
+        navigator.serviceWorker.register('firebase-messaging-sw.js');
+    }
+
+    browserMessagingRegistration(registration: ServiceWorkerRegistration, token?: string): void {
+        console.log('FCM Registration:', registration);
+
+        this.fire.requestPermission
+        .pipe(mergeMapTo(this.fire.tokenChanges))
+        .subscribe(
+            (token) => {
                 // Retrieve an instance of Firebase Messaging so that it can handle background messages.
                 const messaging = this.firebase.messaging();
 
                 // Set service worker for messaging
-                messaging.useServiceWorker(registration);
+                // if (!registration.active.scriptURL.includes('firebase-messaging-sw.js')) {
+                //     messaging.useServiceWorker(registration);
+                // }
+
+                console.log('FCM Permission Granted:', token);
 
                 // Subscribe to FCM tokens
-                this.fire.requestToken.subscribe(
-                    (token) => {
-                        console.log('Registration:', token);
-                        this.token = token;
-                        this.saveToken();
-                    },
-                    (error) => {
-                        console.error('Error:', error);
-                    },
-                );
+                this.token = token;
+                this.saveToken();
 
                 // Subscribe to notifications
-                this.fire.messages.subscribe((notification) => {
-                    console.log(notification);
-                });
-            } else {
-                console.warn('No active service worker found, not able to get firebase messaging');
-                ServiceWorkerModule.register('firebase-messaging-sw.js', { enabled: true });
-            }
-        });
+                this.fire.messages.subscribe(console.log)
+
+                // Subscribe to topics
+                this.topics.forEach((topic: string) => this.subscribe(topic));
+            }, (error) => console.error
+        );
     }
 
     // Send to server to save token
     private saveToken(): void {
-        // DEBUG:
         console.log('Saving Token:', this.token);
 
         this.user.isLoggedIn().pipe(
             // Only return true
-            filter((res) => {
-                return res;
-            })
-        ).subscribe(login => {
+            filter((res) => res)
+        ).subscribe(() => {
             console.log('Logged in');
 
             // Send token to server
