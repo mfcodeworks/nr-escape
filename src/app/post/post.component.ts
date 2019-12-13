@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { CacheService } from '../_services/cache/cache.service';
 
 declare const $: any;
-declare const _: any;
 
 @Component({
     selector: 'app-post',

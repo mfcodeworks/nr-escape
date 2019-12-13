@@ -6,8 +6,6 @@ import { UserService } from '../../_services/user/user.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
-declare const _: any;
-
 @Component({
   selector: 'app-post-view',
   templateUrl: './post-view.component.html',
@@ -61,17 +59,13 @@ export class PostViewComponent implements OnInit {
 
     // Check if post likes has an index with the users ID
     isLiked(): boolean {
-        return _.findIndex(this.post.likes, (l: any) => {
-            return parseInt(l.user, 10) === this.user.profile.id;
-        }) !== -1;
+        return !!this.post.likes.find(l => l.user === this.user.profile.id);
     }
 
     // Check if post author is the active user or in the users following list
     isFollowed(): boolean {
         return this.post.author.id === this.user.profile.id ||
-            _.findIndex(this.user.profile.following, (f: any) => {
-                return f.followingUser === this.post.author.id;
-            }) !== -1;
+            !!this.user.profile.following.find(f => f.followingUser.id === this.post.author.id);
     }
 
     addLike(): void {
@@ -82,9 +76,7 @@ export class PostViewComponent implements OnInit {
     }
 
     removeLike(): void {
-        _.remove(this.post.likes, (l: any) => {
-            return parseInt(l.user, 10) === this.user.profile.id;
-        });
+        this.post.likes = this.post.likes.filter(l => l.user !== this.user.profile.id)
     }
 
     // Follow profile

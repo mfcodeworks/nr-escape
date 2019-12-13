@@ -5,8 +5,6 @@ import { Notification } from '../_models/notification';
 import { CacheService } from '../_services/cache/cache.service';
 import { BackendService } from '../_services/backend/backend.service';
 
-declare const _: any;
-
 @Component({
     selector: 'app-notifications',
     templateUrl: './notifications.component.html',
@@ -69,14 +67,14 @@ export class NotificationsComponent implements OnInit {
     }
 
     removeRequest(id: number): object {
-        return _.remove(this.followRequests, (r: any) => r.followingUser.id === id);
+        return this.followRequests.filter((r: any) => r.followingUser.id !== id);
     }
 
     fetchMoreNotifications(): void {
         console.log('Fetching more notifications now, offset id:', this.notifications[this.notifications.length - 1].id);
         this.backend.getUserNotifications(this.notifications[this.notifications.length - 1].id).subscribe(notifications => {
             console.log(notifications);
-            this.notifications = _.union(this.notifications, notifications);
+            this.notifications = Array.prototype.concat(this.notifications, notifications);
             this.cache.store('notifications', this.notifications);
         });
     }

@@ -5,8 +5,6 @@ import { Post } from '../_models/post';
 import { CacheService } from '../_services/cache/cache.service';
 import { BackendService } from '../_services/backend/backend.service';
 
-declare const _: any;
-
 @Component({
     selector: 'app-feed',
     templateUrl: './feed.component.html',
@@ -16,6 +14,7 @@ export class FeedComponent implements OnInit {
     posts: Post[] = null;
     userId: number;
     fetchedAllPosts = false;
+    fetchingPosts = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -32,21 +31,24 @@ export class FeedComponent implements OnInit {
     }
 
     fetchMorePosts(): void {
+        if (this.fetchingPosts || this.fetchedAllPosts) return;
+
         console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
+        this.fetchingPosts = true;
+
         this.backend.getUserFeed(this.posts[this.posts.length - 1].id).subscribe(posts => {
-            if (!posts.length) {
-                this.fetchedAllPosts = true;
-                return;
-            }
-            this.posts = _.union(this.posts, posts);
+            this.fetchedAllPosts = posts.length < 30;
+            if (!posts) return;
+
+            this.posts = Array.prototype.concat(this.posts, posts);
             this.cache.store('feed', this.posts);
-        });
+            this.fetchingPosts = false;
+        },
+        () => this.fetchingPosts = false);
     }
 
     removePost(id: number): void {
         // Remove post from feed array
-        _.remove(this.posts, (p: any) => {
-            return parseInt(p.id, 10) === id;
-        });
+        this.posts = this.posts.filter((p: Post) => p.id !== id);
     }
 }

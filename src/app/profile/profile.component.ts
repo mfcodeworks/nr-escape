@@ -13,7 +13,6 @@ import { AuthService } from '../_services/auth/auth.service';
 import { CacheService } from '../_services/cache/cache.service';
 
 declare const $: any;
-declare const _: any;
 
 export interface DialogData {
     action: string;
@@ -83,7 +82,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.cache.store(`profile-${data.profile.username}`, data.profile);
 
             // Merge posts arrays without duplicates
-            this.posts = _.union(this.posts, data.posts);
+            this.posts = Array.prototype.concat(this.posts, data.posts);
             this.cache.store(`profile-${this.profile.username}-posts`, this.posts);
 
             // Set is requested
@@ -171,20 +170,19 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     fetchMorePosts(): void {
-        if (this.fetchingPosts) return;
+        if (this.fetchingPosts || this.fetchedAllPosts) return;
         console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
 
         this.fetchingPosts = true;
         this.backend.getProfilePosts(this.profile.username, this.posts[this.posts.length - 1].id).subscribe(posts => {
-            if (!posts.length) {
-                this.fetchedAllPosts = true;
-                return;
-            }
-            this.posts = _.union(this.posts, posts);
+            this.fetchedAllPosts = !posts || !posts.length
+
+            this.posts = Array.prototype.concat(this.posts, posts);
             this.cache.store(`profile-${this.profile.id}-posts`, this.posts);
             console.log(this.posts);
             this.fetchingPosts = false;
-        });
+        },
+        () => this.fetchingPosts = false);
     }
 
     openDialog(): void {

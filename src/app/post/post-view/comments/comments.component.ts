@@ -6,8 +6,6 @@ import { Profile } from '../../../_models/profile';
 import { Comment } from '../../../_models/comment';
 import { BackendService } from '../../../_services/backend/backend.service';
 
-declare const _: any;
-
 export interface DialogData {
     comment: Comment;
     action: string;
@@ -88,14 +86,10 @@ export class PostCommentsComponent implements OnInit {
     removeComment(comment: Comment) {
         // remove comment on server
         this.backend.deleteComment(comment.id)
-        .subscribe(() => {
-            // Remove comment from post
-            _.remove(this.post.comments, (c: any) => {
-                return parseInt(c.id, 10) === comment.id;
-            });
-        }, (error: any) => {
-            // Handle error
-            console.warn(error);
-        });
+        // Remove comment from post
+        .subscribe(
+            () => this.post.comments = this.post.comments.filter(c => c.id !== comment.id),
+            (error: any) => console.warn
+        );
     }
 }

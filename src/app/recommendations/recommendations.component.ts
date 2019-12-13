@@ -6,8 +6,6 @@ import { DarkThemeService } from '../_services/dark-theme/dark-theme.service';
 import { CacheService } from '../_services/cache/cache.service';
 import { BackendService } from '../_services/backend/backend.service';
 
-declare const _: any;
-
 @Component({
     selector: 'app-recommendations',
     templateUrl: './recommendations.component.html',
@@ -15,6 +13,7 @@ declare const _: any;
 })
 export class RecommendationsComponent implements OnInit {
     fetchedAllrecommendations = false;
+    fetchingRecommentdations = false;
     recommendations: Post[] = [];
     isDark: boolean;
 
@@ -29,7 +28,7 @@ export class RecommendationsComponent implements OnInit {
         // Get recommendations from route resolver data
         this.route.data.subscribe((data) => {
             if (data.recommendations instanceof Array) {
-                this.recommendations = _.shuffle(data.recommendations);
+                this.recommendations = this.shuffle(data.recommendations);
                 this.cache.store('recommendations', data.recommendations);
                 console.log(this.recommendations);
             } else {
@@ -45,16 +44,29 @@ export class RecommendationsComponent implements OnInit {
     }
 
     fetchMoreRecommendations(): void {
+        if (this.fetchedAllrecommendations || this.fetchingRecommentdations) return;
+
         const notIn = this.recommendations.map(r => r.id);
+
         console.log('Fetching more posts now, excluding id\'s:', notIn);
+        this.fetchingRecommentdations = true;
+
         this.backend.getRecommendations(notIn).subscribe(recommendations => {
-            if (!recommendations.length) {
-                this.fetchedAllrecommendations = true;
-                return;
-            }
-            this.recommendations = _.union(this.recommendations, _.shuffle(recommendations));
+            this.fetchedAllrecommendations = !recommendations || !recommendations.length
+
+            this.recommendations = Array.prototype.concat(this.recommendations, this.shuffle(recommendations));
             this.cache.store('recommendations', this.recommendations);
             console.log(this.recommendations);
-        });
+            this.fetchingRecommentdations = false;
+        },
+        () => this.fetchingRecommentdations = false);
+    }
+
+    shuffle(a: Array<any>): Array<any> {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
     }
 }
