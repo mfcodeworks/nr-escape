@@ -1,7 +1,7 @@
 <!-- Interaction Button Row -->
 <mat-list-item>
     <span>
-        <mat-icon mat-list-icon class="ti-heart" [class.icon-red]="isLiked" (dblclick)="likePost()"></mat-icon>
+        <mat-icon mat-list-icon class="ti-heart" [class.icon-red]="isLiked" (dblclick)="likePost($event)"></mat-icon>
         <mat-icon mat-list-icon class="ti-comment ml-2" [routerLink]="['/post', post.id]"></mat-icon>
         <mat-icon *ngIf="!post.author.settings.privateAccount"
             mat-list-icon

@@ -43,6 +43,7 @@ import { FollowersResolver } from './_helpers/followers.resolver';
 import { FollowingResolver } from './_helpers/following.resolver';
 import { BlockedProfilesResolver } from './_helpers/blocked-profiles.resolver';
 import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
+import { FloatingHeartComponent } from './floating-heart/floating-heart.component';
 
 @NgModule({
     imports: [
@@ -82,13 +83,15 @@ import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
         ProfileDisplayComponent,
         ProfileEditComponent,
         LongholdDirective,
-        ProfileListComponent
+        ProfileListComponent,
+        FloatingHeartComponent
     ],
     entryComponents: [
         CommentDialogComponent,
         ProfileDialogComponent,
         PostBottomSheetComponent,
-        BlockedDialogComponent
+        BlockedDialogComponent,
+        FloatingHeartComponent
     ],
     providers: [
         SignedInGuard,

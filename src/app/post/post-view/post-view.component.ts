@@ -5,6 +5,7 @@ import { BackendService } from '../../_services/backend/backend.service';
 import { UserService } from '../../_services/user/user.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { FloatingHeart } from 'src/app/floating-heart/floating-heart';
 
 @Component({
   selector: 'app-post-view',
@@ -21,7 +22,8 @@ export class PostViewComponent implements OnInit {
     constructor(
         private backend: BackendService,
         public user: UserService,
-        private router: Router
+        private router: Router,
+        private floatHeart: FloatingHeart
     ) { }
 
     ngOnInit() {
@@ -29,8 +31,11 @@ export class PostViewComponent implements OnInit {
         this.postUrl = `/post/${this.post.id}`;
     }
 
-    likePost(): void {
-        switch (this.isLiked()) {
+    likePost(event: MouseEvent): void {
+        const liked = this.isLiked()
+        this.floatHeart.play(event, !liked);
+
+        switch (liked) {
             // If not liked add a new like
             case false:
                 this.addLike();
@@ -79,7 +84,7 @@ export class PostViewComponent implements OnInit {
         this.post.likes = this.post.likes.filter(l => l.user !== this.user.profile.id)
     }
 
-    // Follow profile
+    // TODO: Follow profile
     followUser(event: any): void {
         console.log('Follow user', event);
     }

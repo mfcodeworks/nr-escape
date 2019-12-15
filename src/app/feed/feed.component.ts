@@ -33,7 +33,6 @@ export class FeedComponent implements OnInit {
     fetchMorePosts(): void {
         if (this.fetchingPosts || this.fetchedAllPosts) return;
 
-        console.log('Fetching more posts now, offset id:', this.posts[this.posts.length - 1].id);
         this.fetchingPosts = true;
 
         this.backend.getUserFeed(this.posts[this.posts.length - 1].id).subscribe(posts => {

@@ -1,0 +1,8 @@
+<span class="floating-heart"
+    [@heartFadeout]
+    (@heartFadeout.done)='animationDone($event)'
+    [ngStyle]='hostPosition'>
+    <i class="w-100 fas"
+        [class.fa-heart]='heart'
+        [class.fa-heart-broken]='!heart'></i>
+</span>

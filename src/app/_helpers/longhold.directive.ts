@@ -14,11 +14,9 @@ export class LongholdDirective {
     @HostListener('touchstart', ['$event'])
     startOnHold(event: any) {
         if (!this.onHoldTimeout) {
-            console.log('Element longhold init', event);
             this.onHoldTimeout = setTimeout(() => {
                 clearTimeout(this.onHoldTimeout);
                 this.onHoldTimeout = null;
-                console.log('Element longhold complete', event);
                 this.appLonghold.emit(event);
             }, this.longholdTime);
         }
@@ -30,7 +28,6 @@ export class LongholdDirective {
         if (this.onHoldTimeout) {
             clearTimeout(this.onHoldTimeout);
             this.onHoldTimeout = null;
-            console.log('Element ended hold before longhold', event);
         }
     }
 

@@ -14,7 +14,6 @@ export class DarkThemeService {
         // Check for dark theme
         this.cache.get('dark-mode')
         .subscribe(darkTheme => {
-            console.log('Dark mode', darkTheme);
             !!darkTheme ? this.isDark.next(darkTheme) : this.isDark.next(false);
 
             // Begin switching dark theme
@@ -33,7 +32,6 @@ export class DarkThemeService {
 
     switchDarkMode() {
         this.isDarkMode().subscribe(mode => {
-            console.log('Switching dark mode:', mode);
             switch (mode) {
                 case true:
                     // Set dark theme

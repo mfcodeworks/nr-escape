@@ -53,8 +53,8 @@ export class PostDisplayComponent implements OnInit {
         );
     }
 
-    likePost() {
-        this.liked.emit(this.post);
+    likePost(event: MouseEvent) {
+        this.liked.emit(event);
     }
 
     followUser(id: number) {

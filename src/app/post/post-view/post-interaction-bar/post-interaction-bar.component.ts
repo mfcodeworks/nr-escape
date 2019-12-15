@@ -17,11 +17,11 @@ export class PostInteractionBarComponent implements OnInit {
 
     ngOnInit() {}
 
-    likePost() {
-        this.liked.emit(this.post);
+    likePost(event: MouseEvent) {
+        this.liked.emit(event);
     }
 
     doRepost() {
-        this.repost.emit(this.post);
+        this.repost.emit();
     }
 }

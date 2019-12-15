@@ -4,7 +4,7 @@
     [isFollowed]="isFollowed()"
     [user]="user.profile"
     (copyUrl)="copyURL()"
-    (liked)="likePost()"
+    (liked)="likePost($event)"
     (follow)="followUser($event)"
     (delete)="deletePost()"
     (report)="reportPost()"></app-post-display>
@@ -13,7 +13,7 @@
 <app-post-interaction-bar
     [post]=post
     [isLiked]=isLiked()
-    (liked)="likePost()"
+    (liked)="likePost($event)"
     (repost)="repost()"></app-post-interaction-bar>
 
 <app-post-likes
