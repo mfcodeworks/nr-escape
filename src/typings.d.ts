@@ -6,4 +6,5 @@ interface Window {
 
 interface Navigator {
     notification: any;
+    camera: any;
 }

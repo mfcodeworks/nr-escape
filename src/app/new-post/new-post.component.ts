@@ -11,6 +11,8 @@ import { UrlPreviewService } from '../_services/url-preview/url-preview.service'
 import { UserService } from '../_services/user/user.service';
 import { BackendService } from '../_services/backend/backend.service';
 
+declare const Camera: any;
+
 @Component({
     selector: 'app-post-bottom-sheet',
     templateUrl: './post-bottom-sheet.component.html',
@@ -106,7 +108,13 @@ export class NewPostComponent implements OnInit {
                 break;
 
             case 'Camera':
-                // TODO: Add Camera method
+                // TODO: Add Camera method for browser
+                window.cordova || window.Cordova
+                    ? navigator.camera.getPicture(
+                        (data: string) => this.mediaPreview = data,
+                        () => console.warn,
+                        { quality: 100, destinationType: Camera.DestinationType.DATA_URL }
+                    ) : void(0);
                 break;
 
             case 'Video':
