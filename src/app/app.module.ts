@@ -9,11 +9,11 @@ import { environment } from '../environments/environment';
 
 import { Routing } from './app.routing';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
-import { MainModule } from './main.module';
 import { MaterialModule } from './_modules/material/material.module';
-import { AuthenticationModule } from './_modules/authentication/authentication.module';
 import { AppComponent } from './app.component';
 import { NotFound404Component } from './not-found404/not-found404.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
+import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
 
 @NgModule({
     imports: [
@@ -24,16 +24,16 @@ import { NotFound404Component } from './not-found404/not-found404.component';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireMessagingModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: !!(window.cordova || window.Cordova) }),
-        MaterialModule,
-        AuthenticationModule,
-        MainModule,
+        MaterialModule
     ],
     declarations: [
+        TopBarComponent,
+        BottomBarComponent,
         AppComponent,
         NotFound404Component
     ],
     providers: [
-      { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
     ],
     bootstrap: [
         AppComponent

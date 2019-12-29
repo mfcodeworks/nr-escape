@@ -7,7 +7,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { Routing } from './main.routing';
 import { MaterialModule } from './_modules/material/material.module';
-import { SignedInGuard } from './_helpers/signed-in.guard';
 import { FeedResolver } from './_helpers/feed.resolver';
 import { RecommendationsResolver } from './_helpers/recommendations.resolver';
 import { NotificationsResolver } from './_helpers/notifications.resolver';
@@ -94,7 +93,6 @@ import { FloatingHeartComponent } from './floating-heart/floating-heart.componen
         FloatingHeartComponent
     ],
     providers: [
-        SignedInGuard,
         FeedResolver,
         RecommendationsResolver,
         NotificationsResolver,

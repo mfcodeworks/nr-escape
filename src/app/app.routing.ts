@@ -6,18 +6,13 @@ import { NotFound404Component } from './not-found404/not-found404.component';
 
 export const routes: Routes = [
     {
-        path: 'feed',
+        path: '',
         canActivate: [ SignedInGuard ],
         loadChildren: () => import('./main.module').then(m => m.MainModule)
     },
     {
-        path: 'sign-in',
+        path: '',
         loadChildren: () => import('./_modules/authentication/authentication.module').then(m => m.AuthenticationModule)
-    },
-    {
-        path: 'login',
-        redirectTo: '/sign-in',
-        pathMatch: 'full'
     },
     {
         path: '**',

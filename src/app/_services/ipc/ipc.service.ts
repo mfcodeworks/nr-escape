@@ -8,7 +8,9 @@ export class IpcService {
     private ipc: IpcRenderer | undefined;
 
     constructor() {
-        if (window.hasOwnProperty('require')) {
+        console.log('Init IPC Service')
+
+        if (window.require) {
             try {
                 this.ipc = window.require('electron').ipcRenderer;
             } catch (e) {
@@ -17,6 +19,7 @@ export class IpcService {
         } else {
             console.warn('Electron\'s IPC was not loaded');
         }
+        console.log(this.ipc)
     }
 
     public on(channel: string, listener: any): void {

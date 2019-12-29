@@ -2,8 +2,8 @@ export const environment = {
     production: true,
 
     // API: Escape Production API Server
-    apiUrl: 'https://socialhub.nygmarosebeauty.com/api/v1',
-    appUrl: 'http://escape.nygmarosebeauty.com',
+    apiUrl: 'https://api.escape.nygmarosebeauty.com/api/v1',
+    appUrl: 'https://escape.nygmarosebeauty.com',
 
     // API: Firbase Services
     firebase: {

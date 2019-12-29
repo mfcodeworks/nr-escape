@@ -66,13 +66,16 @@ export class PostComponent implements OnInit, AfterViewInit {
         if (tree.fragment) {
             const element = document.getElementById(`${tree.fragment}`);
             if (element) {
-                const y = element.getBoundingClientRect().top + window.pageYOffset;
-                const offset = 300; // Unsure why this is needed
-                window.scrollTo({
-                    top: y + offset,
-                    behavior: 'smooth'
-                });
-                element.classList.add('highlight');
+                // DEBUG: Test scrollIntoView
+                element.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+
+                // const y = element.getBoundingClientRect().top + window.pageYOffset;
+                // const offset = 300; // Unsure why this is needed
+                // window.scrollTo({
+                //     top: y + offset,
+                //     behavior: 'smooth'
+                // });
+                // element.classList.add('highlight');
             }
         }
     }

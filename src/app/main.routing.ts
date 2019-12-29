@@ -28,7 +28,7 @@ import { ProfilePostsResolver } from './_helpers/profile-posts.resolver';
 export const routes: Routes = [
     {
         path: '',
-        canActivate: [ SignedInGuard ],
+        canActivateChild: [ SignedInGuard ],
         children: [
             {
                 path: '',
@@ -120,8 +120,7 @@ export const routes: Routes = [
                 resolve: { profiles: BlockedProfilesResolver },
                 runGuardsAndResolvers: 'always'
             }
-        ],
-        runGuardsAndResolvers: 'always'
+        ]
     }
 ];
 

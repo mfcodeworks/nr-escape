@@ -61,8 +61,7 @@ export class AppComponent implements OnInit {
 
         // On Cordova 'deviceready' event, or html 'load' event; init push services
         window.cordova || window.Cordova
-            ? document.addEventListener('deviceready', () => this.push.init())
-            : window.addEventListener('load', () => this.push.init());
+            ? this.push.init() : window.addEventListener('load', () => this.push.init());
     }
 
     ngOnInit() {

@@ -20,12 +20,13 @@ export class JwtInterceptor implements HttpInterceptor {
         return request.url.startsWith(environment.apiUrl)
             ? this.auth.isSignedIn().pipe(
                 map(u => !!this.auth.getToken() ? `Bearer ${this.auth.getToken()}` : ''),
-                map((Authorization: string) => request.clone({
-                    setHeaders: { Authorization },
-                    withCredentials: !!Authorization
-                })),
+                map((Authorization: string) =>
+                    request.clone(Authorization ? {
+                        setHeaders: { Authorization },
+                        withCredentials: true
+                    } : undefined)
+                ),
                 mergeMap(r => next.handle(r))
-            )
-            : next.handle(request);
+            ) : next.handle(request);
     }
 }

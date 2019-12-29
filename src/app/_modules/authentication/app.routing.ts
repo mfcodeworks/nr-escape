@@ -8,25 +8,25 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 export const routes: Routes = [
     {
-        path: 'sign-in',
-        component: SignInComponent
-    },
-    {
-        path: 'sign-up',
-        component: SignUpComponent
-    },
-    {
-        path: 'password/reset/:token',
-        component: ResetPasswordComponent
-    },
-    {
-        path: 'password/reset',
-        component: ForgotPasswordComponent
-    },
-    {
-        path: 'login',
-        redirectTo: '/sign-in',
-        pathMatch: 'full'
+        path: '',
+        children: [
+            {
+                path: 'login',
+                component: SignInComponent
+            },
+            {
+                path: 'register',
+                component: SignUpComponent
+            },
+            {
+                path: 'password/reset/:token',
+                component: ResetPasswordComponent
+            },
+            {
+                path: 'password/reset',
+                component: ForgotPasswordComponent
+            }
+        ]
     }
 ];
 

@@ -33,6 +33,7 @@ export class UserService {
      */
     public build(model: any): void {
         console.log('Building user service');
+
         // Update user as logged in
         Object.assign(this, model);
         this.loggedIn.next(!!model.token);

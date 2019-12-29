@@ -46,6 +46,6 @@ export class AuthService {
     }
 
     public getToken(): string {
-        return this.user.token;
+        return this.user.token || null;
     }
 }
