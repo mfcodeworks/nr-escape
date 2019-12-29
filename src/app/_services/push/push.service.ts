@@ -44,12 +44,10 @@ export class PushService {
                     this.mobileInit();
                     return;
 
-                case 'Electron':
-                    this.electronInit();
-                    return;
-
                 case 'browser':
-                    this.browserInit();
+                    console.log('UA:', navigator.userAgent.toLowerCase())
+                    navigator.userAgent.toLowerCase().indexOf(' electron/') > -1
+                        ? this.electronInit() : this.browserInit();
                     return;
 
                 default:
@@ -57,20 +55,23 @@ export class PushService {
                     return;
             }
         } else {
-            this.browserInit();
+            console.log('UA:', navigator.userAgent.toLowerCase())
+            navigator.userAgent.toLowerCase().indexOf(' electron/') > -1
+                ? this.electronInit() : this.browserInit();
         }
     }
 
     // Init for Android/iOS
     mobileInit(): void {
+        console.log('Running mobile FCM init');
+
         this.push = PushNotification.init({
             android: {
                 icon: 'assets/images/logo',
                 iconColor: 'black',
                 topics: this.topics,
                 forceShow: 'true',
-            },
-            ios: {
+            }, ios: {
                 alert: 'true',
                 badge: 'true',
                 sound: 'true',
@@ -79,19 +80,22 @@ export class PushService {
             },
         });
 
+        console.log('FCM Object', this.push)
+
         // Register push
-        this.push.on('Registration:', (data: any) => {
+        this.push.on('registration', (data: any) => {
             console.log(data);
+            this.token = data.registrationId;
             this.saveToken();
         });
 
         // Subscribe to notifications
-        this.push.on('Notification:', (data: any) => {
+        this.push.on('notification', (data: any) => {
             console.log(data);
         });
 
         // Subscribe to errors
-        this.push.on('Error:', (error: any) => {
+        this.push.on('error', (error: any) => {
             console.log(error);
         });
     }
@@ -124,14 +128,21 @@ export class PushService {
 
             // Check notification for display title
             if (fcmNotification.notification.title) {
-                const notification = new Notification(fcmNotification.notification.title, {
-                    body: fcmNotification.notification.body,
-                    icon: fcmNotification.notification.icon
-                });
+                Notification.requestPermission()
+                .then(p => {
+                    if (p !== 'granted') {
+                        return;
+                    }
 
-                notification.onclick = () => {
-                    console.log('Notification clicked');
-                };
+                    const notification = new Notification(fcmNotification.notification.title, {
+                        body: fcmNotification.notification.body || '',
+                        icon: fcmNotification.notification.icon || 'assets/icons/icon-128x128.png'
+                    });
+
+                    notification.onclick = () => {
+                        console.log('Notification clicked');
+                    };
+                })
             } else {
                 // payload has no body, so consider it silent (and just consider the data portion)
             }
